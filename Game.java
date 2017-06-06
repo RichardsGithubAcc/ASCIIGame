@@ -22,7 +22,6 @@ public class Game {
 			for (int y = y1; y < y2; y++) {
 				if (Math.random() < 0.34) {
 					map.setPoint(new Point(x, y), new Tile(new Terrain(this, 'T', new Color(0, 142, 25), "tree", x, y, false,
-
 							0), null));
 				} else {
 					if (Math.random() < 0.34)
