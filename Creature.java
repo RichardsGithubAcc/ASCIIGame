@@ -12,10 +12,12 @@ public class Creature extends Entity implements Dynamic {
 	private double attackMod;
 	private int dHealth;
 	private ArrayList<Item> inventory;
+	private Clothing arms, legs, torso, head, feet, hands;
+	private Item weapon;
 	
-	public Creature(char i, Color c, String n, int x, int y, boolean p, int h, int armV, 
+	public Creature(Game ge, char i, Color c, String n, int x, int y, boolean p, int h, int armV, 
 			int mH, double hM, double armM, double atkM, int dH) {
-		super(i, c, n, x, y, p);
+		super(ge, i, c, n, x, y, p);
 		health = h; armorVal = armV; maxHealth = mH; healthMod = hM; armorMod = armM;
 		attackMod = atkM; dHealth = dH;
 	}
@@ -228,6 +230,104 @@ public class Creature extends Entity implements Dynamic {
 	
 	public void removeDelay(int e) {
 		delay -= e;
+	}
+
+	/**
+	 * @return the arms
+	 */
+	public Clothing getArms() {
+		return arms;
+	}
+
+	/**
+	 * @param arms the arms to set
+	 */
+	public void setArms(Clothing arms) {
+		this.arms = arms;
+	}
+
+	/**
+	 * @return the legs
+	 */
+	public Clothing getLegs() {
+		return legs;
+	}
+
+	/**
+	 * @param legs the legs to set
+	 */
+	public void setLegs(Clothing legs) {
+		this.legs = legs;
+	}
+
+	/**
+	 * @return the torso
+	 */
+	public Clothing getTorso() {
+		return torso;
+	}
+
+	/**
+	 * @param torso the torso to set
+	 */
+	public void setTorso(Clothing torso) {
+		this.torso = torso;
+	}
+
+	/**
+	 * @return the head
+	 */
+	public Clothing getHead() {
+		return head;
+	}
+
+	/**
+	 * @param head the head to set
+	 */
+	public void setHead(Clothing head) {
+		this.head = head;
+	}
+
+	/**
+	 * @return the feet
+	 */
+	public Clothing getFeet() {
+		return feet;
+	}
+
+	/**
+	 * @param feet the feet to set
+	 */
+	public void setFeet(Clothing feet) {
+		this.feet = feet;
+	}
+
+	/**
+	 * @return the hands
+	 */
+	public Clothing getHands() {
+		return hands;
+	}
+
+	/**
+	 * @param hands the hands to set
+	 */
+	public void setHands(Clothing hands) {
+		this.hands = hands;
+	}
+
+	/**
+	 * @return the weapon
+	 */
+	public Item getWeapon() {
+		return weapon;
+	}
+
+	/**
+	 * @param weapon the weapon to set
+	 */
+	public void setWeapon(Item weapon) {
+		this.weapon = weapon;
 	}
 	
 	

@@ -10,8 +10,8 @@ public class Item extends Entity implements Usable {
 		
 	}
 	
-	public Item(char i, Color c, String name, int x, int y, boolean p, int w, int v, int d, int dm, double dmg) {
-		super(i, c, name, x, y, p);
+	public Item(Game ge, char i, Color c, String name, int x, int y, boolean p, int w, int v, int d, int dm, double dmg) {
+		super(ge, i, c, name, x, y, p);
 		weight = w;
 		volume = v;
 		durability = d;

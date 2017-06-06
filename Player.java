@@ -5,11 +5,11 @@ public class Player extends Creature implements Dynamic {
 	private int hunger, volumeCarried, maxVolume;
 	private int strength, dexterity, intelligence, perception;
 	private double weightCarried, maxWeight;
-	private Item arms, legs, torso, head, feet, hands, weapon;
+	
 
-	public Player(char i, Color c, String n, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
+	public Player(Game ge, char i, Color c, String n, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
 			double atkM, int dH, int s, int d, int in, int pe) {
-		super(i, c, n, x, y, p, h, armV, mH, hM, armM, atkM, dH);
+		super(ge, i, c, n, x, y, p, h, armV, mH, hM, armM, atkM, dH);
 		// TODO Auto-generated constructor stub
 		strength = s;
 		dexterity = d;
@@ -159,103 +159,4 @@ public class Player extends Creature implements Dynamic {
 	public void setMaxWeight(double maxWeight) {
 		this.maxWeight = maxWeight;
 	}
-
-	/**
-	 * @return the arms
-	 */
-	public Item getArms() {
-		return arms;
-	}
-
-	/**
-	 * @param arms the arms to set
-	 */
-	public void setArms(Item arms) {
-		this.arms = arms;
-	}
-
-	/**
-	 * @return the legs
-	 */
-	public Item getLegs() {
-		return legs;
-	}
-
-	/**
-	 * @param legs the legs to set
-	 */
-	public void setLegs(Item legs) {
-		this.legs = legs;
-	}
-
-	/**
-	 * @return the torso
-	 */
-	public Item getTorso() {
-		return torso;
-	}
-
-	/**
-	 * @param torso the torso to set
-	 */
-	public void setTorso(Item torso) {
-		this.torso = torso;
-	}
-
-	/**
-	 * @return the head
-	 */
-	public Item getHead() {
-		return head;
-	}
-
-	/**
-	 * @param head the head to set
-	 */
-	public void setHead(Item head) {
-		this.head = head;
-	}
-
-	/**
-	 * @return the feet
-	 */
-	public Item getFeet() {
-		return feet;
-	}
-
-	/**
-	 * @param feet the feet to set
-	 */
-	public void setFeet(Item feet) {
-		this.feet = feet;
-	}
-
-	/**
-	 * @return the hands
-	 */
-	public Item getHands() {
-		return hands;
-	}
-
-	/**
-	 * @param hands the hands to set
-	 */
-	public void setHands(Item hands) {
-		this.hands = hands;
-	}
-
-	/**
-	 * @return the weapon
-	 */
-	public Item getWeapon() {
-		return weapon;
-	}
-
-	/**
-	 * @param weapon the weapon to set
-	 */
-	public void setWeapon(Item weapon) {
-		this.weapon = weapon;
-	}
-	
 }

@@ -1,6 +1,7 @@
 import java.awt.Color;
 
 public abstract class Entity {
+	private Game g;
 	private char icon; 
 	private Color color;
 	private String name;
@@ -12,7 +13,8 @@ public abstract class Entity {
 		
 	}
 	
-	public Entity(char i, Color c, String n, int x, int y, boolean p) {
+	public Entity(Game g, char i, Color c, String n, int x, int y, boolean p) {
+		this.g = g;
 		icon = i; color = c; name = n; x = x; y = y; passable = p;
 	}
 
