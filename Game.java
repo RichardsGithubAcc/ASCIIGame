@@ -3,8 +3,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Game {
-	private WorldMap map = new WorldMap();
-	private Player player;
+	public WorldMap map = new WorldMap();
+	public Player player;
 	private ArrayList<Dynamic> dynamic;
 
 	public void update() {
