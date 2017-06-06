@@ -46,9 +46,10 @@ public class Creature extends Entity implements Dynamic {
 		return false;
 	}
 
-	public boolean moveUp(WorldMap map) {
+	public boolean moveUp() {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
+		WorldMap map = super.g.map;
 		Tile t = map.getPoint(new Point(xCoord, yCoord + 1));
 		if(t.getTerrain().isPassable()) {
 			super.setY(yCoord + 1);
@@ -59,9 +60,10 @@ public class Creature extends Entity implements Dynamic {
 		return false;
 	}
 	
-	public boolean moveDown(WorldMap map) {
+	public boolean moveDown() {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
+		WorldMap map = super.g.map;
 		Tile t = map.getPoint(new Point(xCoord, yCoord - 1));
 		if(t.getTerrain().isPassable()) {
 			super.setY(yCoord - 1);
@@ -72,7 +74,8 @@ public class Creature extends Entity implements Dynamic {
 		return false;
 	}
 	
-	public boolean moveLeft(WorldMap map) {
+	public boolean moveLeft() {
+		WorldMap map = super.g.map;
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = map.getPoint(new Point(xCoord - 1, yCoord));
@@ -85,7 +88,8 @@ public class Creature extends Entity implements Dynamic {
 		return false;
 	}
 	
-	public boolean moveRight(WorldMap map) {
+	public boolean moveRight() {
+		WorldMap map = super.g.map;
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = map.getPoint(new Point(xCoord + 1, yCoord));

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Point;
 
 public class NPC extends Creature {
 	private boolean hostile;
@@ -11,8 +12,22 @@ public class NPC extends Creature {
 	}
 	
 	public void update() {
-		if(hostile) {
-			
+		if(hostile && super.g.dist(super.getX(), super.getY(), super.g.player.getX(), super.g.player.getY()) < 20) {
+			int dX = super.g.player.getX() - super.getX();
+			int dY = super.g.player.getY() - super.getY();
+			if(Math.abs(dX) > Math.abs(dY)) {
+				if(Math.signum(dX) == 1) {
+					super.moveLeft();
+				} else {
+					super.moveRight();
+				}
+			} else {
+				if(Math.signum(dY) == 1) {
+					super.moveUp();
+				} else {
+					super.moveDown();
+				}
+			}
 		}
 	}
 
