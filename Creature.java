@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Creature extends Entity implements Dynamic {
 	private int health;
+	private int delay = 0;
 	private int armorVal;
 	private int maxHealth;
 	private double healthMod;
@@ -21,9 +22,11 @@ public class Creature extends Entity implements Dynamic {
 	
 	@Override
 	public void update() {
-		health += dHealth;
-		if (dHealth > 0) dHealth--;
-		else if (dHealth < 0) dHealth++;
+		if(delay <= 0) {
+			health += dHealth;
+			if (dHealth > 0) dHealth--;
+			else if (dHealth < 0) dHealth++;
+		} else delay--;
 	}
 	
 	public void addToInventory(Item i) {
@@ -203,6 +206,28 @@ public class Creature extends Entity implements Dynamic {
 	 */
 	public void setInventory(ArrayList<Item> inventory) {
 		this.inventory = inventory;
+	}
+
+	/**
+	 * @return the delay
+	 */
+	public int getDelay() {
+		return delay;
+	}
+
+	/**
+	 * @param delay the delay to set
+	 */
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+	
+	public void addDelay(int e) {
+		delay += e;
+	}
+	
+	public void removeDelay(int e) {
+		delay -= e;
 	}
 	
 	

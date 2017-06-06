@@ -8,6 +8,10 @@ public class WorldMap {
 		
 	}
 	
+	public WorldMap(int e) {
+		map = new HashMap(e);
+	}
+	
 	public void setPoint(Point p, Tile e) {
 		map.put(p, e);
 	}

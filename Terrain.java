@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public abstract class Terrain extends Entity implements Usable{
+public class Terrain extends Entity{
 	private int moveMod;
 	public Terrain(char i, Color c, String n, int x, int y, boolean p, int mM) {
 		super(i, c, n, x, y, p);
