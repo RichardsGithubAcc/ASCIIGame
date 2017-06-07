@@ -13,8 +13,8 @@ public class Game {
 		}
 	}
 	
-	public double dist(int x1, int y1, int x2, int y2) {
-		return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+	public static int dist(int x1, int y1, int x2, int y2) {
+		return (int)Math.round(Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
 	}
 
 	public void genForest(int x1, int y1, int x2, int y2) {
@@ -31,5 +31,4 @@ public class Game {
 			}
 		}
 	}
-	
 }

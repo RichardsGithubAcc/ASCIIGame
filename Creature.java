@@ -45,6 +45,12 @@ public class Creature extends Entity implements Dynamic {
 		}
 		return false;
 	}
+	
+	public void attack(Creature c) {
+		if(weapon instanceof Weapon) {
+			int d = (int) (((Weapon)weapon).getAttackMod() * weapon.getDamage());
+		}
+	}
 
 	public boolean moveUp() {
 		int yCoord = super.getY();

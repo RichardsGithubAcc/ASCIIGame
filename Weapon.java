@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Weapon extends Item implements Usable {
 	private int accuracy, range;//accuracy is stored as a whole number percent
 	double attackMod;
-	private ArrayList<Item> inventory;
+	private Item[] inventory = new Item[1];
 	private ArrayList<String> ammo;
 	
 	public Weapon(Game ge, char i, Color c, String name, int x, int y, boolean p, int w, int v, int d, int dm, double dmg, int a, int r, double am, ArrayList<String> lol) {
@@ -57,26 +57,28 @@ public class Weapon extends Item implements Usable {
 		this.attackMod = attackMod;
 	}
 
+	
+	
 	/**
 	 * @return the inventory
 	 */
-	public ArrayList<Item> getInventory() {
+	public Item[] getInventory() {
 		return inventory;
 	}
 
 	/**
 	 * @param inventory the inventory to set
 	 */
-	public void setInventory(ArrayList<Item> inventory) {
+	public void setInventory(Item[] inventory) {
 		this.inventory = inventory;
 	}
-	
+
 	public void load(Item e) {
-		if(inventory.size() > 0) {
-			if(!e.getName().equalsIgnoreCase(inventory.get(1).getName())) return;
+		if(inventory.length > 0) {
+			if(!e.getName().equalsIgnoreCase(inventory[0].getName())) return;
 		}
 		for(String name: ammo) {
-			if(e.getName().equalsIgnoreCase(name)) inventory.add(e);
+			if(e.getName().equalsIgnoreCase(name) && inventory[0] == null) inventory[0] = e;
 			return;
 		}
 	}
@@ -86,7 +88,7 @@ public class Weapon extends Item implements Usable {
 		for(Item e : inventory) {
 			r.add(e);
 		}
-		inventory.clear();
+		inventory[0] = null;
 		return r;
 	}
 

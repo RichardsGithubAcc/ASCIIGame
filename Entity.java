@@ -2,7 +2,7 @@ import java.awt.Color;
 
 public abstract class Entity {
 	public Game g;
-	private char icon; 
+	private char icon;
 	private Color color;
 	private String name;
 	private int x;

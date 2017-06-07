@@ -3,6 +3,7 @@ import java.awt.Point;
 
 public class NPC extends Creature {
 	private boolean hostile;
+	private Point tether;
 
 	public NPC(Game ge, char i, Color c, String n, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
 			double atkM, int dH, boolean ho) {
@@ -11,10 +12,34 @@ public class NPC extends Creature {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void moveTowards(int x, int y) {
+		int dX = x - super.getX();
+		int dY = y - super.getY();
+		if(Math.abs(dX) > Math.abs(dY)) {
+			if(Math.signum(dX) == 1) {
+				super.moveLeft();
+			} else {
+				super.moveRight();
+			}
+		} else {
+			if(Math.signum(dY) == 1) {
+				super.moveUp();
+			} else {
+				super.moveDown();
+			}
+		}
+	}
+	
 	public void update() {
-		if(hostile && super.g.dist(super.getX(), super.getY(), super.g.player.getX(), super.g.player.getY()) < 20) {
+		int d = Game.dist(super.getX(), super.getY(), super.g.player.getX(), super.g.player.getY());
+		if(hostile && d < 20) {
 			int dX = super.g.player.getX() - super.getX();
 			int dY = super.g.player.getY() - super.getY();
+			if(d <= 1) {
+				if(dX == 1 && dY == 0) {
+					
+				}
+			}
 			if(Math.abs(dX) > Math.abs(dY)) {
 				if(Math.signum(dX) == 1) {
 					super.moveLeft();
@@ -26,6 +51,23 @@ public class NPC extends Creature {
 					super.moveUp();
 				} else {
 					super.moveDown();
+				}
+			}
+		} else {
+			if(tether != null && Game.dist(super.getX(), super.getY(), tether.x, tether.y) > 10) {
+				moveTowards(tether.x, tether.y);
+			} else {
+				int r = (int)(Math.random() * 9);
+				switch (r) {
+				case 1:super.moveDown();
+					break;
+				case 2: super.moveLeft();
+					break;
+				case 3: super.moveRight();
+					break;
+				case 4: super.moveUp();
+					break;
+				default: break;
 				}
 			}
 		}
@@ -43,6 +85,20 @@ public class NPC extends Creature {
 	 */
 	public void setHostile(boolean hostile) {
 		this.hostile = hostile;
+	}
+
+	/**
+	 * @return the tether
+	 */
+	public Point getTether() {
+		return tether;
+	}
+
+	/**
+	 * @param tether the tether to set
+	 */
+	public void setTether(Point tether) {
+		this.tether = tether;
 	}
 	
 	
