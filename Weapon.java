@@ -7,8 +7,8 @@ public class Weapon extends Item implements Usable {
 	private Item[] inventory = new Item[1];
 	private ArrayList<String> ammo;
 	
-	public Weapon(Game ge, char i, Color c, String name, int x, int y, boolean p, int w, int v, int d, int dm, double dmg, int a, int r, double am, ArrayList<String> lol) {
-		super(ge, i, c, name, x, y, p, w, v, d, dm, dmg);
+	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, boolean p, int w, int v, int d, int dm, double dmg, int a, int r, double am, ArrayList<String> lol) {
+		super(ge, i, c, name, tags, x, y, p, w, v, d, dm, dmg);
 		accuracy = a;
 		range = r;
 		attackMod = am;

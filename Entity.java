@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.ArrayList;
 
 public abstract class Entity {
 	public Game g;
@@ -8,14 +9,21 @@ public abstract class Entity {
 	private int x;
 	private int y;
 	private boolean passable;
+	private String[] tags;
 	
 	public Entity() {
 		
 	}
 	
-	public Entity(Game g, char i, Color c, String n, int x, int y, boolean p) {
+	public void setXY(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Entity(Game g, char i, Color c, String n, String[] t, int x, int y, boolean p) {
 		this.g = g;
-		icon = i; color = c; name = n; x = x; y = y; passable = p;
+		tags = t;
+		icon = i; color = c; name = n; this.x = x; this.y = y; passable = p;
 	}
 
 	/**

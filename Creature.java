@@ -15,9 +15,9 @@ public class Creature extends Entity implements Dynamic {
 	private Clothing arms, legs, torso, head, feet, hands;
 	private Item weapon;
 	
-	public Creature(Game ge, char i, Color c, String n, int x, int y, boolean p, int h, int armV, 
+	public Creature(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, 
 			int mH, double hM, double armM, double atkM, int dH) {
-		super(ge, i, c, n, x, y, p);
+		super(ge, i, c, n, tags, x, y, p);
 		health = h; armorVal = armV; maxHealth = mH; healthMod = hM; armorMod = armM;
 		attackMod = atkM; dHealth = dH;
 	}
@@ -49,6 +49,7 @@ public class Creature extends Entity implements Dynamic {
 	public void attack(Creature c) {
 		if(weapon instanceof Weapon) {
 			int d = (int) (((Weapon)weapon).getAttackMod() * weapon.getDamage());
+			
 		}
 	}
 

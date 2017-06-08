@@ -2,8 +2,8 @@ import java.awt.Color;
 
 public class Terrain extends Entity{
 	private int moveMod;
-	public Terrain(Game ge, char i, Color c, String n, int x, int y, boolean p, int mM) {
-		super(ge, i, c, n, x, y, p);
+	public Terrain(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int mM) {
+		super(ge, i, c, n, tags, x, y, p);
 		setMoveMod(mM);
 	}
 	
