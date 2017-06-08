@@ -8,6 +8,7 @@ public class NPC extends Creature {
 	public NPC(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
 			double atkM, int dH, boolean ho) {
 		super(ge, i, c, n, tags, x, y, p, h, armV, mH, hM, armM, atkM, dH);
+	
 		hostile = ho;
 		// TODO Auto-generated constructor stub
 	}
@@ -31,13 +32,13 @@ public class NPC extends Creature {
 	}
 	
 	public void update() {
-		double d = Game.dist(super.getX(), super.getY(), super.g.player.getX(), super.g.player.getY());
+		double d = Game.dist(super.getX(), super.getY(), super.getGame().getPlayer().getX(), super.getGame().getPlayer().getY());
 		if(hostile && d < 20) {
-			int dX = super.g.player.getX() - super.getX();
-			int dY = super.g.player.getY() - super.getY();
+			int dX = super.getGame().getPlayer().getX() - super.getX();
+			int dY = super.getGame().getPlayer().getY() - super.getY();
 			if(d == 1) {
-				super.attack(super.g.player);
-			}
+				super.attack(super.getGame().getPlayer());
+			} else
 			if(Math.abs(dX) > Math.abs(dY)) {
 				if(Math.signum(dX) == 1) {
 					super.moveLeft();

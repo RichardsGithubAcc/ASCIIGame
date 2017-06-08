@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class Entity {
-	public Game g;
+
 	private char icon;
 	private Color color;
 	private String name;
@@ -10,6 +10,7 @@ public abstract class Entity {
 	private int y;
 	private boolean passable;
 	private String[] tags;
+	private Game game;
 	
 	public Entity() {
 		
@@ -21,11 +22,14 @@ public abstract class Entity {
 	}
 	
 	public Entity(Game g, char i, Color c, String n, String[] t, int x, int y, boolean p) {
-		this.g = g;
+		this.game = g;
 		tags = t;
 		icon = i; color = c; name = n; this.x = x; this.y = y; passable = p;
 	}
 
+	public Game getGame() {
+		return game;
+	}
 	/**
 	 * @return the icon
 	 */
