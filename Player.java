@@ -7,9 +7,9 @@ public class Player extends Creature implements Dynamic {
 	private double weightCarried, maxWeight;
 	
 
-	public Player(Game ge, char i, Color c, String n, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
+	public Player(Game g, char i, Color c, String n, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
 			double atkM, int dH, int s, int d, int in, int pe) {
-		super(ge, i, c, n, x, y, p, h, armV, mH, hM, armM, atkM, dH);
+		super(g, i, c, n, x, y, p, h, armV, mH, hM, armM, atkM, dH);
 		// TODO Auto-generated constructor stub
 		strength = s;
 		dexterity = d;

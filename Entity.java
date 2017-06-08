@@ -1,23 +1,32 @@
 import java.awt.Color;
 
 public abstract class Entity {
-	public Game g;
+
 	private char icon;
 	private Color color;
 	private String name;
 	private int x;
 	private int y;
 	private boolean passable;
+	private Game game;
 	
 	public Entity() {
 		
 	}
 	
 	public Entity(Game g, char i, Color c, String n, int x, int y, boolean p) {
-		this.g = g;
-		icon = i; color = c; name = n; x = x; y = y; passable = p;
+		game = g;
+		icon = i; 
+		color = c; 
+		name = n; 
+		this.x = x; 
+		this.y = y; 
+		passable = p;	
 	}
 
+	public Game getGame() {
+		return game;
+	}
 	/**
 	 * @return the icon
 	 */

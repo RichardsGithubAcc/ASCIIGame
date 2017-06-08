@@ -5,9 +5,9 @@ public class NPC extends Creature {
 	private boolean hostile;
 	private Point tether;
 
-	public NPC(Game ge, char i, Color c, String n, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
+	public NPC(Game g,char i, Color c, String n, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
 			double atkM, int dH, boolean ho) {
-		super(ge, i, c, n, x, y, p, h, armV, mH, hM, armM, atkM, dH);
+		super(g, i, c, n, x, y, p, h, armV, mH, hM, armM, atkM, dH);
 		hostile = ho;
 		// TODO Auto-generated constructor stub
 	}
@@ -31,10 +31,12 @@ public class NPC extends Creature {
 	}
 	
 	public void update() {
-		int d = Game.dist(super.getX(), super.getY(), super.g.player.getX(), super.g.player.getY());
+		Game game = super.getGame();
+		Player player = game.getPlayer();
+		int d = game.dist(super.getX(), super.getY(), player.getX(), player.getY());
 		if(hostile && d < 20) {
-			int dX = super.g.player.getX() - super.getX();
-			int dY = super.g.player.getY() - super.getY();
+			int dX = player.getX() - super.getX();
+			int dY = player.getY() - super.getY();
 			if(d <= 1) {
 				if(dX == 1 && dY == 0) {
 					
@@ -54,7 +56,7 @@ public class NPC extends Creature {
 				}
 			}
 		} else {
-			if(tether != null && Game.dist(super.getX(), super.getY(), tether.x, tether.y) > 10) {
+			if(tether != null && game.dist(super.getX(), super.getY(), tether.x, tether.y) > 10) {
 				moveTowards(tether.x, tether.y);
 			} else {
 				int r = (int)(Math.random() * 9);

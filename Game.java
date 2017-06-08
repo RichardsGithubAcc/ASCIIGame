@@ -1,19 +1,39 @@
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.awt.Point;
 
 public class Game {
-	public WorldMap map = new WorldMap();
-	public Player player;
-	private ArrayList<Dynamic> dynamic;
 
+	private ArrayList<Dynamic> dynamic;
+	private WorldMap map;
+	private Player player;
+
+
+	public Game(int panelCol, int panelRow) {
+		Point camera = new Point();
+		camera.x = panelCol/2;
+		camera.y = panelRow/2;
+		map = new WorldMap(this, panelCol, panelRow, camera, panelCol * panelRow);
+		map.initialize();
+		player = new Player(this, 'P', Color.RED, "Player", 0, 0, false, 20, 30, 200, 15.5, 16, 16, 5, 0, 0, 0, 0);
+	}
+	
+	public WorldMap getMap() {
+		return map;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	public void update() {
 		for (Dynamic d : dynamic) {
 			d.update();
 		}
 	}
 	
-	public static int dist(int x1, int y1, int x2, int y2) {
+	public int dist(int x1, int y1, int x2, int y2) {
 		return (int)Math.round(Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
 	}
 
@@ -31,7 +51,8 @@ public class Game {
 			}
 		}
 	}
-	public static void main(String[]args) {
-		System.out.println("hi");
-	}
+	
+	
+
 }
+

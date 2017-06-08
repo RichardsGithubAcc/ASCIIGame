@@ -15,9 +15,9 @@ public class Creature extends Entity implements Dynamic {
 	private Clothing arms, legs, torso, head, feet, hands;
 	private Item weapon;
 	
-	public Creature(Game ge, char i, Color c, String n, int x, int y, boolean p, int h, int armV, 
+	public Creature(Game g, char i, Color c, String n, int x, int y, boolean p, int h, int armV, 
 			int mH, double hM, double armM, double atkM, int dH) {
-		super(ge, i, c, n, x, y, p);
+		super(g, i, c, n, x, y, p);
 		health = h; armorVal = armV; maxHealth = mH; healthMod = hM; armorMod = armM;
 		attackMod = atkM; dHealth = dH;
 	}
@@ -55,7 +55,7 @@ public class Creature extends Entity implements Dynamic {
 	public boolean moveUp() {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
-		WorldMap map = super.g.map;
+		WorldMap map = super.getGame().getMap();
 		Tile t = map.getPoint(new Point(xCoord, yCoord + 1));
 		if(t.getTerrain().isPassable()) {
 			super.setY(yCoord + 1);
@@ -69,7 +69,7 @@ public class Creature extends Entity implements Dynamic {
 	public boolean moveDown() {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
-		WorldMap map = super.g.map;
+		WorldMap map = super.getGame().getMap();
 		Tile t = map.getPoint(new Point(xCoord, yCoord - 1));
 		if(t.getTerrain().isPassable()) {
 			super.setY(yCoord - 1);
@@ -81,7 +81,7 @@ public class Creature extends Entity implements Dynamic {
 	}
 	
 	public boolean moveLeft() {
-		WorldMap map = super.g.map;
+		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = map.getPoint(new Point(xCoord - 1, yCoord));
@@ -95,7 +95,7 @@ public class Creature extends Entity implements Dynamic {
 	}
 	
 	public boolean moveRight() {
-		WorldMap map = super.g.map;
+		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = map.getPoint(new Point(xCoord + 1, yCoord));
