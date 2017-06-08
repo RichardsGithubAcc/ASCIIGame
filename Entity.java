@@ -26,6 +26,13 @@ public abstract class Entity {
 		tags = t;
 		icon = i; color = c; name = n; this.x = x; this.y = y; passable = p;
 	}
+	
+	public boolean hasTag(String str) {
+		for(String lol : tags) {
+			if(str.equals(lol)) return true;
+		}
+		return false;
+	}
 
 	public Game getGame() {
 		return game;

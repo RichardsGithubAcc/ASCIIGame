@@ -49,7 +49,7 @@ public class Creature extends Entity implements Dynamic {
 	public void attack(Creature c) {
 		if(weapon instanceof Weapon) {
 			int d = (int) (((Weapon)weapon).getAttackMod() * weapon.getDamage());
-			
+			int red = (int)Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
 		}
 	}
 
