@@ -1,9 +1,17 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Container extends Item implements Usable {
 	private ArrayList<Item> inventory;
 	private int volumeStored;
 	private int maxVolume;
+	
+	public Container(Game ge, char i, Color c, String name, String[] t, int x, int y, 
+			boolean p, int w, int v, int d, int dm, double dmg, int vS, int mV) {
+		super(ge, i, c, name, t, x, y, p, w, v, d, dm, dmg);
+		volumeStored = vS;
+		maxVolume = mV;
+	}
 	
 	public void addToInventory(Item obj) {
 		if (obj.getVolume() + volumeStored <= maxVolume) {
