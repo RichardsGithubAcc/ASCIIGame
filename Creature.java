@@ -46,10 +46,47 @@ public class Creature extends Entity implements Dynamic {
 		return false;
 	}
 	
+	public void hit(int d, Item w) {
+		int dInit = d;
+		double tA = armorVal * armorMod;
+		//int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(), 0.926);
+		if(w.hasTag("bashing")) {
+			tA *= 0.4;
+		}
+		if(w.hasTag("bullet")) {
+			if(!torso.hasTag("bulletproof")) {
+				tA *= 0.1;
+			}
+			if(!head.hasTag("bulletproof")) {
+				if(Math.random() < 0.15) {
+					d *= 5;
+				}
+			}
+		}
+		int red = (int)Math.round(Math.pow(tA, 0.926));
+		d = (d - red > 0) ? d - red : 0;
+		if(w.hasTag("cutting")) {
+			d *= 1.5;
+			if(d - 10 > 0) dHealth = -1 * (d-10);
+		}
+		if(w.hasTag("piercing") && d > 0) {
+			double target = (double)d/dInit;
+			if(Math.random() < target) d *= 3;
+		}
+		d = (d > 0) ? d : 0;
+		health -= d;
+	}
+	
 	public void attack(Creature c) {
 		if(weapon instanceof Weapon) {
 			int d = (int) (((Weapon)weapon).getAttackMod() * weapon.getDamage());
+			c.hit(d, weapon);
 			int red = (int)Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
+			if(d - red <= 0) weapon.setDurability(weapon.getDurability() - 1);
+		}
+		else {
+			int d = (int)weapon.getDamage();
+			c.hit(d, weapon);
 		}
 	}
 
