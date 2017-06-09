@@ -71,6 +71,11 @@ public class NPC extends Creature {
 			}
 		}
 	}
+	
+	public void hit(int d, Item w, Creature c) {
+		super.hit(d, w, c);
+		hostile = true;
+	}
 
 	/**
 	 * @return the hostile

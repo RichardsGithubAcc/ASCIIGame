@@ -46,7 +46,7 @@ public class Creature extends Entity implements Dynamic {
 		return false;
 	}
 	
-	public void hit(int d, Item w) {
+	public void hit(int d, Item w, Creature c) {
 		int dInit = d;
 		double tA = armorVal * armorMod;
 		//int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(), 0.926);
@@ -80,13 +80,13 @@ public class Creature extends Entity implements Dynamic {
 	public void attack(Creature c) {
 		if(weapon instanceof Weapon) {
 			int d = (int) (((Weapon)weapon).getAttackMod() * weapon.getDamage());
-			c.hit(d, weapon);
+			c.hit(d, weapon, this);
 			int red = (int)Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
 			if(d - red <= 0) weapon.setDurability(weapon.getDurability() - 1);
 		}
 		else {
 			int d = (int)weapon.getDamage();
-			c.hit(d, weapon);
+			c.hit(d, weapon, this);
 		}
 	}
 
