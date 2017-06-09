@@ -14,78 +14,89 @@ public class Creature extends Entity implements Dynamic {
 	private ArrayList<Item> inventory;
 	private Clothing arms, legs, torso, head, feet, hands;
 	private Item weapon;
-	
-	public Creature(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, 
-			int mH, double hM, double armM, double atkM, int dH) {
+
+	public Creature(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH,
+			double hM, double armM, double atkM, int dH) {
 		super(ge, i, c, n, tags, x, y, p);
-		health = h; armorVal = armV; maxHealth = mH; healthMod = hM; armorMod = armM;
-		attackMod = atkM; dHealth = dH;
+		health = h;
+		armorVal = armV;
+		maxHealth = mH;
+		healthMod = hM;
+		armorMod = armM;
+		attackMod = atkM;
+		dHealth = dH;
 	}
-	
+
 	@Override
 	public void update() {
-		if(delay <= 0) {
+		if (delay <= 0) {
 			health += dHealth;
-			if (dHealth > 0) dHealth--;
-			else if (dHealth < 0) dHealth++;
-		} else delay--;
+			if (dHealth > 0)
+				dHealth--;
+			else if (dHealth < 0)
+				dHealth++;
+		} else
+			delay--;
 	}
-	
+
 	public void addToInventory(Item i) {
 		inventory.add(i);
 	}
-	
+
 	public boolean removeFromInventory(Item i) {
 		return inventory.remove(i);
 	}
-	
+
 	public boolean isInInventory(Item i) {
-		for (Item ownedItem: inventory) {
+		for (Item ownedItem : inventory) {
 			return i == ownedItem;
 		}
 		return false;
 	}
-	
+
 	public void hit(int d, Item w, Creature c) {
 		int dInit = d;
 		double tA = armorVal * armorMod;
-		//int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(), 0.926);
-		if(w.hasTag("bashing")) {
+		// int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(),
+		// 0.926);
+		if (w.hasTag("bashing")) {
 			tA *= 0.4;
 		}
-		if(w.hasTag("bullet")) {
-			if(!torso.hasTag("bulletproof")) {
+		if (w.hasTag("bullet")) {
+			if (!torso.hasTag("bulletproof")) {
 				tA *= 0.1;
 			}
-			if(!head.hasTag("bulletproof")) {
-				if(Math.random() < 0.15) {
+			if (!head.hasTag("bulletproof")) {
+				if (Math.random() < 0.15) {
 					d *= 5;
 				}
 			}
 		}
-		int red = (int)Math.round(Math.pow(tA, 0.926));
+		int red = (int) Math.round(Math.pow(tA, 0.926));
 		d = (d - red > 0) ? d - red : 0;
-		if(w.hasTag("cutting")) {
+		if (w.hasTag("cutting")) {
 			d *= 1.5;
-			if(d - 10 > 0) dHealth = -1 * (d-10);
+			if (d - 10 > 0)
+				dHealth = -1 * (d - 10);
 		}
-		if(w.hasTag("piercing") && d > 0) {
-			double target = (double)d/dInit;
-			if(Math.random() < target) d *= 3;
+		if (w.hasTag("piercing") && d > 0) {
+			double target = (double) d / dInit;
+			if (Math.random() < target)
+				d *= 3;
 		}
 		d = (d > 0) ? d : 0;
 		health -= d;
 	}
-	
+
 	public void attack(Creature c) {
-		if(weapon instanceof Weapon) {
-			int d = (int) (((Weapon)weapon).getAttackMod() * weapon.getDamage());
+		if (weapon instanceof Weapon) {
+			int d = (int) (((Weapon) weapon).getAttackMod() * weapon.getDamage());
 			c.hit(d, weapon, this);
-			int red = (int)Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
-			if(d - red <= 0) weapon.setDurability(weapon.getDurability() - 1);
-		}
-		else {
-			int d = (int)weapon.getDamage();
+			int red = (int) Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
+			if (d - red <= 0)
+				weapon.setDurability(weapon.getDurability() - 1);
+		} else {
+			int d = (int) weapon.getDamage();
 			c.hit(d, weapon, this);
 		}
 	}
@@ -95,57 +106,77 @@ public class Creature extends Entity implements Dynamic {
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = map.getPoint(new Point(xCoord, yCoord + 1));
-		if(t.getTerrain().isPassable()) {
-			super.setY(yCoord + 1);
-			t.addItem(this);
-			map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
-			return true;
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setY(yCoord + 1);
+				t.addItem(this);
+				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	public boolean moveDown() {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = map.getPoint(new Point(xCoord, yCoord - 1));
-		if(t.getTerrain().isPassable()) {
-			super.setY(yCoord - 1);
-			t.addItem(this);
-			map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
-			return true;
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setY(yCoord - 1);
+				t.addItem(this);
+				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	public boolean moveLeft() {
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = map.getPoint(new Point(xCoord - 1, yCoord));
-		if(t.getTerrain().isPassable()) {
-			super.setY(xCoord - 1);
-			t.addItem(this);
-			map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
-			return true;
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setY(xCoord - 1);
+				t.addItem(this);
+				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	public boolean moveRight() {
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = map.getPoint(new Point(xCoord + 1, yCoord));
-		if(t.getTerrain().isPassable()) {
-			super.setY(xCoord + 1);
-			t.addItem(this);
-			map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
-			return true;
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setY(xCoord + 1);
+				t.addItem(this);
+				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				return true;
+			}
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return the health
 	 */
@@ -154,7 +185,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param health the health to set
+	 * @param health
+	 *            the health to set
 	 */
 	public void setHealth(int health) {
 		this.health = health;
@@ -168,7 +200,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param armorValue the armorValue to set
+	 * @param armorValue
+	 *            the armorValue to set
 	 */
 	public void setArmorVal(int armorVal) {
 		this.armorVal = armorVal;
@@ -182,7 +215,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param maxHealth the maxHealth to set
+	 * @param maxHealth
+	 *            the maxHealth to set
 	 */
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
@@ -196,7 +230,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param healthMod the healthMod to set
+	 * @param healthMod
+	 *            the healthMod to set
 	 */
 	public void setHealthMod(double healthMod) {
 		this.healthMod = healthMod;
@@ -210,7 +245,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param armorMod the armorMod to set
+	 * @param armorMod
+	 *            the armorMod to set
 	 */
 	public void setArmorMod(double armorMod) {
 		this.armorMod = armorMod;
@@ -224,7 +260,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param attackMod the attackMod to set
+	 * @param attackMod
+	 *            the attackMod to set
 	 */
 	public void setAttackMod(double attackMod) {
 		this.attackMod = attackMod;
@@ -238,7 +275,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param dHealth the dHealth to set
+	 * @param dHealth
+	 *            the dHealth to set
 	 */
 	public void setdHealth(int dHealth) {
 		this.dHealth = dHealth;
@@ -252,7 +290,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param inventory the inventory to set
+	 * @param inventory
+	 *            the inventory to set
 	 */
 	public void setInventory(ArrayList<Item> inventory) {
 		this.inventory = inventory;
@@ -266,16 +305,17 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param delay the delay to set
+	 * @param delay
+	 *            the delay to set
 	 */
 	public void setDelay(int delay) {
 		this.delay = delay;
 	}
-	
+
 	public void addDelay(int e) {
 		delay += e;
 	}
-	
+
 	public void removeDelay(int e) {
 		delay -= e;
 	}
@@ -288,7 +328,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param arms the arms to set
+	 * @param arms
+	 *            the arms to set
 	 */
 	public void setArms(Clothing arms) {
 		this.arms = arms;
@@ -302,7 +343,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param legs the legs to set
+	 * @param legs
+	 *            the legs to set
 	 */
 	public void setLegs(Clothing legs) {
 		this.legs = legs;
@@ -316,7 +358,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param torso the torso to set
+	 * @param torso
+	 *            the torso to set
 	 */
 	public void setTorso(Clothing torso) {
 		this.torso = torso;
@@ -330,7 +373,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param head the head to set
+	 * @param head
+	 *            the head to set
 	 */
 	public void setHead(Clothing head) {
 		this.head = head;
@@ -344,7 +388,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param feet the feet to set
+	 * @param feet
+	 *            the feet to set
 	 */
 	public void setFeet(Clothing feet) {
 		this.feet = feet;
@@ -358,7 +403,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param hands the hands to set
+	 * @param hands
+	 *            the hands to set
 	 */
 	public void setHands(Clothing hands) {
 		this.hands = hands;
@@ -372,11 +418,11 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @param weapon the weapon to set
+	 * @param weapon
+	 *            the weapon to set
 	 */
 	public void setWeapon(Item weapon) {
 		this.weapon = weapon;
 	}
-	
-	
+
 }

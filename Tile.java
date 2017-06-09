@@ -19,6 +19,15 @@ public class Tile{
 		}
 		return null;
 	}
+	
+	public Creature hasCreature() {
+		for(Entity e : items) {
+			if(e instanceof Creature) {
+				return (Creature)e;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * @return the terrain

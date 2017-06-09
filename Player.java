@@ -33,6 +33,21 @@ public class Player extends Creature implements Dynamic {
 			super.removeDelay(1);
 		}
 	}
+	
+	public void attack(Creature c) {
+		if(super.getWeapon() instanceof Weapon) {
+			double strM = ((strength/10) + 1)/2;
+			int d = (int) (((Weapon)super.getWeapon()).getAttackMod() * super.getWeapon().getDamage() * strM);
+			c.hit(d, super.getWeapon(), this);
+			int red = (int)Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
+			if(d - red <= 0) super.getWeapon().setDurability(super.getWeapon().getDurability() - 1);
+		}
+		else {
+			double strM = ((strength/10) + 1)/2;
+			int d = (int)(super.getWeapon().getDamage() * strM);
+			c.hit(d, super.getWeapon(), this);
+		}
+	}
 
 	/**
 	 * @return the hunger
