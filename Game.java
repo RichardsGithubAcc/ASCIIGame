@@ -25,8 +25,8 @@ public class Game {
 	
 	public Game(int panelCol, int panelRow) {
 		Point camera = new Point();
-		camera.x = panelCol/2;
-		camera.y = panelRow/2;
+		camera.x = 0;
+		camera.y = 0;
 		map = new WorldMap(this, panelCol, panelRow, camera, panelCol * panelRow);
 		genForest(0, 0, panelCol, panelRow);
 		player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
@@ -43,6 +43,7 @@ public class Game {
 	}
 	
 	public void update() {
+		map.setCamera(new Point(player.getX(), player.getY()));
 		for (Dynamic d : dynamic) {
 			d.update();
 		}
