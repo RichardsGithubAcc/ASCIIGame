@@ -37,7 +37,7 @@ public class GameDisplay extends JFrame {
 	public GameDisplay(String title) {
 		super(title);
 		
-		Game game = new Game(80, 40);
+		Game game = new Game(80, 80);
 		//game.genForest(-40, -40, 40, 40);
 		ArrayList<Entity> n = new ArrayList<Entity>();
 		game.setPlayer(new Player(game, 0, 0));
