@@ -13,29 +13,25 @@ import java.awt.Point;
  * paintComponent(Graphics g): paints the current state of the camera window of the
  *  world map onto this panel
  */
-public class GraphicsPanel extends JPanel{
+public class GraphicsPanel extends JPanel {
 
-		private WorldMap map;
+	private WorldMap map;
 
-		/*
-		 * constructor for GraphicsPanel, sets private LineRotator object to LineRotator 
-		 *  object received by parameter
-		 * order: O(1)
-		 * params: LineRotator lineRot
-		 * no return values
-		 */
-		public GraphicsPanel(WorldMap map){
-			this.setBackground(Color.BLACK);
-			this.map = map;
-		}
-		
-	    /*
-	     * paints the current state of the camera window onto this panel
-	     * order: O(1)
-	     * params: Graphics g
-	     * no return values
-	     */
-		public void paintComponent(Graphics g) {
+	/*
+	 * constructor for GraphicsPanel, sets private LineRotator object to
+	 * LineRotator object received by parameter order: O(1) params: LineRotator
+	 * lineRot no return values
+	 */
+	public GraphicsPanel(WorldMap map) {
+		this.setBackground(Color.BLACK);
+		this.map = map;
+	}
+
+	/*
+	 * paints the current state of the camera window onto this panel order: O(1)
+	 * params: Graphics g no return values
+	 */
+	public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D)g;
 			g2.setFont(new Font(g2.getFont().getFontName(), Font.PLAIN, 12));
 			super.paintComponent(g2);
@@ -63,15 +59,25 @@ public class GraphicsPanel extends JPanel{
 					point.x = (startX + i + adjX);
 					point.y = 80 - (startY + j + adjY);
 					
-					if (tile != null) {
+					if (tile != null && tile.getTerrain() != null) {
 						str = "";
-						g2.setColor(tile.getTerrain().getColor());
-						str += tile.getTerrain().getIcon();
-						g2.drawString(str, point.x * tileWidth + 12, point.y * tileHeight + 12);
-						//g2.drawString("@", 0, 10);
-					} 
+						Creature c = tile.hasCreature();
+						if(c != null) {
+							g2.setColor(c.getColor());
+							str += c.getIcon();
+							g2.drawString(str, point.x * tileWidth + 12, point.y * tileHeight + 12);
+						} else {
+							g2.setColor(tile.getTerrain().getColor());
+							str += tile.getTerrain().getIcon();
+							g2.drawString(str, point.x * tileWidth + 12, point.y * tileHeight + 12);
+							//g2.drawString("@", 0, 10);
+						}
+					} else {
+						g2.setColor(new Color(0, 142, 25));
+						g2.drawString(".", point.x * tileWidth + 12, point.y * tileHeight + 12);
+					}
 				}
 			}
 		}
-		
+
 }

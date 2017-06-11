@@ -1,32 +1,52 @@
 import java.util.ArrayList;
 
-public class Tile{
+public class Tile {
 	private Terrain terrain;
-	private ArrayList<Entity> items;
-	
+	private ArrayList<Entity> items = new ArrayList<Entity>();
+
 	public Tile(Terrain t, ArrayList<Entity> i) {
 		terrain = t;
 		items = i;
 	}
 	
-	public void addItem(Entity e) {
+	public Tile(Terrain t, Entity e) {
+		terrain = t;
 		items.add(e);
 	}
 	
+	public Tile(Terrain t) {
+		terrain = t;
+	}
+
+	public void addItem(Entity e) {
+		items.add(e);
+	}
+
 	public Entity removeItem(Entity e) {
-		for(int i = 0; i < items.size(); i++) {
-			if(items.get(i) == e) return items.remove(i);
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i) == e)
+				return items.remove(i);
+		}
+		return null;
+	}
+
+	public Creature hasCreature() {
+		if (items != null && items.size() > 0) {
+			for (Entity e : items) {
+				if (e instanceof Creature) {
+					return (Creature) e;
+				}
+			}
 		}
 		return null;
 	}
 	
-	public Creature hasCreature() {
-		for(Entity e : items) {
-			if(e instanceof Creature) {
-				return (Creature)e;
+	public void removeCreature() {
+		for(int i = 0; i < items.size(); i++) {
+			if(items.get(i) instanceof Creature) {
+				items.remove(i);
 			}
 		}
-		return null;
 	}
 
 	/**
@@ -37,7 +57,8 @@ public class Tile{
 	}
 
 	/**
-	 * @param terrain the terrain to set
+	 * @param terrain
+	 *            the terrain to set
 	 */
 	public void setTerrain(Terrain terrain) {
 		this.terrain = terrain;
@@ -51,11 +72,11 @@ public class Tile{
 	}
 
 	/**
-	 * @param items the items to set
+	 * @param items
+	 *            the items to set
 	 */
 	public void setItems(ArrayList<Entity> items) {
 		this.items = items;
 	}
-	
-	
+
 }

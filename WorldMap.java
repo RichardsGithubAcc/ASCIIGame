@@ -49,7 +49,8 @@ public class WorldMap {
 	}
 	
 	public Tile getPoint(Point point) {
-		return (Tile)map.get(point);
+		Tile result = (map.get(point) == null) ? new Tile(new Terrain(game, '.', new Color(0, 142, 25), "sparse", null, point.x, point.y, true, 0)) : map.get(point);
+		return result;
 	}
 	
 	public boolean isOccupied(Point location) {
