@@ -49,7 +49,7 @@ public class GameDisplay extends JFrame {
 	public class Key implements KeyListener {
 		private Game g;
 		
-		public void Key(Game g) {
+		public Key(Game g) {
 			this.g = g;
 		}
 
