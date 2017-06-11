@@ -68,7 +68,6 @@ public class GraphicsPanel extends JPanel {
 						g2.setColor(tile.getTerrain().getColor());
 						str += tile.getTerrain().getIcon();
 						g2.drawString(str, (int) (i * tileWidth) + startDrawX, (int)((row - j) * tileHeight) + startDrawY );;
-						//g2.drawString("@", 0, 10);
 					}
 				} else {
 					g2.setColor(new Color(0, 142, 25));
