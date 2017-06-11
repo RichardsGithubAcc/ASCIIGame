@@ -31,7 +31,7 @@ public class GameDisplay extends JFrame {
 		super(title);
 		Game game = new Game(80, 40);
 		game.genForest(-40, -40, 40, 40);
-		game.getMap().setPoint(new Point(0, 0), new Tile(new Terrain(game, '%', Color.RED, "debugTile", null, 0, 0, true, 0), null));
+		//game.getMap().setPoint(new Point(0, 0), new Tile(new Terrain(game, '%', Color.RED, "debugTile", null, 0, 0, true, 0), null));
 		GraphicsPanel graphicsPanel = new GraphicsPanel(game.getMap());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
