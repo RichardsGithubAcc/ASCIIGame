@@ -47,7 +47,7 @@ public class GameDisplay extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(600, 250, 800, 800);
+		setBounds(500, 150, 1000, 1000);
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,10 +57,10 @@ public class GameDisplay extends JFrame {
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "MOVE_DOWN");
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "MOVE_LEFT");
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "MOVE_RIGHT");
-		contentPane.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer()));
-		contentPane.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer()));
-		contentPane.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer()));
-		contentPane.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer()));
+		contentPane.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
+		contentPane.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
+		contentPane.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
+		contentPane.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer(), game));
 		
 		
 		contentPane.add(graphicsPanel, BorderLayout.CENTER);	
@@ -131,10 +131,12 @@ public class GameDisplay extends JFrame {
 	public class MoveAction extends AbstractAction {
 		int d;
 		Player p;
+		Game g;
 		
-		public MoveAction(int dir, Player pl) {
+		public MoveAction(int dir, Player pl, Game g) {
 			d = dir;
 			p = pl;
+			this.g = g;
 		}
 		
 		public void actionPerformed(ActionEvent e) {
@@ -149,6 +151,7 @@ public class GameDisplay extends JFrame {
 				break;
 			}
 			repaint();
+			g.update();
 		}
 	}
 	

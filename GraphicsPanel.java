@@ -65,11 +65,11 @@ public class GraphicsPanel extends JPanel {
 						if(c != null) {
 							g2.setColor(c.getColor());
 							str += c.getIcon();
-							g2.drawString(str, point.x * tileWidth + 12, point.y * tileHeight + 12);
+							g2.drawString(str, point.x * (tileWidth) + 12, point.y * (tileHeight) + 12);
 						} else {
 							g2.setColor(tile.getTerrain().getColor());
 							str += tile.getTerrain().getIcon();
-							g2.drawString(str, point.x * tileWidth + 12, point.y * tileHeight + 12);
+							g2.drawString(str, point.x * (tileWidth) + 12, point.y * (tileHeight) + 12);
 							//g2.drawString("@", 0, 10);
 						}
 					} else {

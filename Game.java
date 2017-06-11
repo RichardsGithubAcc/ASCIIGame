@@ -64,11 +64,11 @@ public class Game {
 	public void genForest(int x1, int y1, int x2, int y2) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
-				if (Math.random() < 0.34) {
+				if (Math.random() < 0.3) {
 					map.setPoint(new Point(x, y), new Tile(new Terrain(tree)));
 					
 				} else {
-					if (Math.random() < 0.34)
+					if (Math.random() < 0.2)
 						map.setPoint(new Point(x, y), new Tile(new Terrain(bush)));
 
 				}
