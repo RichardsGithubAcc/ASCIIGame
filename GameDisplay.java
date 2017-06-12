@@ -24,8 +24,8 @@ public class GameDisplay extends JFrame {
 	
 	public GameDisplay(String title) {
 		super(title);
-		Game game = new Game(80, 40);
-		GraphicsPanel graphicsPanel = new GraphicsPanel(game.getMap());
+		Game g = new Game(80, 40);
+		GraphicsPanel graphicsPanel = new GraphicsPanel(g.getMap());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(650, 280, 600, 600);
