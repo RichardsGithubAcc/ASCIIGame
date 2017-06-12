@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class Clothing extends Item implements Usable {
+public class Clothing extends Item {
 	private int armorValue;
 	private String slot;
 

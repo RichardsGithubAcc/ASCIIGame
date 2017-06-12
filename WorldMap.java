@@ -5,35 +5,35 @@ import java.util.HashMap;
 public class WorldMap {
 	private Game game;
 	private HashMap<Point, Tile> map;
-	private int panelCol;
-	private int panelRow;
+	private int panelCols;
+	private int panelRows;
 	private Point camera;
 	
 	public WorldMap(Game g) {
 		game = g;
 		map = new HashMap<Point, Tile>();
-		panelCol = 80;
-		panelRow = 30;
+		panelCols = 81;
+		panelRows = 81;
 		camera = new Point();
-		camera.x = 40;
-		camera.y = 15;
+		camera.x = 0;
+		camera.y = 0;
 	}
 	
-	public WorldMap(Game g, int panelCol, int panelRow, Point camera, int hashSize) {
+	public WorldMap(Game g, int panelCols, int panelRows, Point camera, int hashSize) {
 		game = g;
 		map = new HashMap<Point, Tile>(hashSize);
-		this.panelCol = panelCol;
-		this.panelRow = panelRow;
+		this.panelCols = panelCols;
+		this.panelRows = panelRows;
 		this.camera = new Point();
 		this.camera = camera;
 	}
 	
 	public int getPanelCol() {
-		return panelCol;
+		return panelCols;
 	}
 	
 	public int getPanelRow() {
-		return panelRow;
+		return panelRows;
 	}
 	
 	public Point getCamera() {
@@ -49,17 +49,17 @@ public class WorldMap {
 	}
 	
 	public Tile getPoint(Point point) {
-		Tile result = (map.get(point) == null) ? new Tile(new Terrain(game, '.', new Color(0, 142, 25), "sparse", null, point.x, point.y, true, 0)) : map.get(point);
-		return result;
+		Tile result = map.get(point);
+		if (result != null) {
+			return result;
+		}
+		else {
+			return new Tile(new Terrain(game, '.', new Color(0, 142, 25), "sparse", null, point.x, point.y, true, 0));
+		}
 	}
 	
 	public boolean isOccupied(Point location) {
-		if(map.get(location) == null) return false;
-		return true;
-	}
-	
-	public void increment() {
+		return map.get(location) != null;
 		
 	}
-	
 }

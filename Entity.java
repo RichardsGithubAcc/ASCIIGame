@@ -16,11 +16,6 @@ public abstract class Entity {
 		
 	}
 	
-	public void setXY(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
 	public Entity(Game g, char i, Color c, String n, String[] t, int x, int y, boolean p) {
 		this.game = g;
 		tags = t;
@@ -121,6 +116,11 @@ public abstract class Entity {
 		this.y = y;
 	}
 
+	public void setXY(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	/**
 	 * @return the passable
 	 */

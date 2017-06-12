@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class Player extends Creature implements Dynamic {
+public class Player extends Creature {
 	private int hunger, volumeCarried, maxVolume;
 	private int strength, dexterity, intelligence, perception;
 	private double weightCarried, maxWeight;
