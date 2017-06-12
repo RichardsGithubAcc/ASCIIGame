@@ -71,6 +71,7 @@ public class GameDisplay extends JFrame {
 		InventoryDisplay inventoryDisplay = InventoryDisplay.getInstance();
 		JButton inventoryButton = new JButton("Inventory");
 		buttonPanel.add(inventoryButton);
+		inventoryButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				inventoryDisplay.createWindow(game);
