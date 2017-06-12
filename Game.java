@@ -88,6 +88,9 @@ public class Game {
 	}
 	
 	
+	public ArrayList<Dynamic> getDynamic() {
+		return dynamic;
+	}
 
 }
 
