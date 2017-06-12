@@ -52,8 +52,10 @@ public class Game {
 
 	public void update() {
 		map.setCamera(new Point(player.getX(), player.getY()));
-		for (Dynamic d : dynamic) {
-			d.update();
+		if (dynamic != null) {
+			for (Dynamic d : dynamic) {
+				d.update();
+			}
 		}
 	}
 	
