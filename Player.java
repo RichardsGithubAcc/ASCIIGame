@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class Player extends Creature implements Dynamic {
+public class Player extends Creature {
 	private int hunger, volumeCarried, maxVolume;
 	private int strength, dexterity, intelligence, perception;
 	private double weightCarried, maxWeight;
@@ -16,6 +16,8 @@ public class Player extends Creature implements Dynamic {
 		intelligence = in;
 		perception = pe;
 		maxWeight = 20 + 2 * strength;
+		weightCarried = 0;
+		volumeCarried = 0;
 		hunger = 0;
 	}
 	
@@ -52,6 +54,7 @@ public class Player extends Creature implements Dynamic {
 			c.hit(d, super.getWeapon(), this);
 		}
 	}
+
 
 	/**
 	 * @return the hunger

@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class Weapon extends Item implements Usable {
+public class Weapon extends Item {
 	private int accuracy, range;//accuracy is stored as a whole number percent
 	double attackMod;
 	private Item[] inventory = new Item[1];

@@ -18,9 +18,9 @@ public class NPC extends Creature {
 		int dY = y - super.getY();
 		if(Math.abs(dX) > Math.abs(dY)) {
 			if(Math.signum(dX) == 1) {
-				super.moveLeft();
-			} else {
 				super.moveRight();
+			} else {
+				super.moveLeft();
 			}
 		} else {
 			if(Math.signum(dY) == 1) {
@@ -32,25 +32,15 @@ public class NPC extends Creature {
 	}
 	
 	public void update() {
-		double d = Game.dist(super.getX(), super.getY(), super.getGame().getPlayer().getX(), super.getGame().getPlayer().getY());
+		int playerX = super.getGame().getPlayer().getX();
+		int playerY = super.getGame().getPlayer().getY();
+		double d = Game.dist(super.getX(), super.getY(), playerX, playerY);
 		if(hostile && d < 20) {
-			int dX = super.getGame().getPlayer().getX() - super.getX();
-			int dY = super.getGame().getPlayer().getY() - super.getY();
+		
 			if(d == 1) {
 				super.attack(super.getGame().getPlayer());
-			} else
-			if(Math.abs(dX) > Math.abs(dY)) {
-				if(Math.signum(dX) == 1) {
-					super.moveLeft();
-				} else {
-					super.moveRight();
-				}
 			} else {
-				if(Math.signum(dY) == 1) {
-					super.moveUp();
-				} else {
-					super.moveDown();
-				}
+				moveTowards(playerX, playerY);
 			}
 		} else {
 			if(tether != null && Game.dist(super.getX(), super.getY(), tether.x, tether.y) > 10) {

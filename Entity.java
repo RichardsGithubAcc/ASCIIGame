@@ -15,12 +15,7 @@ public abstract class Entity {
 	public Entity() {
 		
 	}
-	
-	public void setXY(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-	
+
 	public Entity(Game g, char i, Color c, String n, String[] t, int x, int y, boolean p) {
 		this.game = g;
 		tags = t;
@@ -91,6 +86,11 @@ public abstract class Entity {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setXY(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
-public class Container extends Item implements Usable {
+public class Container extends Item {
 	private ArrayList<Item> inventory;
 	private int volumeStored;
 	private int maxVolume;
@@ -30,6 +30,7 @@ public class Container extends Item implements Usable {
 	public Item removeFromInventory(Item obj) {
 		if (isInInventory(obj)) {
 			inventory.remove(obj);
+			volumeStored -= obj.getVolume();
 			return obj;
 		}
 		return null;
