@@ -26,6 +26,7 @@ public class Creature extends Entity implements Dynamic {
 		armorMod = armM;
 		attackMod = atkM;
 		dHealth = dH;
+		weapon = new Item(ge, 'f', null, "fist", null, x, y, true, 0, 0, -1, -1, 5);
 	}
 
 	@Override
