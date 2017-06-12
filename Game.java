@@ -5,12 +5,13 @@ import java.awt.Point;
 
 public class Game {
 
-	private ArrayList<Dynamic> dynamic;
+	private ArrayList<Dynamic> dynamic = new ArrayList<Dynamic>();
 	private WorldMap map;
 	private Player player;
-	public final Player defPlayer = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
+	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
 	public final Terrain tree = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
 	public final Terrain bush = new Terrain(this, '#', new Color(0, 200, 0), "bush", null, 0, 0, true, 1);
+	public final NPC ZOMBIE = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true);
 	public static final int DEF_HEALTH = 100;
 	public static final int DEF_MAX_HEALTH = 100;
 	public static final int DEF_ARMOR_VAL = 0;
@@ -34,12 +35,13 @@ public class Game {
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
 		player = new Player(this, 0, 0);
-		dynamic = new ArrayList<Dynamic>();
+		//dynamic = new ArrayList<Dynamic>();
 		dynamic.add(player);
 		
 		ArrayList<Entity> items = new ArrayList<Entity>();
 		items.add(player);
 		map.setPoint(new Point(0, 0), new Tile(this.bush, items));
+		map.setPoint(new Point(-10, -10), new Tile(this.bush, (Entity)this.ZOMBIE));
 	}
 	
 	public WorldMap getMap() {
@@ -86,6 +88,9 @@ public class Game {
 	}
 	
 	
+	public ArrayList<Dynamic> getDynamic() {
+		return dynamic;
+	}
 
 }
 

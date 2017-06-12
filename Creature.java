@@ -18,6 +18,7 @@ public class Creature extends Entity implements Dynamic {
 	public Creature(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH,
 			double hM, double armM, double atkM, int dH) {
 		super(ge, i, c, n, tags, x, y, p);
+		ge.getDynamic().add(this);
 		health = h;
 		armorVal = armV;
 		maxHealth = mH;
@@ -25,6 +26,7 @@ public class Creature extends Entity implements Dynamic {
 		armorMod = armM;
 		attackMod = atkM;
 		dHealth = dH;
+		weapon = new Item(ge, 'f', null, "fist", null, x, y, true, 0, 0, -1, -1, 5);
 	}
 
 	@Override

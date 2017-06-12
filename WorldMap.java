@@ -5,15 +5,15 @@ import java.util.HashMap;
 public class WorldMap {
 	private Game game;
 	private HashMap<Point, Tile> map;
-	private int panelCol;
-	private int panelRow;
+	private int panelCols;
+	private int panelRows;
 	private Point camera;
 	
 	public WorldMap(Game g) {
 		game = g;
 		map = new HashMap<Point, Tile>();
-		panelCol = 81;
-		panelRow = 41;
+		panelCols = 81;
+		panelRows = 81;
 		camera = new Point();
 		camera.x = 0;
 		camera.y = 0;
@@ -22,18 +22,18 @@ public class WorldMap {
 	public WorldMap(Game g, int panelCols, int panelRows, Point camera, int hashSize) {
 		game = g;
 		map = new HashMap<Point, Tile>(hashSize);
-		this.panelCol = panelCols;
-		this.panelRow = panelRows;
+		this.panelCols = panelCols;
+		this.panelRows = panelRows;
 		this.camera = new Point();
 		this.camera = camera;
 	}
 	
 	public int getPanelCol() {
-		return panelCol;
+		return panelCols;
 	}
 	
 	public int getPanelRow() {
-		return panelRow;
+		return panelRows;
 	}
 	
 	public Point getCamera() {
@@ -58,8 +58,8 @@ public class WorldMap {
 		}
 	}
 	
-	public boolean isOccupied(Point point) {
-		return (map.get(point) != null);
+	public boolean isOccupied(Point location) {
+		return map.get(location) != null;
+		
 	}
-	
 }

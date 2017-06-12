@@ -36,7 +36,6 @@ public class NPC extends Creature {
 		int playerY = super.getGame().getPlayer().getY();
 		double d = Game.dist(super.getX(), super.getY(), playerX, playerY);
 		if(hostile && d < 20) {
-		
 			if(d == 1) {
 				super.attack(super.getGame().getPlayer());
 			} else {
