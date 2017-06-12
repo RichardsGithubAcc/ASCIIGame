@@ -40,7 +40,7 @@ public class NPC extends Creature {
 				super.attack(super.getGame().getPlayer());
 			} else
 			if(Math.abs(dX) > Math.abs(dY)) {
-				if(Math.signum(dX) == 1) {
+				if(Math.signum(dX) == -1) {
 					super.moveLeft();
 				} else {
 					super.moveRight();

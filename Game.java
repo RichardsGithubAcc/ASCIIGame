@@ -5,7 +5,7 @@ import java.awt.Point;
 
 public class Game {
 
-	private ArrayList<Dynamic> dynamic;
+	private ArrayList<Dynamic> dynamic = new ArrayList<Dynamic>();
 	private WorldMap map;
 	private Player player;
 	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
@@ -35,7 +35,7 @@ public class Game {
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
 		player = new Player(this, 0, 0);
-		dynamic = new ArrayList<Dynamic>();
+		//dynamic = new ArrayList<Dynamic>();
 		dynamic.add(player);
 		
 		ArrayList<Entity> items = new ArrayList<Entity>();
