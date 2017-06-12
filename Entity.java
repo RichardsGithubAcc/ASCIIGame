@@ -22,6 +22,7 @@ public abstract class Entity {
 	}
 	
 	public Entity(Game g, char i, Color c, String n, String[] t, int x, int y, boolean p) {
+		
 		this.game = g;
 		tags = t;
 		icon = i; color = c; name = n; this.x = x; this.y = y; passable = p;
