@@ -17,10 +17,20 @@ public class Player extends Creature implements Dynamic {
 		perception = pe;
 		maxWeight = 20 + 2 * strength;
 		hunger = 0;
+		volumeCarried = 0;
+		weightCarried = 0;
 	}
 	
 	public Player(Game ge, int x, int y) {
 		super(ge, '@', Color.WHITE, "player", null, x, y, false, 100, 0, 100, 1, 1, 1, 0);
+		strength = 8;
+		dexterity = 8;
+		intelligence = 8;
+		perception = 8;
+		weightCarried = 0;
+		volumeCarried = 0;
+		maxWeight = 20 + 2 * strength;
+		hunger = 0;
 	}
 	
 	@Override
