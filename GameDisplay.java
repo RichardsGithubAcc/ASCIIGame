@@ -38,16 +38,14 @@ public class GameDisplay extends JFrame {
 		super(title);
 		
 		Game game = new Game(80, 80);
-		//game.genForest(-40, -40, 40, 40);
 		ArrayList<Entity> n = new ArrayList<Entity>();
 		game.setPlayer(new Player(game, 0, 0));
 		n.add(game.getPlayer());
 		game.getMap().setPoint(new Point(0, 0), new Tile(game.bush, n));
 		GraphicsPanel graphicsPanel = new GraphicsPanel(game.getMap());
 		
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 150, 1000, 1000);
+		setBounds(300, 0, 1000, 1000);
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,68 +60,65 @@ public class GameDisplay extends JFrame {
 		contentPane.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
 		contentPane.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer(), game));
 		
-		
 		contentPane.add(graphicsPanel, BorderLayout.CENTER);	
 		// button panel
-				JPanel buttonPanel = new JPanel();
-				contentPane.add(buttonPanel, BorderLayout.NORTH);
-				
-				
-				/*
-				 * button to open inventory
-				 */
-				InventoryDisplay inventoryDisplay = InventoryDisplay.getInstance();
-				JButton inventoryButton = new JButton("Inventory");
-				buttonPanel.add(inventoryButton);
-				inventoryButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						inventoryDisplay.createWindow(game);
-					}
+		JPanel buttonPanel = new JPanel();
+		contentPane.add(buttonPanel, BorderLayout.NORTH);
+							
+		/*
+		 * button to open inventory
+		 */
+		InventoryDisplay inventoryDisplay = InventoryDisplay.getInstance();
+		JButton inventoryButton = new JButton("Inventory");
+		buttonPanel.add(inventoryButton);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inventoryDisplay.createWindow(game);
+			}
 					
-				});
+		});
 				
-				/*
-				 * button for stats
-				 */
-				StatisticsDisplay statisticsDisplay = StatisticsDisplay.getInstance();
-				JButton statisticsButton = new JButton("Statistics");
-				buttonPanel.add(statisticsButton);
-				statisticsButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						statisticsDisplay.createWindow(game);
-					}
+		/*
+		 * button for stats
+		 */
+		StatisticsDisplay statisticsDisplay = StatisticsDisplay.getInstance();
+		JButton statisticsButton = new JButton("Statistics");
+		buttonPanel.add(statisticsButton);
+		statisticsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				statisticsDisplay.createWindow(game);
+			}
 					
-				});
+		});
 				
-				/*
-				 * button for user guide
-				 */
-				UserGuide userGuide = UserGuide.getInstance();
-				JButton userGuideButton = new JButton("User Guide");
-				buttonPanel.add(userGuideButton);
-				userGuideButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						userGuide.createWindow(game);
-					}
+		/*
+		 * button for user guide
+		 */
+		UserGuide userGuide = UserGuide.getInstance();
+		JButton userGuideButton = new JButton("User Guide");
+		buttonPanel.add(userGuideButton);
+		userGuideButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				userGuide.createWindow(game);
+			}
 					
-				});
+		});
 
 			
-				/*
-				 * quit button
-				 */
-				JButton quitButton = new JButton("Quit");
-				buttonPanel.add(quitButton);
-				quitButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						System.exit(0);
-					}
+		/*
+		 * quit button
+		 */
+		JButton quitButton = new JButton("Quit");
+		buttonPanel.add(quitButton);
+		quitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
 					
-				});
+		});
 				
 				
 	}
