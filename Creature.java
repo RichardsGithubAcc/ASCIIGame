@@ -105,7 +105,7 @@ public class Creature extends Entity implements Dynamic {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
-		Tile t = map.getPoint(new Point(xCoord, yCoord + 1));
+		Tile t = (map.getPoint(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord + 1));
 		Creature c = t.hasCreature();
 		if (c != null) {
 			attack(c);
@@ -113,7 +113,8 @@ public class Creature extends Entity implements Dynamic {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord + 1);
 				t.addItem(this);
-				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				map.setPoint(new Point(xCoord, yCoord + 1), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
 				return true;
 			}
 		}
@@ -124,7 +125,7 @@ public class Creature extends Entity implements Dynamic {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
-		Tile t = map.getPoint(new Point(xCoord, yCoord - 1));
+		Tile t = (map.getPoint(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord - 1));
 		Creature c = t.hasCreature();
 		if (c != null) {
 			attack(c);
@@ -132,7 +133,8 @@ public class Creature extends Entity implements Dynamic {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord - 1);
 				t.addItem(this);
-				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				map.setPoint(new Point(xCoord, yCoord - 1), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
 				return true;
 			}
 		}
@@ -143,15 +145,16 @@ public class Creature extends Entity implements Dynamic {
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
-		Tile t = map.getPoint(new Point(xCoord - 1, yCoord));
+		Tile t = (map.getPoint(new Point(xCoord - 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord - 1, yCoord));
 		Creature c = t.hasCreature();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
-				super.setY(xCoord - 1);
+				super.setX(xCoord - 1);
 				t.addItem(this);
-				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				map.setPoint(new Point(xCoord - 1, yCoord), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
 				return true;
 			}
 		}
@@ -162,15 +165,16 @@ public class Creature extends Entity implements Dynamic {
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
-		Tile t = map.getPoint(new Point(xCoord + 1, yCoord));
+		Tile t = (map.getPoint(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord + 1, yCoord));
 		Creature c = t.hasCreature();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
-				super.setY(xCoord + 1);
+				super.setX(xCoord + 1);
 				t.addItem(this);
-				map.getPoint(new Point(xCoord, yCoord)).removeItem(this);
+				map.setPoint(new Point(xCoord + 1, yCoord), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
 				return true;
 			}
 		}

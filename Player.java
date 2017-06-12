@@ -7,14 +7,28 @@ public class Player extends Creature implements Dynamic {
 	private double weightCarried, maxWeight;
 	
 
-	public Player(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
+	public Player(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int mH, double hM, double armM,
 			double atkM, int dH, int s, int d, int in, int pe) {
-		super(ge, i, c, n, tags, x, y, p, h, armV, mH, hM, armM, atkM, dH);
+		super(ge, i, c, n, tags, x, y, p, h, 0, mH, hM, armM, atkM, dH);
 		// TODO Auto-generated constructor stub
 		strength = s;
 		dexterity = d;
 		intelligence = in;
 		perception = pe;
+		maxWeight = 20 + 2 * strength;
+		hunger = 0;
+		volumeCarried = 0;
+		weightCarried = 0;
+	}
+	
+	public Player(Game ge, int x, int y) {
+		super(ge, '@', Color.WHITE, "player", null, x, y, false, 100, 0, 100, 1, 1, 1, 0);
+		strength = 8;
+		dexterity = 8;
+		intelligence = 8;
+		perception = 8;
+		weightCarried = 0;
+		volumeCarried = 0;
 		maxWeight = 20 + 2 * strength;
 		hunger = 0;
 	}
