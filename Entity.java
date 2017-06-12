@@ -23,6 +23,9 @@ public abstract class Entity {
 	}
 	
 	public boolean hasTag(String str) {
+		if (tags == null) {
+			return false;
+		}
 		for(String lol : tags) {
 			if(str.equals(lol)) return true;
 		}
