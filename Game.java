@@ -30,9 +30,16 @@ public class Game {
 		camera.y = 0;
 		map = new WorldMap(this, panelCol, panelRow, camera, panelCol * panelRow);
 		genForest(0, 0, panelCol, panelRow);
-		player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
+		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
-				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);
+				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
+		player = new Player(this, 0, 0);
+		dynamic = new ArrayList<Dynamic>();
+		dynamic.add(player);
+		
+		ArrayList<Entity> items = new ArrayList<Entity>();
+		items.add(player);
+		map.setPoint(new Point(0, 0), new Tile(this.bush, items));
 	}
 	
 	public WorldMap getMap() {

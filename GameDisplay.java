@@ -38,10 +38,6 @@ public class GameDisplay extends JFrame {
 		super(title);
 		
 		Game game = new Game(80, 80);
-		ArrayList<Entity> n = new ArrayList<Entity>();
-		game.setPlayer(new Player(game, 0, 0));
-		n.add(game.getPlayer());
-		game.getMap().setPoint(new Point(0, 0), new Tile(game.bush, n));
 		GraphicsPanel graphicsPanel = new GraphicsPanel(game.getMap());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,6 +47,7 @@ public class GameDisplay extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "MOVE_UP");
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "MOVE_DOWN");
 		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "MOVE_LEFT");
