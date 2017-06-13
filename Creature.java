@@ -57,8 +57,9 @@ public class Creature extends Entity implements Dynamic {
 		return false;
 	}
 
-	public void hit(int d, Item w, Creature c) {
-		int dInit = d;
+	public void hit(double d, Item w, Creature c) {
+		System.out.println(super.getName()  + ": incoming hit for " + d + " damage");
+		double dInit = d;
 		double tA = armorVal * armorMod;
 		// int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(),
 		// 0.926);
@@ -80,7 +81,7 @@ public class Creature extends Entity implements Dynamic {
 		if (w.hasTag("cutting")) {
 			d *= 1.5;
 			if (d - 10 > 0)
-				dHealth = -1 * (d - 10);
+				dHealth = (int)Math.round(-1 * (d - 10));
 		}
 		if (w.hasTag("piercing") && d > 0) {
 			double target = (double) d / dInit;
@@ -89,17 +90,19 @@ public class Creature extends Entity implements Dynamic {
 		}
 		d = (d > 0) ? d : 0;
 		health -= d;
+		System.out.println(super.getName() + " was hit for " + d + " damage");
 	}
 
 	public void attack(Creature c) {
+		System.out.println(super.getName() + " attacked " + c.getName());
 		if (weapon instanceof Weapon) {
-			int d = (int) (((Weapon) weapon).getAttackMod() * weapon.getDamage());
+			double d = (((Weapon) weapon).getAttackMod() * weapon.getDamage());
 			c.hit(d, weapon, this);
-			int red = (int) Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
+			double red = Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
 			if (d - red <= 0)
 				weapon.setDurability(weapon.getDurability() - 1);
 		} else {
-			int d = (int) weapon.getDamage();
+			double d = weapon.getDamage();
 			c.hit(d, weapon, this);
 		}
 	}
