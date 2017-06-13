@@ -19,7 +19,7 @@ public class Game {
 	public static final double DEF_ARMOR_MOD = 1;
 	public static final double DEF_ATTACK_MOD = 1;
 	public static final int DEF_D_HEALTH = 0;
-	public static final int DEF_STREANGTH = 8;
+	public static final int DEF_STRENGTH = 8;
 	public static final int DEF_DEXTERITY = 8;
 	public static final int DEF_INTELLIGENCE = 8;
 	public static final int DEF_PERCEPTION = 8;
