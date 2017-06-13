@@ -32,6 +32,7 @@ public class NPC extends Creature {
 	}
 	
 	public void update() {
+		super.update();
 		int playerX = super.getGame().getPlayer().getX();
 		int playerY = super.getGame().getPlayer().getY();
 		double d = Game.dist(super.getX(), super.getY(), playerX, playerY);

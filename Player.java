@@ -35,6 +35,7 @@ public class Player extends Creature {
 	
 	@Override
 	public void update() {
+		super.update();
 		hunger++;
 		maxWeight = 20 + 2 * strength;
 		if(weightCarried > maxWeight && super.getDelay() == 0) {
