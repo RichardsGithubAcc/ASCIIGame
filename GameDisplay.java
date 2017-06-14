@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,10 +32,10 @@ public class GameDisplay extends JFrame {
 	public GameDisplay(String title) {
 		super(title);
 		
-		Game game = new Game(80, 80);
+		Game game = new Game(80, 80, this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(10, 10, 1500, 1000);
+		setBounds(300, 10, 1000, 800);
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,26 +50,21 @@ public class GameDisplay extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		contentPane.add(buttonPanel, BorderLayout.NORTH);
 		
-		// east panel
-		JPanel eastPanel = new JPanel();
-		contentPane.add(eastPanel, BorderLayout.EAST);
-		eastPanel.setPreferredSize(new Dimension(150,800));
-		
 		/*
 		 * inventory panel
 		 */
 		InventoryPanel inventoryPanel = new InventoryPanel(game);
-		eastPanel.add(inventoryPanel);
+		contentPane.add(inventoryPanel, BorderLayout.EAST);
 		
 		/*
-		 * button for quit
+		 * button for reset
 		 */
-		JButton quitButton = new JButton("Quit");
+		JButton quitButton = new JButton("Reset");
 		buttonPanel.add(quitButton);
 		quitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				
 			}
 					
 		});

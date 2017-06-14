@@ -14,7 +14,12 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class InventoryPanel extends JPanel {
 
@@ -26,6 +31,7 @@ public class InventoryPanel extends JPanel {
 	private JComboBox<String> armsDropdown;
 	private JComboBox<String> legsDropdown;
 	private JComboBox<String> feetDropdown;
+	private JTextArea textArea;
 	
 	public InventoryPanel(Game game) {
 
@@ -38,7 +44,7 @@ public class InventoryPanel extends JPanel {
 		JLabel handsLabel = new JLabel("Hands");
 		add(handsLabel);
         handsDropdown = new JComboBox<String>();
-        handsDropdown.setPreferredSize(new Dimension(100,20));
+        handsDropdown.setPreferredSize(new Dimension(30,20));
 
     	handsDropdown.addActionListener(new ActionListener() {
 			@Override
@@ -52,7 +58,7 @@ public class InventoryPanel extends JPanel {
 		JLabel headLabel = new JLabel("Head");
 		add(headLabel);
         headDropdown = new JComboBox<String>();
-        headDropdown.setPreferredSize(new Dimension(100,20));
+        headDropdown.setPreferredSize(new Dimension(30,20));
 
     	headDropdown.addActionListener(new ActionListener() {
 			@Override
@@ -66,7 +72,7 @@ public class InventoryPanel extends JPanel {
 		JLabel torsoLabel = new JLabel("Torso");
 		add(torsoLabel);
         torsoDropdown = new JComboBox<String>();
-        torsoDropdown.setPreferredSize(new Dimension(100,20));
+        torsoDropdown.setPreferredSize(new Dimension(30,20));
 
     	torsoDropdown.addActionListener(new ActionListener() {
 			@Override
@@ -80,7 +86,7 @@ public class InventoryPanel extends JPanel {
 		JLabel armsLabel = new JLabel("Arms");
 		add(armsLabel);
         armsDropdown = new JComboBox<String>();
-        armsDropdown.setPreferredSize(new Dimension(100,20));
+        armsDropdown.setPreferredSize(new Dimension(30,20));
 
     	armsDropdown.addActionListener(new ActionListener() {
 			@Override
@@ -94,7 +100,7 @@ public class InventoryPanel extends JPanel {
 		JLabel legsLabel = new JLabel("Legs");
 		add(legsLabel);
         legsDropdown = new JComboBox<String>();
-        legsDropdown.setPreferredSize(new Dimension(100,20));
+        legsDropdown.setPreferredSize(new Dimension(30,20));
 
     	torsoDropdown.addActionListener(new ActionListener() {
 			@Override
@@ -108,7 +114,7 @@ public class InventoryPanel extends JPanel {
 		JLabel feetLabel = new JLabel("Feet");
 		add(feetLabel);
         feetDropdown = new JComboBox<String>();
-        feetDropdown.setPreferredSize(new Dimension(100,20));
+        feetDropdown.setPreferredSize(new Dimension(30,20));
 
     	feetDropdown.addActionListener(new ActionListener() {
 			@Override
@@ -118,6 +124,22 @@ public class InventoryPanel extends JPanel {
 			
 		});
     	add(feetDropdown);
+    	
+    	JLabel emptyLabel = new JLabel("           ");
+    	JLabel progressLabel = new JLabel("Game Progress");
+    	add(emptyLabel);
+		add(progressLabel);
+		
+		textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setColumns(15);
+		textArea.setRows(80);
+		textArea.setEditable(false);
+	
+		JScrollPane scroll = new JScrollPane(textArea);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		setBorder (new EmptyBorder(5, 5, 5, 5));		
+		add(scroll);
 	}
 
 
@@ -141,7 +163,14 @@ public class InventoryPanel extends JPanel {
 		    	handsDropdown.addItem(item.getName());
 		    } 
 		}
-
+		
+		ArrayList<String> progress = game.getProgress();
+		
+        while (!progress.isEmpty()) {
+        	String event = progress.remove(0);
+        	event  = event + "\n";
+        	textArea.append(event);
+        }
 	}
 
  

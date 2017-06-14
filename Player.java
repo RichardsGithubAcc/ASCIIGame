@@ -64,6 +64,7 @@ public class Player extends Creature {
 			double d = (super.getWeapon().getDamage() * strM);
 			c.hit(d, super.getWeapon(), this);
 		}
+		super.getGame().updateProgress();
 	}
 
 	/**

@@ -96,6 +96,7 @@ public class Creature extends Entity implements Dynamic {
 		d = (d > 0) ? d : 0;
 		health -= d;
 		super.getGame().addProgress(super.getName() + " was hit for " + d + " damage");
+		super.getGame().updateProgress();
 	}
 
 	public void attack(Creature c) {
@@ -110,6 +111,7 @@ public class Creature extends Entity implements Dynamic {
 			double d = weapon.getDamage();
 			c.hit(d, weapon, this);
 		}
+		super.getGame().updateProgress();
 	}
 
 	public boolean moveUp() {

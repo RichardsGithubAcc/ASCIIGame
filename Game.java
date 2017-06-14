@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.awt.Point;
+import javax.swing.JFrame;
 
 public class Game {
 
@@ -9,6 +10,7 @@ public class Game {
 	private WorldMap map;
 	private Player player;
 	private ArrayList<String> progress;
+	private JFrame frame;
 	
 	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
 	public final Terrain tree = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
@@ -31,7 +33,8 @@ public class Game {
 	public static final int DEF_PERCEPTION = 8;
 
 	
-	public Game(int panelCols, int panelRows) {
+	public Game(int panelCols, int panelRows, JFrame frame) {
+		this.frame = frame;
 		Point camera = new Point();
 		camera.x = 0;
 		camera.y = 0;	
@@ -76,6 +79,10 @@ public class Game {
 		return progress;
 	}
 	
+	public void updateProgress() {
+		frame.repaint();
+	}
+	
 	public void update() {
 		map.setCamera(new Point(player.getX(), player.getY()));
 		if (dynamic != null) {
@@ -83,7 +90,6 @@ public class Game {
 				d.update();
 			}
 		}
-		System.out.println(progress);
 	}
 	
 	public static double dist(int x1, int y1, int x2, int y2) {
