@@ -15,7 +15,7 @@ public class Game {
 	public final NPC ZOMBIE = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true);
 	public final Terrain wall = new Terrain(this, 'W', new Color(255, 255, 0), "wall", null, 0, 0, false, 0);
 	public final Terrain floor = new Terrain(this, 'F', new Color(128, 128, 128), "floor", null, 0, 0, true, 0);
-	public final Door door = new Door(this, '|', new Color(0, 191,255), "door", null, 0, 0, false, 0, 1, 0, 2);
+	public final Door door = new Door(this, '|', new Color(0, 191,255), "door", null, 0, 0, false, 0, 1, "key: 0", 2);
 	
 	public static final int DEF_HEALTH = 100;
 	public static final int DEF_MAX_HEALTH = 100;
@@ -79,8 +79,8 @@ public class Game {
 	}
 
 	public void genForest(int x1, int y1, int x2, int y2) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
+		for (int x = (int) (x1 - Math.random() * 10); x < x2 + Math.random() * 10; x++) {
+			for (int y = (int) (y1 - Math.random() * 10); y < y2 + Math.random() * 10; y++) {
 				if (Math.random() < 0.3) {
 					map.setPoint(new Point(x, y), new Tile(new Terrain(tree)));
 					
@@ -122,18 +122,18 @@ public class Game {
 			newDoor.setStatus(Door.IS_OPEN);
 			newDoor.setIcon('O');
 			if (Math.random() < 0.5) {
-				int key = (int) (Math.random() * 100000000);
+				String key = "key: " + Math.random() * 100000000;
 				newDoor.setLock(key);
 			} else {
-				newDoor.setLock(0);
+				newDoor.setLock("key: 0");
 			}
 			
 		} else if (Math.random() < 0.67) {
 			newDoor.setStatus(Door.IS_CLOSED_WITHOUT_LOCK);
-			newDoor.setLock(0);
+			newDoor.setLock("key: 0");
 		} else {
 			newDoor.setStatus(Door.IS_CLOSED_WITH_LOCK);
-			int key = (int) (Math.random() * 100000000);
+			String key = "key: " + Math.random() * 100000000;
 			newDoor.setLock(key);
 		}
 		
