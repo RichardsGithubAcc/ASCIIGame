@@ -3,27 +3,25 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 public class Door extends Terrain implements Usable {
-	private int orientation; // "horizontal" or "vertical"
 	private String lock; // "key: #", 0 if door doesn't use lock
 	private int status;
+	private String direction;
 	
 	public static final int IS_OPEN = 1;
 	public static final int IS_CLOSED_WITHOUT_LOCK = 2;
 	public static final int IS_CLOSED_WITH_LOCK = 3;
 	
-	public static final int HORIZONTAL = 1;
-	public static final int VERTICAL = 2;
-	
-	public Door(Game ge,  char i, Color c, String n, String[] tags, int x, int y, boolean p, int mM, int o, String l, int s) {
-		super(ge, (p) ? '|' : 'O', c, n, tags, x, y, p, mM);
-		orientation = o;
+	public Door(Game ge, Color c, String n, String[] tags, int x, int y, boolean p, int mM, String dir, String l, int s) {
+		
+		super(ge, (p) ? 'O' : ((dir.equalsIgnoreCase("south") || dir.equalsIgnoreCase("north"))? '=' : '|'), c, n, tags, x, y, p, mM);
+		direction = dir;
 		lock = l;
 		status = s;
 	}
 	
 	public Door(Door d) {
 		super(d.getGame(), d.getIcon(), d.getColor(), d.getName(), d.getTags(), d.getX(), d.getY(), d.isPassable(), d.getMoveMod());
-		orientation = d.getOrientation(); lock = d.getLock(); status = d.status;
+		direction = d.getDirection(); lock = d.getLock(); status = d.status;
 	}
 	public int getStatus() {
 		return status;
@@ -33,12 +31,12 @@ public class Door extends Terrain implements Usable {
 		this.status = status;
 	}
 	
-	public int getOrientation() {
-		return orientation;
+	public String getDirection() {
+		return direction;
 	}
 	
-	public void setOrientation(int orientation) {
-		this.orientation = orientation;
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 	
 	public String getLock() {
@@ -74,6 +72,11 @@ public class Door extends Terrain implements Usable {
 				super.setPassable(false);
 			}
 		}
+		if (direction.equalsIgnoreCase("south") || direction.equalsIgnoreCase("north")) {
+			super.setIcon('=');
+		} else {
+			super.setIcon('|');
+		}
 	}
 		
 	public boolean open(String key) {
@@ -83,15 +86,16 @@ public class Door extends Terrain implements Usable {
 		} else {
 			status = IS_OPEN;
 			super.setPassable(true);
+			super.setIcon('O');
 			return true;
 		}
 	}
 
 	@Override
 	public void use() {	
-		if(orientation == 1) {//horizontal
-			Creature c = super.getGame().getMap().getPoint(new Point(super.getX() + 1, super.getY())).hasCreature();
-			Creature c2 = super.getGame().getMap().getPoint(new Point(super.getX() - 1, super.getY())).hasCreature();
+		if(direction.equalsIgnoreCase("south") || direction.equalsIgnoreCase("north")) {//horizontal
+			Creature c = super.getGame().getMap().getPoint(new Point(super.getX(), super.getY() + 1)).hasCreature();
+			Creature c2 = super.getGame().getMap().getPoint(new Point(super.getX(), super.getY() - 1)).hasCreature();
 			ArrayList<Item> in = c.getInventory();
 			for(Item i : in) {
 				if(i.getTags() != null) {
@@ -110,9 +114,9 @@ public class Door extends Terrain implements Usable {
 			}
 		}
 		
-		if(orientation == 2) {//vertical
-			Creature c = super.getGame().getMap().getPoint(new Point(super.getX(), super.getY() + 1)).hasCreature();
-			Creature c2 = super.getGame().getMap().getPoint(new Point(super.getX(), super.getY() - 1)).hasCreature();
+		if(direction.equalsIgnoreCase("east") || direction.equalsIgnoreCase("west"))  {//vertical
+			Creature c = super.getGame().getMap().getPoint(new Point(super.getX() + 1, super.getY())).hasCreature();
+			Creature c2 = super.getGame().getMap().getPoint(new Point(super.getX() - 1, super.getY())).hasCreature();
 			ArrayList<Item> in = c.getInventory();
 			for(Item i : in) {
 				if(i.getTags() != null) {

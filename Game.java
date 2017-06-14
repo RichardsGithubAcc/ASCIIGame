@@ -13,9 +13,9 @@ public class Game {
 	public final Terrain tree = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
 	public final Terrain bush = new Terrain(this, '#', new Color(0, 200, 0), "bush", null, 0, 0, true, 1);
 	public final NPC ZOMBIE = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true);
-	public final Terrain wall = new Terrain(this, 'W', new Color(255, 255, 0), "wall", null, 0, 0, false, 0);
-	public final Terrain floor = new Terrain(this, 'F', new Color(128, 128, 128), "floor", null, 0, 0, true, 0);
-	public final Door door = new Door(this, '|', new Color(0, 191,255), "door", null, 0, 0, false, 0, 1, "key: 0", 2);
+	public final Terrain wall = new Terrain(this, 'W', new Color(100, 56, 0), "wall", null, 0, 0, false, 0);
+	public final Terrain floor = new Terrain(this, '-', new Color(155, 108, 0), "floor", null, 0, 0, true, 0);
+	public final Door door = new Door(this, new Color(114, 114, 114), "door", null, 0, 0, false, 0, "east", "key: 0", 2);
 	
 	public static final int DEF_HEALTH = 100;
 	public static final int DEF_MAX_HEALTH = 100;
@@ -33,10 +33,10 @@ public class Game {
 	public Game(int panelCols, int panelRows) {
 		Point camera = new Point();
 		camera.x = 0;
-		camera.y = 0;
+		camera.y = 0;	
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
 		genForest(0, 0, panelCols, panelRows);
-		buildHouse(-30, -30, 20, 40, "north");
+		buildHouse(-30, -30, 13, 21, "east");
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
@@ -110,11 +110,10 @@ public class Game {
 			}
 		}
 		Door newDoor = new Door(door);
-		if (Math.random() < 0.5) {
-			newDoor.setOrientation(Door.HORIZONTAL);
+		newDoor.setDirection(direction);
+		if (direction.equalsIgnoreCase("north") || direction.equalsIgnoreCase("south")) {
 			newDoor.setIcon('=');
 		} else {
-			newDoor.setOrientation(Door.HORIZONTAL);
 			newDoor.setIcon('|');
 		}
 		
@@ -138,7 +137,7 @@ public class Game {
 		}
 		
 		Tile tile = new Tile(newDoor);
-		switch (direction) {
+		switch (direction.toLowerCase()) {
 		case "north":
 			map.setPoint(new Point(x + width/2, y + length -1), tile);
 			break;
