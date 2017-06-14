@@ -87,6 +87,11 @@ public class Game {
 		}
 	}
 	
+	public void kill(Dynamic c) {
+		for(int i  = 0; i < dynamic.size(); i++) {
+			if(dynamic.get(i) == c) dynamic.remove(i);
+		}
+	}
 	
 	public ArrayList<Dynamic> getDynamic() {
 		return dynamic;
