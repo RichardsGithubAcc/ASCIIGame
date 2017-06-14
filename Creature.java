@@ -14,6 +14,7 @@ public class Creature extends Entity implements Dynamic {
 	private ArrayList<Item> inventory;
 	private Clothing arms, legs, torso, head, feet, hands;
 	private Item weapon;
+	private ArrayList<String> gameProgress;
 
 	public Creature(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH,
 			double hM, double armM, double atkM, int dH) {
@@ -27,6 +28,9 @@ public class Creature extends Entity implements Dynamic {
 		attackMod = atkM;
 		dHealth = dH;
 		weapon = new Item(ge, 'f', null, "fist", null, x, y, true, 0, 0, -1, -1, 5);
+		inventory = new ArrayList<Item>();
+		inventory.add(weapon);
+		gameProgress = new ArrayList<String>();
 	}
 
 	@Override
@@ -59,6 +63,7 @@ public class Creature extends Entity implements Dynamic {
 
 	public void hit(double d, Item w, Creature c) {
 		System.out.println(super.getName()  + ": incoming hit for " + d + " damage");
+		gameProgress.add(super.getName()  + ": incoming hit for " + d + " damage");
 		double dInit = d;
 		double tA = armorVal * armorMod;
 		// int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(),
@@ -91,6 +96,7 @@ public class Creature extends Entity implements Dynamic {
 		d = (d > 0) ? d : 0;
 		health -= d;
 		System.out.println(super.getName() + " was hit for " + d + " damage");
+		gameProgress.add(super.getName() + " was hit for " + d + " damage");
 	}
 
 	public void attack(Creature c) {

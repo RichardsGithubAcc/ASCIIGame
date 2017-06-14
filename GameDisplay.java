@@ -1,13 +1,8 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JButton;
@@ -15,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
-
 
 public class GameDisplay extends JFrame {
 
@@ -38,40 +32,43 @@ public class GameDisplay extends JFrame {
 		super(title);
 		
 		Game game = new Game(80, 80);
-		GraphicsPanel graphicsPanel = new GraphicsPanel(game.getMap());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(300, 0, 1000, 1000);
+		setBounds(10, 10, 1500, 1000);
 
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "MOVE_UP");
-		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "MOVE_DOWN");
-		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "MOVE_LEFT");
-		contentPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "MOVE_RIGHT");
-		contentPane.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
-		contentPane.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
-		contentPane.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
-		contentPane.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer(), game));
-		
+		// graphicics panel
+		GraphicsPanel graphicsPanel = new GraphicsPanel(game.getMap());
 		contentPane.add(graphicsPanel, BorderLayout.CENTER);	
+
 		// button panel
 		JPanel buttonPanel = new JPanel();
 		contentPane.add(buttonPanel, BorderLayout.NORTH);
-							
+		
+		// east panel
+		JPanel eastPanel = new JPanel();
+		contentPane.add(eastPanel, BorderLayout.EAST);
+		eastPanel.setPreferredSize(new Dimension(150,800));
+		
 		/*
-		 * button to open inventory
+		 * inventory panel
 		 */
-		InventoryDisplay inventoryDisplay = InventoryDisplay.getInstance();
-		JButton inventoryButton = new JButton("Inventory");
-		buttonPanel.add(inventoryButton);
-		inventoryButton.addActionListener(new ActionListener() {
+		InventoryPanel inventoryPanel = new InventoryPanel(game);
+		eastPanel.add(inventoryPanel);
+		
+		/*
+		 * button for quit
+		 */
+		JButton quitButton = new JButton("Quit");
+		buttonPanel.add(quitButton);
+		quitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inventoryDisplay.createWindow(game);
+				System.exit(0);
 			}
 					
 		});
@@ -103,21 +100,18 @@ public class GameDisplay extends JFrame {
 			}
 					
 		});
-
-			
-		/*
-		 * quit button
-		 */
-		JButton quitButton = new JButton("Quit");
-		buttonPanel.add(quitButton);
-		quitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-					
-		});
-				
+		
+		// button for keyboard
+		JButton keyboard = new JButton("Keyboard");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("UP"), "MOVE_UP");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("DOWN"), "MOVE_DOWN");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("LEFT"), "MOVE_LEFT");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("RIGHT"), "MOVE_RIGHT");
+		keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
+		keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
+		keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
+		keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer(), game));
+		buttonPanel.add(keyboard);
 				
 	}
 	
