@@ -50,11 +50,11 @@ public class Player extends Creature {
 	}
 	
 	public void attack(Creature c) {
-		System.out.println(super.getName() + " attacked " + c.getName() + " with a weapon that has " + super.getWeapon().getDamage() + " damage");
+		super.getGame().addProgress(super.getName() + " attacked " + c.getName() + " with a weapon that has " + super.getWeapon().getDamage() + " damage");
 		if(super.getWeapon() instanceof Weapon) {
 			double strM = ((((double)strength)/10) + 1)/2;
 			double d = (((Weapon)super.getWeapon()).getAttackMod() * super.getWeapon().getDamage() * strM);
-			System.out.println(super.getName() + " " + d);
+			super.getGame().addProgress(super.getName() + " " + d);
 			c.hit(d, super.getWeapon(), this);
 			double red = Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
 			if(d - red <= 0) super.getWeapon().setDurability(super.getWeapon().getDurability() - 1);

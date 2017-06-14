@@ -8,6 +8,7 @@ public class Game {
 	private ArrayList<Dynamic> dynamic = new ArrayList<Dynamic>();
 	private WorldMap map;
 	private Player player;
+	private ArrayList<String> progress;
 	
 	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
 	public final Terrain tree = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
@@ -48,6 +49,8 @@ public class Game {
 		items.add(player);
 		map.setPoint(new Point(0, 0), new Tile(this.bush, items));
 		map.setPoint(new Point(-10, -10), new Tile(this.bush, (Entity)this.ZOMBIE));
+		
+		progress = new ArrayList<String>();
 	}
 	
 	public WorldMap getMap() {
@@ -65,6 +68,14 @@ public class Game {
 		this.player = player;
 	}
 
+	public void addProgress(String report) {
+		progress.add(report);
+	}
+	
+	public ArrayList<String> getProgress() {
+		return progress;
+	}
+	
 	public void update() {
 		map.setCamera(new Point(player.getX(), player.getY()));
 		if (dynamic != null) {
@@ -72,6 +83,7 @@ public class Game {
 				d.update();
 			}
 		}
+		System.out.println(progress);
 	}
 	
 	public static double dist(int x1, int y1, int x2, int y2) {
