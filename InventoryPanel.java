@@ -1,16 +1,12 @@
-import java.awt.BorderLayout;
+
 import javax.swing.BoxLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,17 +14,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
 public class InventoryPanel extends JPanel {
 
 	private Game game;
-	
-	private JComboBox<String> handsDropdown;
+	private JComboBox<String> holdingDropdown;	
 	private JComboBox<String> headDropdown;
-	private JComboBox<String> torsoDropdown;
 	private JComboBox<String> armsDropdown;
+	private JComboBox<String> handsDropdown;
+	private JComboBox<String> torsoDropdown;
 	private JComboBox<String> legsDropdown;
 	private JComboBox<String> feetDropdown;
 	private JTextArea textArea;
@@ -39,50 +33,41 @@ public class InventoryPanel extends JPanel {
 		hardCoded();
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		setName("Inventory");
-	
-		JLabel handsLabel = new JLabel("Hands");
-		add(handsLabel);
-        handsDropdown = new JComboBox<String>();
-        handsDropdown.setPreferredSize(new Dimension(30,20));
 
-    	handsDropdown.addActionListener(new ActionListener() {
+		JLabel inventoryLabel = new JLabel("Inventory");
+		JLabel emptyLabel = new JLabel(" ");
+		add(inventoryLabel);
+		add(emptyLabel);
+		
+		JLabel holdingLabel = new JLabel("Holding");
+		add(holdingLabel);
+		
+        holdingDropdown = new JComboBox<String>();
+        holdingDropdown.setPreferredSize(new Dimension(30,20));
+
+    	holdingDropdown.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleSelectedEvent(e);
+				holdingDropdownEvent(e);
 			}
 			
 		});
-    	add(handsDropdown);
-	
+    	add(holdingDropdown);
+  
 		JLabel headLabel = new JLabel("Head");
 		add(headLabel);
         headDropdown = new JComboBox<String>();
         headDropdown.setPreferredSize(new Dimension(30,20));
-
+        
     	headDropdown.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleSelectedEvent(e);
+				headDropdownEvent(e);
 			}
 			
 		});
     	add(headDropdown);
     
-		JLabel torsoLabel = new JLabel("Torso");
-		add(torsoLabel);
-        torsoDropdown = new JComboBox<String>();
-        torsoDropdown.setPreferredSize(new Dimension(30,20));
-
-    	torsoDropdown.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				handleSelectedEvent(e);
-			}
-			
-		});
-    	add(torsoDropdown);
-
 		JLabel armsLabel = new JLabel("Arms");
 		add(armsLabel);
         armsDropdown = new JComboBox<String>();
@@ -91,21 +76,48 @@ public class InventoryPanel extends JPanel {
     	armsDropdown.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleSelectedEvent(e);
+				armsDropdownEvent(e);
 			}
 			
 		});
     	add(armsDropdown);
     	
-		JLabel legsLabel = new JLabel("Legs");
-		add(legsLabel);
-        legsDropdown = new JComboBox<String>();
-        legsDropdown.setPreferredSize(new Dimension(30,20));
+		JLabel handsLabel = new JLabel("Hands");
+		add(handsLabel);
+        handsDropdown = new JComboBox<String>();
+        handsDropdown.setPreferredSize(new Dimension(30,20));
+
+    	handsDropdown.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				handsDropdownEvent(e);
+			}
+			
+		});
+    	add(handsDropdown);
+    	
+		JLabel torsoLabel = new JLabel("Torso");
+		add(torsoLabel);
+        torsoDropdown = new JComboBox<String>();
+        torsoDropdown.setPreferredSize(new Dimension(30,20));
 
     	torsoDropdown.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleSelectedEvent(e);
+				torsoDropdownEvent(e);
+			}
+			
+		});
+    	add(torsoDropdown);
+  	
+		JLabel legsLabel = new JLabel("Legs");
+		add(legsLabel);
+        legsDropdown = new JComboBox<String>();
+        legsDropdown.setPreferredSize(new Dimension(30,20));
+    	legsDropdown.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				legsDropdownEvent(e);
 			}
 			
 		});
@@ -119,15 +131,15 @@ public class InventoryPanel extends JPanel {
     	feetDropdown.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				handleSelectedEvent(e);
+				feetDropdownEvent(e);
 			}
 			
 		});
     	add(feetDropdown);
     	
-    	JLabel emptyLabel = new JLabel("           ");
+    	JLabel emptyLabel2 = new JLabel(" ");
     	JLabel progressLabel = new JLabel("Game Progress");
-    	add(emptyLabel);
+    	add(emptyLabel2);
 		add(progressLabel);
 		
 		textArea = new JTextArea();
@@ -148,19 +160,19 @@ public class InventoryPanel extends JPanel {
 		Graphics2D g2 = (Graphics2D)g;
 		super.paintComponent(g2);
 		
-		handsDropdown.removeAllItems();
+		holdingDropdown.removeAllItems();
 		
 		Player player = game.getPlayer();
 		ArrayList<Item> inventory = player.getInventory();
 
 		String name = player.getWeapon().getName();
 
-		handsDropdown.addItem(name);
+		holdingDropdown.addItem(name);
 			
 		for (Item item: inventory) {
 		
 		    if (item.getName() != name) {
-		    	handsDropdown.addItem(item.getName());
+		    	holdingDropdown.addItem(item.getName());
 		    } 
 		}
 		
@@ -174,11 +186,9 @@ public class InventoryPanel extends JPanel {
 	}
 
  
-    
-	private void handleSelectedEvent(ActionEvent event) {
+	private void holdingDropdownEvent(ActionEvent event) {
 		
-		
-		String name =  (String)handsDropdown.getSelectedItem();
+		String name =  (String)holdingDropdown.getSelectedItem();
 		Player player = game.getPlayer();
 
 		ArrayList<Item> inventory = player.getInventory();
@@ -189,6 +199,31 @@ public class InventoryPanel extends JPanel {
 	    	} 
 	    }
 	}
+	
+	private void headDropdownEvent(ActionEvent event) {
+
+	}
+	
+	private void armsDropdownEvent(ActionEvent event) {
+
+	}
+
+	private void handsDropdownEvent(ActionEvent event) {
+
+	}
+	
+	private void torsoDropdownEvent(ActionEvent event) {
+
+	}
+	
+	private void legsDropdownEvent(ActionEvent event) {
+
+	}
+	
+	private void feetDropdownEvent(ActionEvent event) {
+
+	}
+
 	
 	// test code, will be removed
 	private void hardCoded() {
