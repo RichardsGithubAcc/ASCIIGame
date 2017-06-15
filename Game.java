@@ -55,7 +55,7 @@ public class Game {
 		map.setPoint(new Point(-10, -10), new Tile(this.bush, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		
 		progress = new ArrayList<String>();
-		spawnHorde(-40, -40, 0, 0);
+		spawnHorde(-40, -40, -10, -10);
 		frame.repaint();
 	}
 	
