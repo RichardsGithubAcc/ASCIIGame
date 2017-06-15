@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class Terrain extends Entity{
+public class Terrain extends Entity implements Usable{
 	private int moveMod;
 	
 	public Terrain(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int mM) {
@@ -26,4 +26,7 @@ public class Terrain extends Entity{
 		this.moveMod = moveMod;
 	}
 	
+	public void use() {
+		super.getGame().addProgress("That is a " + super.getName());
+	}
 }

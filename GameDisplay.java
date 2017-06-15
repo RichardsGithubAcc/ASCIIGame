@@ -103,10 +103,12 @@ public class GameDisplay extends JFrame {
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("DOWN"), "MOVE_DOWN");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("LEFT"), "MOVE_LEFT");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("RIGHT"), "MOVE_RIGHT");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("E"), "EXAMINE");
 		keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer(), game));
+		keyboard.getActionMap().put("EXAMINE", new ExamineAction(0, game.getPlayer(), game, keyboard));
 		buttonPanel.add(keyboard);
 				
 	}
@@ -138,5 +140,58 @@ public class GameDisplay extends JFrame {
 		}
 	}
 	
+	public class ExamineAction extends AbstractAction {
+		int d;
+		Player p;
+		Game g;
+		JButton button;
+		
+		public ExamineAction(int dir, Player pl, Game g, JButton b) {
+			d = dir;
+			p = pl;
+			this.g = g;
+			button = b;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			button.getActionMap().put("MOVE_UP", new ExamineDirection(1, g.getPlayer(), g, button));
+			button.getActionMap().put("MOVE_LEFT", new ExamineDirection(2, g.getPlayer(), g, button));
+			button.getActionMap().put("MOVE_DOWN", new ExamineDirection(3, g.getPlayer(), g, button));
+			button.getActionMap().put("MOVE_RIGHT", new ExamineDirection(4, g.getPlayer(), g, button));
+			
+		}
+	}
 	
+	public class ExamineDirection extends AbstractAction {
+		int d;
+		Player p;
+		Game g;
+		JButton keyboard;
+		
+		public ExamineDirection(int dir, Player pl, Game g, JButton b) {
+			d = dir;
+			p = pl;
+			this.g = g;
+			keyboard = b;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			switch(d) {
+			case 1: p.examine(0, 1);
+				break;
+			case 2: p.examine(-1, 0);
+				break;
+			case 3: p.examine(0, -1);
+				break;
+			case 4: p.examine(1, 0);
+				break;
+			}
+			repaint();
+			g.update();
+			keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, g.getPlayer(), g));
+			keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, g.getPlayer(), g));
+			keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, g.getPlayer(), g));
+			keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, g.getPlayer(), g));
+		}
+	}
 }

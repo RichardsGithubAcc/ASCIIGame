@@ -41,6 +41,7 @@ public class Game {
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
 		genForest(0, 0, panelCols, panelRows);
 		buildHouse(-30, -30, 13, 21, "east");
+		spawnHorde(-40, -40, 0, 0);
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
@@ -93,19 +94,34 @@ public class Game {
 	}
 	
 	public static double dist(int x1, int y1, int x2, int y2) {
-		return (double)Math.round(Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
+		return (double)(Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
 	}
 
 	public void genForest(int x1, int y1, int x2, int y2) {
 		for (int x = (int) (x1 - Math.random() * 10); x < x2 + Math.random() * 10; x++) {
 			for (int y = (int) (y1 - Math.random() * 10); y < y2 + Math.random() * 10; y++) {
 				if (Math.random() < 0.3) {
-					map.setPoint(new Point(x, y), new Tile(new Terrain(tree)));
+					map.setPoint(new Point(x, y), new Tile(new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, x, y, false, 0)));
 					
 				} else {
 					if (Math.random() < 0.2)
-						map.setPoint(new Point(x, y), new Tile(new Terrain(bush)));
+						map.setPoint(new Point(x, y), new Tile(new Terrain(this, '#', new Color(0, 200, 0), "bush", null, x, y, true, 1)));
 
+				}
+			}
+		}
+	}
+	
+	public void spawnHorde(int x1, int x2, int y1, int y2) {
+		for(int x  = x1; x < x2; x++) {
+			for(int y = y1; y < y2; y++) {
+				if(Math.random() < 0.1) {
+					Tile tile = map.getPoint(new Point(x, y));
+					if(tile == null) {
+						map.setPoint(new Point(x, y), new Tile(null, (Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true))));
+					} else {
+						map.getPoint(new Point(x, y)).addItem((Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true)));
+					}
 				}
 			}
 		}
@@ -130,22 +146,22 @@ public class Game {
 		Door newDoor = new Door(door);
 		newDoor.setDirection(direction);
 		if (direction.equalsIgnoreCase("north") || direction.equalsIgnoreCase("south")) {
-			newDoor.setIcon('=');
+			newDoor.setIcon('_');
 		} else {
 			newDoor.setIcon('|');
 		}
 		
-		if (Math.random() < 0.33) {
+		if (Math.random() < 0) {
 			newDoor.setStatus(Door.IS_OPEN);
 			newDoor.setIcon('O');
-			if (Math.random() < 0.5) {
+			if (Math.random() < 0) {
 				String key = "key: " + Math.random() * 100000000;
 				newDoor.setLock(key);
 			} else {
 				newDoor.setLock("key: 0");
 			}
 			
-		} else if (Math.random() < 0.67) {
+		} else if (Math.random() < 1.1) {
 			newDoor.setStatus(Door.IS_CLOSED_WITHOUT_LOCK);
 			newDoor.setLock("key: 0");
 		} else {
@@ -175,6 +191,14 @@ public class Game {
 	
 	public ArrayList<Dynamic> getDynamic() {
 		return dynamic;
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 
 }

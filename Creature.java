@@ -63,7 +63,7 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	public void hit(double d, Item w, Creature c) {
-		super.getGame().addProgress(super.getName()  + ": incoming hit for " + d + " damage");
+		//super.getGame().addProgress(super.getName()  + ": incoming hit for " + d + " damage");
 		double dInit = d;
 		double tA = armorVal * armorMod;
 		// int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(),
@@ -95,12 +95,12 @@ public class Creature extends Entity implements Dynamic {
 		}
 		d = (d > 0) ? d : 0;
 		health -= d;
-		super.getGame().addProgress(super.getName() + " was hit for " + d + " damage");
+		super.getGame().addProgress(c.getName() + " attacked " + super.getName() + " for " + d + " damage");
 		super.getGame().updateProgress();
 	}
 
 	public void attack(Creature c) {
-		super.getGame().addProgress(super.getName() + " attacked " + c.getName());
+		//super.getGame().addProgress(super.getName() + " attacked " + c.getName());
 		if (weapon instanceof Weapon) {
 			double d = (((Weapon) weapon).getAttackMod() * weapon.getDamage());
 			c.hit(d, weapon, this);

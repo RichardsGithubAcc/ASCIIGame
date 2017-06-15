@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,6 +20,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+
 
 public class InventoryPanel extends JPanel {
 
@@ -37,7 +39,7 @@ public class InventoryPanel extends JPanel {
 
 		this.game = game;
 		hardCoded();
-		
+		setBounds(new Rectangle(200, 800));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		setName("Inventory");
 	
@@ -168,7 +170,7 @@ public class InventoryPanel extends JPanel {
 		
         while (!progress.isEmpty()) {
         	String event = progress.remove(0);
-        	event  = event + "\n";
+        	event  = event + "\n\n";
         	textArea.append(event);
         }
 	}
@@ -195,10 +197,10 @@ public class InventoryPanel extends JPanel {
 
 		Player player = game.getPlayer();
 		String[] tag = {}; 
-		Weapon w1 = new Weapon(game, 'g', Color.BLUE, "GUN", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,0,null);
-		Weapon w2 = new Weapon(game, 'p', Color.BLACK, "Pistol", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,0,null);
-		Weapon w3 = new Weapon(game, 'k', Color.WHITE, "Knife", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,0,null);
-		Weapon w4 = new Weapon(game, 's', Color.GRAY, "Stone", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,0,null);
+		Weapon w1 = new Weapon(game, 'g', Color.BLUE, "GUN", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
+		Weapon w2 = new Weapon(game, 'p', Color.BLACK, "Pistol", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
+		Weapon w3 = new Weapon(game, 'k', Color.WHITE, "Knife", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
+		Weapon w4 = new Weapon(game, 's', Color.GRAY, "Stone", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
 		
 		ArrayList<Item> inventory = player.getInventory();
 		if (inventory == null) {
