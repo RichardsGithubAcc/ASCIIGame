@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Point;
-import java.util.ArrayList;
 
 public class Player extends Creature {
 	private int hunger, volumeCarried, maxVolume;
