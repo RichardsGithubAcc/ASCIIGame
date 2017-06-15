@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
@@ -111,6 +112,15 @@ public class GameDisplay extends JFrame {
 		keyboard.getActionMap().put("EXAMINE", new ExamineAction(0, game.getPlayer(), game, keyboard));
 		buttonPanel.add(keyboard);
 				
+	}
+	
+	public void gameOver() {
+		JFrame death = new JFrame();
+		death.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		JLabel label = new JLabel("You died!");
+		death.add(label);
+		death.setBounds(700, 500, 150, 100);
+		death.setVisible(true);
 	}
 	
 	public class MoveAction extends AbstractAction {
