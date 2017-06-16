@@ -19,15 +19,6 @@ public class Item extends Entity implements Usable {
 		damage = dmg;
 	}
 	
-	public Item(Item origin) {
-		super(origin);
-		weight = origin.getWeight();
-		volume = origin.getVolume();
-		durability = origin.getDurability();
-		maxDurability = origin.getMaxDurability();
-		damage = origin.getDamage();
-	}
-	
 	
 	
 	/**

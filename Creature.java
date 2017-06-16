@@ -30,41 +30,6 @@ public class Creature extends Entity implements Dynamic {
 		inventory = new ArrayList<Item>();
 		inventory.add(holding);
 	}
-	
-	public Creature(Creature origin) {
-		super(origin);
-		health = origin.getHealth();
-		delay = origin.getDelay();
-		armorVal = origin.getArmorVal();
-		maxHealth = origin.getMaxHealth();
-		healthMod = origin.getHealthMod();
-		armorMod = origin.getArmorMod();
-		attackMod = origin.getAttackMod();
-		dHealth = origin.getdHealth();
-		
-		inventory =  new ArrayList<Item>();
-		holding = null;
-		ArrayList<Item> originInventory = origin.getInventory();
-		Item originHolding = origin.getHolding();
-	
-		if (originInventory != null) {	
-			for(Item item : originInventory) {
-				Item copyItem = new Item(item);
-				inventory.add(copyItem);
-				if (item == originHolding) {
-					holding = copyItem;
-				}
-			}
-		}
-		
-		arms = (origin.getArms() != null) ? new Clothing(origin.getArms()) : null;
-		legs = (origin.getLegs() != null) ? new Clothing(origin.getLegs()) : null;
-		torso = (origin.getTorso() != null) ? new Clothing(origin.getTorso()) : null;
-		head = (origin.getHead() != null) ? new Clothing(origin.getHead()) : null;
-		feet = (origin.getFeet() != null) ? new Clothing(origin.getFeet()) : null;
-		hands = (origin.getHands() != null) ? new Clothing(origin.getHands()) : null;
-
-	}
 
 	@Override
 	public void update() {
@@ -100,10 +65,8 @@ public class Creature extends Entity implements Dynamic {
 	}
 	
 	public void clearInventory() {
-		if (inventory != null ) {
-			while(inventory.size() > 0) {
-				inventory.remove(0);
-			}
+		while(inventory.size() > 0) {
+			inventory.remove(0);
 		}
 	}
 
@@ -245,7 +208,7 @@ public class Creature extends Entity implements Dynamic {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return the health
 	 */
@@ -388,7 +351,7 @@ public class Creature extends Entity implements Dynamic {
 	public void removeDelay(int e) {
 		delay -= e;
 	}
-	
+
 	/**
 	 * @return the arms
 	 */

@@ -246,13 +246,6 @@ public class InventoryPanel extends JPanel {
 	} 
 
 	public void reset() {
-		holdingDropdown.removeAllItems();
-		headDropdown.removeAllItems();
-		armsDropdown.removeAllItems();
-		handsDropdown.removeAllItems();
-		torsoDropdown.removeAllItems();
-		legsDropdown.removeAllItems();
-		feetDropdown.removeAllItems();
 		textArea.setText("");
 		genWeapons();
 	}
