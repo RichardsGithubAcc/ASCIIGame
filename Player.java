@@ -33,6 +33,20 @@ public class Player extends Creature {
 		hunger = 0;
 	}
 	
+	public Player(Player origin) {
+		super(origin);
+		hunger = origin.getHunger();
+		volumeCarried = origin.getVolumeCarried();
+		maxVolume = origin.getMaxVolume();
+		strength = origin.getStrength();
+		dexterity = origin.getDexterity();
+		intelligence = origin.getIntelligence();
+		perception = origin.getPerception();
+		weightCarried = origin.getWeightCarried();
+		maxWeight = origin.getMaxWeight();
+	
+	}
+	
 	@Override
 	public void update() {
 		super.update();

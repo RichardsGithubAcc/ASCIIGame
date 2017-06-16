@@ -23,6 +23,31 @@ public abstract class Entity {
 
 	}
 	
+	public Entity(Entity origin) {
+		
+		icon = origin.getIcon();
+		color = origin.getColor();
+		name = new String(origin.getName());
+		x = origin.getX();
+		y = origin.getY();
+		passable = origin.isPassable();
+		
+		String[] originTags = origin.getTags();
+		int size;
+		if (originTags != null && (size = originTags.length) > 0) {
+			
+			tags = new String[size];
+			for (int i = 0; i < size; i++) {
+				tags[i] = new String(originTags[i]);
+			}	
+		}
+		else {
+			tags = null;
+		}
+		
+		game = origin.getGame();
+	}
+	
 	public boolean hasTag(String str) {
 		if (tags == null) {
 			return false;

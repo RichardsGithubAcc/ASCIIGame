@@ -10,6 +10,12 @@ public class Clothing extends Item {
 		armorValue = aV;
 		this.slot = slot;
 	}
+	
+	public Clothing(Clothing origin) {
+		super(origin);
+		armorValue = origin.getArmorValue();
+		slot = origin.getSlot();
+	}
 
 	/**
 	 * @return the armorValue
