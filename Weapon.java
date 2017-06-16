@@ -15,6 +15,31 @@ public class Weapon extends Item {
 		this.ammo = lol;
 	}
 	
+	public Weapon(Weapon origin) {
+		super(origin);
+		accuracy = origin.getAccuracy();
+		range = origin.getRange();
+		attackMod = origin.getAttackMod();
+		
+		int size;
+		if (origin.getInventory() != null && (size = origin.getInventory().length) > 0) {
+			inventory = new Item[size];
+			for (int i = 0; i < size; i++) {
+				inventory[i] = origin.getInventory()[i];
+			}
+		} else {
+			inventory = null;
+		}
+		
+		ArrayList<String> originArmo = origin.getAmmo();
+		ammo = new ArrayList<String>();
+		if (originArmo != null) {
+			for (int i = 0; i < originArmo.size(); i++) {
+				ammo.add(new String(originArmo.get(i)));
+			}
+		}
+	}
+	
 	/**
 	 * @return the accuracy
 	 */

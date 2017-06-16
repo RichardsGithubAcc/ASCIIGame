@@ -12,7 +12,9 @@ import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
 public class GameDisplay extends JFrame {
-
+	private JButton keyboard;
+	private JFrame deathFrame;
+	
 	public static void main(String[]args) { 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -65,6 +67,15 @@ public class GameDisplay extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				game.reset();
 				inventoryPanel.reset();
+				keyboard.getActionMap().clear();
+				keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
+				keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
+				keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
+				keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer(), game));
+				keyboard.getActionMap().put("EXAMINE", new ExamineAction(0, game.getPlayer(), game, keyboard));
+				if (deathFrame != null) {
+					deathFrame.dispose();
+				}
 				repaint();
 			}
 					
@@ -99,7 +110,7 @@ public class GameDisplay extends JFrame {
 		});
 		
 		// button for keyboard
-		JButton keyboard = new JButton("Keyboard");
+		keyboard = new JButton("Keyboard");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("UP"), "MOVE_UP");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("DOWN"), "MOVE_DOWN");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("LEFT"), "MOVE_LEFT");
@@ -115,12 +126,12 @@ public class GameDisplay extends JFrame {
 	}
 	
 	public void gameOver() {
-		JFrame death = new JFrame();
-		death.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		deathFrame = new JFrame();
+		deathFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		JLabel label = new JLabel("You died!");
-		death.add(label);
-		death.setBounds(700, 500, 150, 100);
-		death.setVisible(true);
+		deathFrame.add(label);
+		deathFrame.setBounds(700, 500, 150, 100);
+		deathFrame.setVisible(true);
 	}
 	
 	public class MoveAction extends AbstractAction {
