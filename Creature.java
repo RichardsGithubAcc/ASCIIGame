@@ -13,7 +13,7 @@ public class Creature extends Entity implements Dynamic {
 	private int dHealth;
 	private ArrayList<Item> inventory;
 	private Clothing arms, legs, torso, head, feet, hands;
-	private Item weapon;
+	private Item holding;
 
 	public Creature(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH,
 			double hM, double armM, double atkM, int dH) {
@@ -26,9 +26,9 @@ public class Creature extends Entity implements Dynamic {
 		armorMod = armM;
 		attackMod = atkM;
 		dHealth = dH;
-		weapon = new Item(ge, 'f', null, "fist", null, x, y, true, 0, 0, -1, -1, 5);
+		holding = new Weapon(ge, 'f', null, "fist", null, x, y, true, 0, 0, -1, -1, 5, 0,0,1,null);
 		inventory = new ArrayList<Item>();
-		inventory.add(weapon);
+		inventory.add(holding);
 	}
 
 	@Override
@@ -47,12 +47,27 @@ public class Creature extends Entity implements Dynamic {
 			delay--;
 	}
 
+	public Item getFromInventory(String name) {
+		for (Item ownedItem : inventory) {
+			if (ownedItem.getName() == name) {
+				return ownedItem;
+			}
+		}
+		return null;
+	}
+	
 	public void addToInventory(Item i) {
 		inventory.add(i);
 	}
 
 	public boolean removeFromInventory(Item i) {
 		return inventory.remove(i);
+	}
+	
+	public void clearInventory() {
+		while(inventory.size() > 0) {
+			inventory.remove(0);
+		}
 	}
 
 	public boolean isInInventory(Item i) {
@@ -101,15 +116,15 @@ public class Creature extends Entity implements Dynamic {
 
 	public void attack(Creature c) {
 		//super.getGame().addProgress(super.getName() + " attacked " + c.getName());
-		if (weapon instanceof Weapon) {
-			double d = (((Weapon) weapon).getAttackMod() * weapon.getDamage());
-			c.hit(d, weapon, this);
+		if (holding instanceof Weapon) {
+			double d = (((Weapon) holding).getAttackMod() * holding.getDamage());
+			c.hit(d, holding, this);
 			double red = Math.pow(c.getArmorVal() * c.getArmorMod(), 0.926);
 			if (d - red <= 0)
-				weapon.setDurability(weapon.getDurability() - 1);
+				holding.setDurability(holding.getDurability() - 1);
 		} else {
-			double d = weapon.getDamage();
-			c.hit(d, weapon, this);
+			double d = holding.getDamage();
+			c.hit(d, holding, this);
 		}
 		super.getGame().updateProgress();
 	}
@@ -428,18 +443,18 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	/**
-	 * @return the weapon
+	 * @return the holding
 	 */
-	public Item getWeapon() {
-		return weapon;
+	public Item getHolding() {
+		return holding;
 	}
 
 	/**
-	 * @param weapon
-	 *            the weapon to set
+	 * @param holding
+	 *            the holding to set
 	 */
-	public void setWeapon(Item weapon) {
-		this.weapon = weapon;
+	public void setHolding(Item holding) {
+		this.holding = holding;
 	}
 
 }

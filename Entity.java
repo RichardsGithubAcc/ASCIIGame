@@ -20,6 +20,7 @@ public abstract class Entity {
 		this.game = g;
 		tags = t;
 		icon = i; color = c; name = n; this.x = x; this.y = y; passable = p;
+
 	}
 	
 	public boolean hasTag(String str) {

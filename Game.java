@@ -9,6 +9,7 @@ public class Game {
 	private ArrayList<Dynamic> dynamic = new ArrayList<Dynamic>();
 	private WorldMap map;
 	private Player player;
+	private Player dummyPlayer;
 	private ArrayList<String> progress;
 	private GameDisplay frame;
 	
@@ -46,6 +47,7 @@ public class Game {
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
 		player = new Player(this, 0, 0);
+		dummyPlayer = new Player(this, 0, 0);
 		//dynamic = new ArrayList<Dynamic>();
 		dynamic.add(player);
 		
@@ -86,6 +88,107 @@ public class Game {
 		frame.repaint();
 	}
 	
+	public void reset() {
+		dynamic.clear();
+		progress.clear();
+		map.clear();
+		Point camera = new Point();
+		camera.x = 0;
+		camera.y = 0;
+		map.setCamera(camera);
+		player.setArmorMod(dummyPlayer.getArmorMod());
+		player.setArmorVal(dummyPlayer.getArmorVal());
+		player.setArms(dummyPlayer.getArms());
+		player.setAttackMod(dummyPlayer.getAttackMod());
+		player.setColor(dummyPlayer.getColor());
+		player.setDelay(dummyPlayer.getDelay());
+		player.setDexterity(dummyPlayer.getDexterity());
+		player.setdHealth(dummyPlayer.getdHealth());
+		player.setFeet(dummyPlayer.getFeet());
+		player.setHands(dummyPlayer.getHands());
+		player.setHead(dummyPlayer.getHead());
+		player.setHealth(dummyPlayer.getHealth());
+		player.setHealthMod(dummyPlayer.getHealthMod());
+		player.setHunger(dummyPlayer.getHunger());
+		player.setIcon(dummyPlayer.getIcon());
+		player.setIntelligence(dummyPlayer.getIntelligence());
+		player.setLegs(dummyPlayer.getLegs());
+		player.setMaxHealth(dummyPlayer.getMaxHealth());
+		player.setMaxVolume(dummyPlayer.getMaxVolume());
+		player.setMaxWeight(dummyPlayer.getMaxWeight());
+		player.setName(dummyPlayer.getName());
+		player.setPassable(dummyPlayer.isPassable());
+		player.setPerception(dummyPlayer.getPerception());
+		player.setStrength(dummyPlayer.getStrength());
+		player.setTags(dummyPlayer.getTags());
+		player.setTorso(dummyPlayer.getTorso());
+		player.setVolumeCarried(dummyPlayer.getVolumeCarried());
+		player.setHolding(dummyPlayer.getHolding());
+		player.setWeightCarried(dummyPlayer.getWeightCarried());
+		player.setX(dummyPlayer.getX());
+		player.setY(dummyPlayer.getY());
+		
+		String[] tags;
+		String[] dummyTags = dummyPlayer.getHolding().getTags();
+		if (dummyTags != null) {
+			int size = dummyTags.length;
+			tags = new String[size];
+			for (int i = 0; i < size; i++) {
+				tags[i] = dummyTags[i];
+			}
+		} else {
+			tags = null;
+		}
+		
+		ArrayList<String> ammo = ((Weapon)dummyPlayer.getHolding()).getAmmo();
+		ArrayList<String> copyAmmo = new ArrayList<String>();
+		
+		if (ammo != null) {
+			if (ammo.size() != 0) {
+				for (int i = 0; i < ammo.size(); i++) {
+			
+					copyAmmo.add(new String(ammo.get(i)));
+				}
+			}
+		} else{
+			copyAmmo = null;
+		}
+						
+		Weapon weapon = new Weapon (dummyPlayer.getHolding().getGame(),
+									dummyPlayer.getHolding().getIcon(),
+									dummyPlayer.getHolding().getColor(),
+									dummyPlayer.getHolding().getName(),
+									tags,
+									dummyPlayer.getHolding().getX(),
+									dummyPlayer.getHolding().getY(),
+									dummyPlayer.getHolding().isPassable(),
+									dummyPlayer.getHolding().getWeight(),
+									dummyPlayer.getHolding().getVolume(),
+									dummyPlayer.getHolding().getDurability(),
+									dummyPlayer.getHolding().getMaxDurability(),
+									dummyPlayer.getHolding().getDamage(),
+									((Weapon)dummyPlayer.getHolding()).getAccuracy(),
+									((Weapon)dummyPlayer.getHolding()).getRange(),
+									((Weapon)dummyPlayer.getHolding()).getAttackMod(),
+									copyAmmo);
+									
+		player.clearInventory();
+		player.addToInventory(weapon);
+		player.setHolding(weapon);
+		dynamic.add(player);
+		
+		genForest(0, 0, map.getPanelCols(), map.getPanelRows());
+		buildHouse(-30, -30, 13, 21, "east");
+	
+		ArrayList<Entity> items = new ArrayList<Entity>();
+		items.add(player);
+		map.setPoint(new Point(0, 0), new Tile(this.bush, items));
+		map.setPoint(new Point(-10, -10), new Tile(this.bush, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
+		spawnHorde(-40, -40, -10, -10);
+	}
+	
+
+
 	public void update() {
 		if(player.getHealth() <= 0) {
 			frame.gameOver();

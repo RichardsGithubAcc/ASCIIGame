@@ -73,6 +73,14 @@ public class Weapon extends Item {
 		this.inventory = inventory;
 	}
 
+	public ArrayList<String> getAmmo() {
+		return ammo;
+	}
+	
+	public void setAmmo(ArrayList<String> ammo) {
+		this.ammo = ammo;
+	}
+	
 	public void load(Item e) {
 		if(inventory.length > 0) {
 			if(!e.getName().equalsIgnoreCase(inventory[0].getName())) return;

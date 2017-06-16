@@ -30,7 +30,8 @@ public class InventoryPanel extends JPanel {
 	public InventoryPanel(Game game) {
 
 		this.game = game;
-		hardCoded();
+		genWeapons();
+		
 		setBounds(new Rectangle(200, 800));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
@@ -152,6 +153,7 @@ public class InventoryPanel extends JPanel {
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		setBorder (new EmptyBorder(5, 5, 5, 5));		
 		add(scroll);
+		
 	}
 
 
@@ -165,7 +167,7 @@ public class InventoryPanel extends JPanel {
 		Player player = game.getPlayer();
 		ArrayList<Item> inventory = player.getInventory();
 
-		String name = player.getWeapon().getName();
+		String name = player.getHolding().getName();
 
 		holdingDropdown.addItem(name);
 			
@@ -194,7 +196,7 @@ public class InventoryPanel extends JPanel {
 		ArrayList<Item> inventory = player.getInventory();
 	    for (Item item: inventory) {
 	    	if (item.getName() == name) {
-	    		player.setWeapon(item);
+	    		player.setHolding(item);
 	    		return;
 	    	} 
 	    }
@@ -223,27 +225,30 @@ public class InventoryPanel extends JPanel {
 	private void feetDropdownEvent(ActionEvent event) {
 
 	}
-
 	
-	// test code, will be removed
-	private void hardCoded() {
-
+	private void genWeapons() {
 		Player player = game.getPlayer();
+		
 		String[] tag = {}; 
 		Weapon w1 = new Weapon(game, 'g', Color.BLUE, "GUN", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
 		Weapon w2 = new Weapon(game, 'p', Color.BLACK, "Pistol", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
 		Weapon w3 = new Weapon(game, 'k', Color.WHITE, "Knife", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
 		Weapon w4 = new Weapon(game, 's', Color.GRAY, "Stone", tag, player.getX(), player.getY(), true, 10, 10, 10, 100, 10, 0,0,1,null);
-		
+
 		ArrayList<Item> inventory = player.getInventory();
 		if (inventory == null) {
 			System.out.println("null");
-		}
-		
+		}	
 	    inventory.add(w1);
 	    inventory.add(w2);
 	    inventory.add(w3);
 	    inventory.add(w4);
 	} 
+
+	public void reset() {
+		textArea.setText("");
+		genWeapons();
+	}
+	
 
 }

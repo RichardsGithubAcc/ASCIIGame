@@ -39,8 +39,8 @@ public class GraphicsPanel extends JPanel {
 		
 		int width = this.getWidth();
 		int height = this.getHeight() - 10;
-		int col = map.getPanelCol();
-		int row = map.getPanelRow();
+		int col = map.getPanelCols();
+		int row = map.getPanelRows();
 		double tileWidth = (double)width/col;
 		double tileHeight = (double)height/row;
 		Point camera = map.getCamera();

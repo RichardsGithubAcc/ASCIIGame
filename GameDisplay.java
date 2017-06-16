@@ -63,7 +63,9 @@ public class GameDisplay extends JFrame {
 		quitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				game.reset();
+				inventoryPanel.reset();
+				repaint();
 			}
 					
 		});

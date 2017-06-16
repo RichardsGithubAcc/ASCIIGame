@@ -28,11 +28,11 @@ public class WorldMap {
 		this.camera = camera;
 	}
 	
-	public int getPanelCol() {
+	public int getPanelCols() {
 		return panelCols;
 	}
 	
-	public int getPanelRow() {
+	public int getPanelRows() {
 		return panelRows;
 	}
 	
@@ -61,5 +61,9 @@ public class WorldMap {
 	public boolean isOccupied(Point location) {
 		return map.get(location) != null;
 		
+	}
+	
+	public void clear() {
+		map.clear();
 	}
 }
