@@ -30,9 +30,23 @@ public class Creature extends Entity implements Dynamic {
 		inventory = new ArrayList<Item>();
 		inventory.add(holding);
 	}
+	
+	public Creature(Game game, char i , Color c, String name, String[] tags, int x, int y, int health, int armor) {
+		super(game, i, c, name, tags, x, y, false);
+		game.getDynamic().add(this);
+		this.health = health;
+		maxHealth = health;
+		armorVal = armor;
+		healthMod = 1;
+		armorMod = 1;
+		attackMod = 1;
+		dHealth = 0;
+		holding = new Weapon(game, 'f', null, "fist", null, x, y, true, 0, 0, -1, -1, 5, 0,0,1,null);
+	}
 
 	public Creature(Creature origin) {
 		super(origin);
+		origin.getGame().getDynamic().add(this);
 		health = origin.getHealth();
 		delay = origin.getDelay();
 		armorVal = origin.getArmorVal();
@@ -168,6 +182,7 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	public boolean moveUp() {
+		if(delay > 0) return false;
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
@@ -181,6 +196,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord, yCoord + 1), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				delay += 1 + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}
@@ -188,6 +204,7 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	public boolean moveDown() {
+		if(delay > 0) return false;
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
@@ -201,6 +218,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord, yCoord - 1), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				delay += 1 + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}
@@ -208,6 +226,7 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	public boolean moveLeft() {
+		if(delay > 0) return false;
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
@@ -221,6 +240,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord - 1, yCoord), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				delay += 1 + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}
@@ -228,6 +248,7 @@ public class Creature extends Entity implements Dynamic {
 	}
 
 	public boolean moveRight() {
+		if(delay > 0) return false;
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
@@ -241,6 +262,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord + 1, yCoord), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				delay += 1 + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}

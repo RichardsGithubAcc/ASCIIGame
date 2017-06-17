@@ -19,6 +19,20 @@ public class Player extends Creature {
 		hunger = 0;
 		volumeCarried = 0;
 		weightCarried = 0;
+		maxVolume = 0;
+	}
+	
+	public Player(Game ge, char i, Color c, String n, String[] tags, int x, int y, int health, int str, int dex, int in, int pe) {
+		super(ge, i, c, n, tags, x, y, health, 0);
+		strength = str;
+		dexterity = dex;
+		intelligence = in;
+		perception = pe;
+		maxWeight = 20 + 2 * strength;
+		hunger = 0;
+		volumeCarried = 0;
+		weightCarried = 0;
+		maxVolume = 0;
 	}
 	
 	public Player(Game ge, int x, int y) {
@@ -30,6 +44,7 @@ public class Player extends Creature {
 		weightCarried = 0;
 		volumeCarried = 0;
 		maxWeight = 20 + 2 * strength;
+		maxVolume = 0;
 		hunger = 0;
 	}
 	

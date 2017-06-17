@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
@@ -44,7 +45,7 @@ public class GameDisplay extends JFrame {
 		setContentPane(contentPane);
 		
 		// graphicics panel
-		GraphicsPanel graphicsPanel = new GraphicsPanel(game.getMap());
+		GraphicsPanel graphicsPanel = new GraphicsPanel(game);
 		contentPane.add(graphicsPanel, BorderLayout.CENTER);	
 
 		// button panel
@@ -128,11 +129,15 @@ public class GameDisplay extends JFrame {
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("LEFT"), "MOVE_LEFT");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("RIGHT"), "MOVE_RIGHT");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("E"), "EXAMINE");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("I"), "INVENTORY");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("F"), "FIRE");
 		keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, game.getPlayer(), game));
 		keyboard.getActionMap().put("EXAMINE", new ExamineAction(0, game.getPlayer(), game, keyboard));
+		keyboard.getActionMap().put("INVENTORY", new InventoryAction(game));
+		keyboard.getActionMap().put("FIRE", new AimAction(game,game.getPlayer(), graphicsPanel, keyboard));
 		buttonPanel.add(keyboard);
 				
 	}
@@ -225,6 +230,95 @@ public class GameDisplay extends JFrame {
 			keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, g.getPlayer(), g));
 			keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, g.getPlayer(), g));
 			keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, g.getPlayer(), g));
+		}
+	}
+	
+	public class InventoryAction extends AbstractAction {
+		Game g;
+		
+		public InventoryAction(Game game) {
+			g = game;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			JFrame inventoryFrame = new JFrame();
+			inventoryFrame.setVisible(true);
+			inventoryFrame.setBounds(500, 500, 300, 500);
+			//inventoryFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+			inventoryFrame.setContentPane(new InventoryPanel(g));
+		}
+	}
+	
+	public class AimAction extends AbstractAction {
+		Game g;
+		Weapon w;
+		GraphicsPanel display;
+		JButton keyboard;
+		
+		public AimAction(Game game, Creature c, GraphicsPanel lol, JButton button) {
+			g = game;
+			Item i = c.getHolding();
+			if(i != null && i instanceof Weapon) {
+				w = (Weapon)i;
+			}
+			display = lol;
+			keyboard = button;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			w = (Weapon)g.getPlayer().getHolding();
+			if(w instanceof Weapon && w.getInventory()[0] != null) {
+				
+			} else {
+				g.getProgress().add("You can't do that!");
+				return;
+			}
+			keyboard.getActionMap().put("MOVE_UP", new AimDirection(g, w, 1, display, keyboard));
+			keyboard.getActionMap().put("MOVE_LEFT", new AimDirection(g, w, 2, display, keyboard));
+			keyboard.getActionMap().put("MOVE_DOWN", new AimDirection(g, w, 3, display, keyboard));
+			keyboard.getActionMap().put("MOVE_RIGHT", new AimDirection(g, w, 4, display, keyboard));
+			keyboard.getActionMap().put("FIRE", new AimDirection(g, w, 5, display, keyboard));
+			display.setAim(new Point(g.getPlayer().getX(), g.getPlayer().getY()));
+			
+		}
+	}
+	
+	public class AimDirection extends AbstractAction {
+		Game g;
+		Weapon w;
+		int d;
+		GraphicsPanel display;
+		JButton keyboard;
+		
+		public AimDirection(Game game, Weapon we, int dir, GraphicsPanel lol, JButton button) {
+			g = game;
+			w = we;
+			d = dir;
+			display = lol;
+			keyboard = button;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			if(w == null) return;
+			//display.setAim(new Point(g.getPlayer().getX(), g.getPlayer().getY()));
+			switch(d) {
+			case 1: display.moveUp();
+				break;
+			case 2: display.moveLeft();
+				break;
+			case 3: display.moveDown();
+				break;
+			case 4: display.moveRight();
+				break;
+			case 5: keyboard.getActionMap().put("FIRE", new AimAction(g, g.getPlayer(), display, keyboard));
+				keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, g.getPlayer(), g));
+				keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, g.getPlayer(), g));
+				keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, g.getPlayer(), g));
+				keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, g.getPlayer(), g));
+				display.setAim(null);
+				break;
+			}
+			repaint();
 		}
 	}
 }

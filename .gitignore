@@ -44,3 +44,6 @@
 /GameDisplay$ExamineDirection.class
 /InventoryPanel$7.class
 /InfoPanel.class
+/GameDisplay$InventoryAction.class
+/GameDisplay$AimAction.class
+/GameDisplay$AimDirection.class

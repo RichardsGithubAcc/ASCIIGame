@@ -10,7 +10,11 @@ public class NPC extends Creature {
 		super(ge, i, c, n, tags, x, y, p, h, armV, mH, hM, armM, atkM, dH);
 	
 		hostile = ho;
-		// TODO Auto-generated constructor stub
+	}
+	
+	public NPC(Game ge, char i, Color c, String n, String[] tags, int x, int y, int h, int armor, boolean ho) {
+		super(ge, i, c, n, tags, x, y, h, armor);
+		hostile = ho;
 	}
 	
 	public void moveTowards(int x, int y) {
