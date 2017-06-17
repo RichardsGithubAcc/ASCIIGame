@@ -25,10 +25,10 @@ public class InventoryPanel extends JPanel {
 	private JComboBox<String> torsoDropdown;
 	private JComboBox<String> legsDropdown;
 	private JComboBox<String> feetDropdown;
-	private JTextArea textArea;
+	//private JTextArea textArea;
 	
 	public InventoryPanel(Game game) {
-
+		//this.setBackground(Color.BLACK);
 		this.game = game;
 		genWeapons();
 		
@@ -36,6 +36,7 @@ public class InventoryPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		JLabel inventoryLabel = new JLabel("Inventory");
+		inventoryLabel.setForeground(Color.GREEN);
 		JLabel emptyLabel = new JLabel(" ");
 		add(inventoryLabel);
 		add(emptyLabel);
@@ -138,21 +139,21 @@ public class InventoryPanel extends JPanel {
 		});
     	add(feetDropdown);
     	
-    	JLabel emptyLabel2 = new JLabel(" ");
-    	JLabel progressLabel = new JLabel("Game Progress");
-    	add(emptyLabel2);
-		add(progressLabel);
+//    	JLabel emptyLabel2 = new JLabel(" ");
+//    	JLabel progressLabel = new JLabel("Game Progress");
+//    	add(emptyLabel2);
+//		add(progressLabel);
 		
-		textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setColumns(15);
-		textArea.setRows(80);
-		textArea.setEditable(false);
+//		textArea = new JTextArea();
+//		textArea.setLineWrap(true);
+//		textArea.setColumns(15);
+//		textArea.setRows(80);
+//		textArea.setEditable(false);
 	
-		JScrollPane scroll = new JScrollPane(textArea);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		setBorder (new EmptyBorder(5, 5, 5, 5));		
-		add(scroll);
+//		JScrollPane scroll = new JScrollPane(textArea);
+//		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//		setBorder (new EmptyBorder(5, 5, 5, 5));		
+//		add(scroll);
 		
 	}
 
@@ -178,13 +179,13 @@ public class InventoryPanel extends JPanel {
 		    } 
 		}
 		
-		ArrayList<String> progress = game.getProgress();
-		
-        while (!progress.isEmpty()) {
-        	String event = progress.remove(0);
-        	event  = event + "\n\n";
-        	textArea.append(event);
-        }
+//		ArrayList<String> progress = game.getProgress();
+//		
+//        while (!progress.isEmpty()) {
+//        	String event = progress.remove(0);
+//        	event  = event + "\n\n";
+//        	textArea.append(event);
+//        }
 	}
 
  
@@ -253,7 +254,7 @@ public class InventoryPanel extends JPanel {
 		torsoDropdown.removeAllItems();
 		legsDropdown.removeAllItems();
 		feetDropdown.removeAllItems();
-		textArea.setText("");
+		//textArea.setText("");
 		genWeapons();
 	}
 	

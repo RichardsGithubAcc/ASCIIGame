@@ -54,7 +54,7 @@ public class GameDisplay extends JFrame {
 		/*
 		 * inventory panel
 		 */
-		InventoryPanel inventoryPanel = new InventoryPanel(game);
+		InfoPanel inventoryPanel = new InfoPanel(game);
 		contentPane.add(inventoryPanel, BorderLayout.EAST);
 		
 		/*
@@ -66,7 +66,7 @@ public class GameDisplay extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.reset();
-				inventoryPanel.reset();
+				//inventoryPanel.reset();
 				keyboard.getActionMap().clear();
 				keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
 				keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
@@ -79,6 +79,18 @@ public class GameDisplay extends JFrame {
 				repaint();
 			}
 					
+		});
+		
+		JButton inventoryButton = new JButton("Inventory");
+		buttonPanel.add(inventoryButton);
+		inventoryButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame inventoryFrame = new JFrame();
+				inventoryFrame.setVisible(true);
+				inventoryFrame.setBounds(500, 500, 300, 500);
+				//inventoryFrame.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+				inventoryFrame.setContentPane(new InventoryPanel(game));
+			}
 		});
 				
 		/*
