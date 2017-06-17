@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Weapon extends Item {
 	private int accuracy, range;//accuracy is stored as a whole number percent
-	double attackMod;
+	private double attackMod;
 	private Item[] inventory = new Item[1];
 	private ArrayList<String> ammo;
 	

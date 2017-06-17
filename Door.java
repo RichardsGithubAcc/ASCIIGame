@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class Door extends Terrain implements Usable {
+public class Door extends Terrain {
 	private String lock; // "key: #", 0 if door doesn't use lock
 	private int status;
 	private String direction;
