@@ -1,18 +1,48 @@
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class Weapon extends Item {
 	private int accuracy, range;//accuracy is stored as a whole number percent
 	private double attackMod;
 	private Item[] inventory = new Item[1];
-	private ArrayList<String> ammo;
+	private String[] ammo;
+	private int capacity;
 	
-	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, boolean p, int w, int v, int d, int dm, double dmg, int a, int r, double am, ArrayList<String> lol) {
+	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, boolean p, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] lol, int ca) {
 		super(ge, i, c, name, tags, x, y, p, w, v, d, dm, dmg);
 		accuracy = a;
 		range = r;
 		attackMod = am;
 		this.ammo = lol;
+		capacity = ca;
+	}
+	
+	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, boolean p, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] lol) {
+		super(ge, i, c, name, tags, x, y, p, w, v, d, dm, dmg);
+		accuracy = a;
+		range = r;
+		attackMod = am;
+		this.ammo = lol;
+		capacity = 0;
+	}
+	
+	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] amm) {
+		super(ge, i, c, name, tags, x, y, true, w, v, d, dm, dmg);
+		accuracy = a;
+		range = r;
+		attackMod = am;
+		this.ammo = amm;
+		capacity = 0;
+	}
+	
+	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] amm, int ca) {
+		super(ge, i, c, name, tags, x, y, true, w, v, d, dm, dmg);
+		accuracy = a;
+		range = r;
+		attackMod = am;
+		this.ammo = amm;
+		capacity = ca;
 	}
 	
 	public Weapon(Weapon origin) {
@@ -31,13 +61,26 @@ public class Weapon extends Item {
 			inventory = null;
 		}
 		
-		ArrayList<String> originArmo = origin.getAmmo();
-		ammo = new ArrayList<String>();
+		String[] originArmo = origin.getAmmo();
+		ammo = new String[originArmo.length];
 		if (originArmo != null) {
-			for (int i = 0; i < originArmo.size(); i++) {
-				ammo.add(new String(originArmo.get(i)));
+			for (int i = 0; i < originArmo.length; i++) {
+				ammo[i] = originArmo[i];
 			}
 		}
+	}
+	
+	public void fire(int x, int y, int tX, int tY, int accMod, Creature host) {
+		double d = Game.dist(x, y, tX, tY);
+		if(d < range) return;
+		double p = 60/(double)range;
+		if(Math.random() * 101 < accuracy + accMod - p * d) {
+			Creature c = super.getGame().getMap().getPoint(new Point(tX, tY)).hasCreature();
+			if(c != null) {
+				c.hit(attackMod * inventory[0].getDamage(), inventory[0], host);
+			}
+		}
+		inventory[0].setDurability(inventory[0].getDurability() - 1);
 	}
 	
 	/**
@@ -98,11 +141,11 @@ public class Weapon extends Item {
 		this.inventory = inventory;
 	}
 
-	public ArrayList<String> getAmmo() {
+	public String[] getAmmo() {
 		return ammo;
 	}
 	
-	public void setAmmo(ArrayList<String> ammo) {
+	public void setAmmo(String[] ammo) {
 		this.ammo = ammo;
 	}
 	
@@ -111,7 +154,15 @@ public class Weapon extends Item {
 			if(!e.getName().equalsIgnoreCase(inventory[0].getName())) return;
 		}
 		for(String name: ammo) {
-			if(e.getName().equalsIgnoreCase(name) && inventory[0] == null) inventory[0] = e;
+			if(e.getName().equalsIgnoreCase(name) && inventory[0] == null) {
+				if(e.getDurability() > capacity) {
+					inventory[0] = new Item(e);
+					inventory[0].setDurability(capacity);
+					e.setDurability(e.getDurability() - capacity);
+				} else {
+					inventory[0] = e;
+				}
+			}
 			return;
 		}
 	}

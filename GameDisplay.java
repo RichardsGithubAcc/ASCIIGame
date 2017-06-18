@@ -316,6 +316,9 @@ public class GameDisplay extends JFrame {
 				keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, g.getPlayer(), g));
 				keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, g.getPlayer(), g));
 				display.setAim(null);
+				Weapon w = (Weapon)g.getPlayer().getHolding();
+				int accMod = (g.getPlayer().getPerception() - 10) * 10;
+				if(w != null) w.fire(g.getPlayer().getX(), g.getPlayer().getY(), (int)display.getAim().getX(), (int)display.getAim().getY(), accMod, g.getPlayer());
 				break;
 			}
 			repaint();
