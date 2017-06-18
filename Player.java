@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Point;
 
 public class Player extends Creature {
-	private int hunger, volumeCarried, maxVolume;
+	private int hunger, volumeCarried, maxVolume, thirst;
 	private int strength, dexterity, intelligence, perception;
 	private double weightCarried, maxWeight;
 
@@ -17,6 +17,7 @@ public class Player extends Creature {
 		perception = pe;
 		maxWeight = 20 + 2 * strength;
 		hunger = 0;
+		thirst = 0;
 		volumeCarried = 0;
 		weightCarried = 0;
 		maxVolume = 0;
@@ -30,6 +31,7 @@ public class Player extends Creature {
 		perception = pe;
 		maxWeight = 20 + 2 * strength;
 		hunger = 0;
+		thirst = 0;
 		volumeCarried = 0;
 		weightCarried = 0;
 		maxVolume = 0;
@@ -46,6 +48,7 @@ public class Player extends Creature {
 		maxWeight = 20 + 2 * strength;
 		maxVolume = 0;
 		hunger = 0;
+		thirst = 0;
 	}
 	
 	public Player(Player origin) {
@@ -67,6 +70,8 @@ public class Player extends Creature {
 		super.update();
 		hunger++;
 		maxWeight = 20 + 2 * strength;
+		weightCarried = checkWeight();
+		volumeCarried = checkVolume();
 		if(weightCarried > maxWeight && super.getDelay() == 0) {
 			super.addDelay(1);
 		}
@@ -76,6 +81,27 @@ public class Player extends Creature {
 		if(super.getDelay() > 0) {
 			super.removeDelay(1);
 		}
+		thirst++;
+	}
+	
+	public int checkWeight() {
+		int sum = 0;
+		for(Item i : super.getInventory()) {
+			sum += i.getWeight();
+		}
+		return sum;
+	}
+	
+	public int checkVolume() {
+		int sum = 0;
+		for(Item i : super.getInventory()) {
+			if(i.hasTag("storage")) {
+				sum -= i.getVolume();
+			} else {
+				sum += i.getVolume();
+			}
+		}
+		return sum;
 	}
 	
 	public void attack(Creature c) {
