@@ -52,11 +52,14 @@ public class GameDisplay extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		contentPane.add(buttonPanel, BorderLayout.NORTH);
 		
+		InventoryPanel inventoryPanel = new InventoryPanel(game);
+		contentPane.add(inventoryPanel, BorderLayout.EAST);
+		
 		/*
 		 * inventory panel
 		 */
-		InfoPanel inventoryPanel = new InfoPanel(game);
-		contentPane.add(inventoryPanel, BorderLayout.EAST);
+//		InfoPanel infoPanel = new InfoPanel(game);
+//		contentPane.add(infoPanel, BorderLayout.EAST);
 		
 		/*
 		 * button for reset
