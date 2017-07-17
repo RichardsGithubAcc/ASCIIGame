@@ -150,7 +150,7 @@ public class Weapon extends Item {
 	}
 	
 	public void load(Item e) {
-		if(inventory.length > 0) {
+		if(inventory[0] != null) {
 			if(!e.getName().equalsIgnoreCase(inventory[0].getName())) return;
 		}
 		for(String name: ammo) {

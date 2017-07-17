@@ -1,8 +1,8 @@
 import java.awt.Color;
 
 public class Item extends Entity implements Usable {
-	private int weight;
-	private int volume;
+	private double weight;
+	private double volume;
 	private int durability, maxDurability;
 	private double damage;
 	
@@ -10,7 +10,7 @@ public class Item extends Entity implements Usable {
 		
 	}
 	
-	public Item(Game ge, char i, Color c, String name, String[] t, int x, int y, boolean p, int w, int v, int d, int dm, double dmg) {
+	public Item(Game ge, char i, Color c, String name, String[] t, int x, int y, boolean p, double w, double v, int d, int dm, double dmg) {
 		super(ge, i, c, name, t, x, y, p);
 		weight = w;
 		volume = v;
@@ -31,7 +31,7 @@ public class Item extends Entity implements Usable {
 	/**
 	 * @return the weight
 	 */
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
@@ -49,7 +49,7 @@ public class Item extends Entity implements Usable {
 	/**
 	 * @return the volume
 	 */
-	public int getVolume() {
+	public double getVolume() {
 		return volume;
 	}
 

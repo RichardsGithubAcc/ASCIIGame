@@ -44,6 +44,7 @@ public class Game {
 	public static final int DEF_INTELLIGENCE = 8;
 	public static final int DEF_PERCEPTION = 8;
 	//Weapon usp45 = new Weapon(this, '/', Color.GREY, "USP 45", null, x, y, 28, 12, 100, 100, 0.25, 80, 9, 28, {".45 ACP"}, 12);
+	//Item 45ACP = new Item(this, '=', Color.GRAY, ".45 ACP", null, x, y, true, 0.15, 0.04, 10, 10, 1};
 	
 	public Game(int panelCols, int panelRows, GameDisplay frame) {
 		this.frame = frame;

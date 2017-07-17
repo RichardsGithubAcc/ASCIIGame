@@ -275,8 +275,12 @@ public class InventoryPanel extends JPanel {
 		Player player = game.getPlayer();
 
 		String[] tag = {};
-		Weapon w1 = new Weapon(game, 'g', Color.BLUE, "GUN", tag, player.getX(), player.getY(), true, 10, 10, 10, 100,
-				10, 0, 0, 1, null);
+		String[] lol = {".45 ACP"};
+		Item acp45 = new Item(game, '=', Color.GRAY, ".45 ACP", null, player.getX(), player.getY(), true, 0.15, 0.04, 10, 10, 1);
+		Weapon usp45 = new Weapon(game, '/', Color.GRAY, "USP 45", null, player.getX(), player.getY(), 28, 12, 100, 100, 0.25, 80, 9, 28, lol, 12);
+		usp45.load(acp45);
+		Weapon w1 = usp45;
+		
 		Weapon w2 = new Weapon(game, 'p', Color.BLACK, "Pistol", tag, player.getX(), player.getY(), true, 10, 10, 10,
 				100, 10, 0, 0, 1, null);
 		Weapon w3 = new Weapon(game, 'k', Color.WHITE, "Knife", tag, player.getX(), player.getY(), true, 10, 10, 10,
