@@ -27,6 +27,7 @@ public class InventoryPanel extends JPanel {
 	private JComboBox<String> legsDropdown;
 	private JComboBox<String> feetDropdown;
 	private JTextArea textArea;
+	private AlertPanel textPanel;
 	private JLabel health;
 
 	public InventoryPanel(Game game) {
@@ -167,17 +168,19 @@ public class InventoryPanel extends JPanel {
 		JLabel progressLabel = new JLabel("<html><font color = 'white'>Game Progress</font></html>");
 		add(emptyLabel2);
 		add(progressLabel);
-
-		textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setColumns(15);
-		textArea.setRows(80);
-		textArea.setEditable(false);
-
-		JScrollPane scroll = new JScrollPane(textArea);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		setBorder(new EmptyBorder(5, 5, 5, 5));
-		add(scroll);
+		
+		textPanel = new AlertPanel(game);
+//		
+//		textArea = new JTextArea();
+//		textArea.setLineWrap(true);
+//		textArea.setColumns(15);
+//		textArea.setRows(80);
+//		textArea.setEditable(false);
+//
+//		JScrollPane scroll = new JScrollPane(textArea);
+//		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//		setBorder(new EmptyBorder(5, 5, 5, 5));
+//		add(scroll);
 
 	}
 
@@ -229,7 +232,8 @@ public class InventoryPanel extends JPanel {
 		while (!progress.isEmpty()) {
 			String event = progress.remove(0);
 			event = event + "\n\n";
-			textArea.append(event);
+//			textArea.append(event);
+			textPanel.addToLog(event);
 		}
 	}
 
@@ -306,7 +310,8 @@ public class InventoryPanel extends JPanel {
 		torsoDropdown.removeAllItems();
 		legsDropdown.removeAllItems();
 		feetDropdown.removeAllItems();
-		textArea.setText("");
+//		textArea.setText("");
+		textPanel.getLog().clear();
 		genWeapons();
 	}
 

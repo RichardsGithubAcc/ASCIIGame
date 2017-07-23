@@ -50,7 +50,7 @@ public class AlertPanel extends JPanel {
 		}
 	}
 	
-	public void addLog(String str) {
+	public void addToLog(String str) {
 		log.add(str);
 	}
 
