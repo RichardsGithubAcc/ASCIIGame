@@ -303,7 +303,7 @@ public class GameDisplay extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) {
 			if(w == null) return;
-			//display.setAim(new Point(g.getPlayer().getX(), g.getPlayer().getY()));
+			//display.setAim(new Point(g.getPlayer().getX(),A g.getPlayer().getY()));
 			switch(d) {
 			case 1: display.moveUp();
 				break;
@@ -321,7 +321,11 @@ public class GameDisplay extends JFrame {
 				display.setAim(null);
 				Weapon w = (Weapon)g.getPlayer().getHolding();
 				int accMod = (g.getPlayer().getPerception() - 10) * 10;
-				if(w != null) w.fire(g.getPlayer().getX(), g.getPlayer().getY(), (int)display.getAim().getX(), (int)display.getAim().getY(), accMod, g.getPlayer());
+				if(w != null && w instanceof Weapon) {
+					Point p = display.getAim();
+					w.fire(g.getPlayer().getX(), g.getPlayer().getY(), (int)p.x, (int)p.y, accMod, g.getPlayer());
+				}
+				display.setAim(null);
 				break;
 			}
 			repaint();

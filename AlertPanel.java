@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class AlertPanel extends JPanel {
@@ -13,18 +14,38 @@ public class AlertPanel extends JPanel {
 	
 	public AlertPanel(Game g) {
 		this.setBackground(Color.BLACK);
-		setBounds(new Rectangle(200, 600));
+		setBounds(new Rectangle(800, 200));
+		setVisible(true);
 		game = g;
 		log = new ArrayList<String>();
+		this.setSize(800, 200);
 	}
 	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
+		super.paintComponent(g2);
+		setBounds(new Rectangle(800, 00));
 		int height = (int)this.getBounds().getHeight();
 		g2.setFont(new Font("Arial", Font.PLAIN, 14));
 		g2.setColor(Color.WHITE);
-		for(int i = log.size(); i >= 0; i--) {
-			g2.drawString(log.get(i), 0, height - (log.size() - i) * 28);
+		setLog(game.getProgress());
+		processLog();
+		if(log.size() > 0) {
+			for(int i = 0; i < log.size(); i++) {
+				g2.drawString(log.get(i), 0, height - (log.size() - i) * 28);
+			}
+		}
+	}
+	
+	public void processLog() {
+		for(int i = 0; i < log.size(); i++) {
+			if(log.get(i).length() > 90) {
+				int index = log.get(i).lastIndexOf(' ');
+				String start = log.get(i);
+				String first = start.substring(0, i);
+				String last = start.substring(i + 1);
+				log.set(i, first + "\n" + last);
+			}
 		}
 	}
 	
