@@ -274,6 +274,7 @@ public class GameDisplay extends JFrame {
 				
 			} else {
 				g.getProgress().add("You can't do that!");
+				repaint();
 				return;
 			}
 			keyboard.getActionMap().put("MOVE_UP", new AimDirection(g, w, 1, display, keyboard));
@@ -313,19 +314,19 @@ public class GameDisplay extends JFrame {
 				break;
 			case 4: display.moveRight();
 				break;
-			case 5: keyboard.getActionMap().put("FIRE", new AimAction(g, g.getPlayer(), display, keyboard));
+			case 5: Weapon w = (Weapon)g.getPlayer().getHolding();
+				int accMod = (g.getPlayer().getPerception() - 10) * 10;
+				if(w != null && w instanceof Weapon) {
+					Point p = display.getAim();
+					System.out.println(p.x + " " + p.y);
+					w.fire(g.getPlayer().getX(), g.getPlayer().getY(), p.x, p.y, accMod, g.getPlayer());
+				}
+				display.setAim(null);
+				keyboard.getActionMap().put("FIRE", new AimAction(g, g.getPlayer(), display, keyboard));
 				keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, g.getPlayer(), g));
 				keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, g.getPlayer(), g));
 				keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, g.getPlayer(), g));
 				keyboard.getActionMap().put("MOVE_RIGHT", new MoveAction(4, g.getPlayer(), g));
-				display.setAim(null);
-				Weapon w = (Weapon)g.getPlayer().getHolding();
-				int accMod = (g.getPlayer().getPerception() - 10) * 10;
-				if(w != null && w instanceof Weapon) {
-					Point p = display.getAim();
-					w.fire(g.getPlayer().getX(), g.getPlayer().getY(), (int)p.x, (int)p.y, accMod, g.getPlayer());
-				}
-				display.setAim(null);
 				break;
 			}
 			repaint();
