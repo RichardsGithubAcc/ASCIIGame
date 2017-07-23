@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,11 +15,11 @@ public class AlertPanel extends JPanel {
 	
 	public AlertPanel(Game g) {
 		this.setBackground(Color.BLACK);
-		setBounds(new Rectangle(800, 200));
+		setBounds(new Rectangle(250, 600));
 		setVisible(true);
 		game = g;
 		log = new ArrayList<String>();
-		this.setSize(800, 200);
+		this.setPreferredSize(new Dimension(250, 600));
 	}
 	
 	public void paintComponent(Graphics g) {
