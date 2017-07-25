@@ -261,5 +261,9 @@ public class Game {
 		this.frame = frame;
 	}
 
+	public void setProgress(ArrayList<String> progress) {
+		this.progress = progress;
+	}
+
 }
 

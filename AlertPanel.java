@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 public class AlertPanel extends JPanel {
 	private ArrayList<String> log;
 	private Game game;
+	private int newAlerts;
 	
 	public AlertPanel(Game g) {
 		this.setBackground(Color.BLACK);
@@ -29,18 +30,30 @@ public class AlertPanel extends JPanel {
 		int height = (int)this.getBounds().getHeight();
 		g2.setFont(new Font("Arial", Font.PLAIN, 14));
 		g2.setColor(Color.WHITE);
-		setLog(game.getProgress());
+		//setLog(game.getProgress());
+		if(game.getProgress().size() != 0) {
+			fetchProgress();
+		}
 		processLog();
 		if(log.size() > 0) {
 			for(int i = 0; i < log.size(); i++) {
-				if(i == 0)  {
-					g2.setColor(Color.BLUE);
-				} else {
+				if(i < newAlerts) {
 					g2.setColor(Color.WHITE);
+				} else {
+					g2.setColor(Color.GRAY);
 				}
 				g2.drawString(log.get(i), 5, height - (i * 28));
 			}
 		}
+	}
+	
+	public void fetchProgress() {
+		ArrayList<String> progress = game.getProgress();
+		for(int i = progress.size() - 1; i >= 0; i--) {
+			log.add(0, progress.get(i));
+		}
+		game.setProgress(new ArrayList<String>());
+		newAlerts = progress.size();
 	}
 	
 	public void processLog() {
