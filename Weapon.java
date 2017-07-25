@@ -74,8 +74,8 @@ public class Weapon extends Item {
 		System.out.println("bam");
 		double d = Game.dist(x, y, tX, tY);
 		if(d < range) return;
-		double p = 60/(double)range;
-		if(Math.random() * 101 < accuracy + accMod - p * d + 100) {
+		double p = 60/(double)range;//60% is total range penalty
+		if(Math.random() * 101 < accuracy + accMod - p * d) {
 			Creature c = super.getGame().getMap().getPoint(new Point(tX, tY)).hasCreature();
 			if(c != null) {
 				System.out.println(c.getName());
