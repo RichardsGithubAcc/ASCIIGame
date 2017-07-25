@@ -34,7 +34,7 @@ public class AlertPanel extends JPanel {
 		if(game.getProgress().size() != 0) {
 			fetchProgress();
 		}
-		processLog();
+		int space = 0;
 		if(log.size() > 0) {
 			for(int i = 0; i < log.size(); i++) {
 				if(i < newAlerts) {
@@ -42,7 +42,9 @@ public class AlertPanel extends JPanel {
 				} else {
 					g2.setColor(Color.GRAY);
 				}
-				g2.drawString(log.get(i), 5, height - (i * 28));
+				int spacer = (log.get(i).substring(0, 1).equals("!")) ? 28 : 14;
+				space += spacer;
+				g2.drawString(log.get(i).substring(1), 5, height - (space));
 			}
 		}
 	}
@@ -54,16 +56,29 @@ public class AlertPanel extends JPanel {
 		}
 		game.setProgress(new ArrayList<String>());
 		newAlerts = progress.size();
+		processLog();
 	}
 	
 	public void processLog() {
 		for(int i = 0; i < log.size(); i++) {
-			if(log.get(i).length() > 90) {
-				int index = log.get(i).lastIndexOf(' ');
-				String start = log.get(i);
-				String first = start.substring(0, index);
-				String last = start.substring(index + 1);
-				log.set(i, first + "\n" + last);
+			if(log.get(i).length() > 40) {
+				//int index = log.get(i).lastIndexOf(' ');
+				String str = log.get(i);
+				int index = -1;
+				for(int j = 36; j > 0; j--) {
+					if(str.charAt(j) == ' ') {
+						index = j;
+						j = -1;
+					}
+				}
+				if(index > 0) {
+					String start = log.get(i);
+					log.add(i + 1, "$" + start.substring(0, index));
+					log.set(i, "!" + start.substring(index + 1));
+					newAlerts++;
+				} 
+			} else {
+				if(!log.get(i).substring(0, 1).equals("!") && !log.get(i).substring(0, 1).equals("$")) log.set(i, "!" + log.get(i));
 			}
 		}
 	}
