@@ -1,4 +1,6 @@
 import javax.swing.BoxLayout;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -170,7 +172,7 @@ public class InventoryPanel extends JPanel {
 		add(progressLabel);
 		
 		textPanel = new AlertPanel(game);
-		add(textPanel);
+		add(textPanel, BorderLayout.SOUTH);
 //		
 //		textArea = new JTextArea();
 //		textArea.setLineWrap(true);
@@ -228,14 +230,15 @@ public class InventoryPanel extends JPanel {
 			}
 		}
 
-		ArrayList<String> progress = game.getProgress();
+//		ArrayList<String> progress = game.getProgress();
 
-		while (!progress.isEmpty()) {
-			String event = progress.remove(0);
-			event = event + "\n\n";
+//		while (!progress.isEmpty()) {
+//			String event = progress.remove(0);
+//			event = event + "\n\n";
 //			textArea.append(event);
-			textPanel.addToLog(event);
-		}
+//			textPanel.addToLog(event);
+//		}
+		textPanel.repaint();
 	}
 
 	private void holdingDropdownEvent(ActionEvent event) {

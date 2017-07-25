@@ -43,8 +43,8 @@ public class AlertPanel extends JPanel {
 			if(log.get(i).length() > 90) {
 				int index = log.get(i).lastIndexOf(' ');
 				String start = log.get(i);
-				String first = start.substring(0, i);
-				String last = start.substring(i + 1);
+				String first = start.substring(0, index);
+				String last = start.substring(index + 1);
 				log.set(i, first + "\n" + last);
 			}
 		}
