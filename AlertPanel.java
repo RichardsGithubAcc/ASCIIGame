@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import javafx.scene.layout.Border;
+
 public class AlertPanel extends JPanel {
 	private ArrayList<String> log;
 	private Game game;
