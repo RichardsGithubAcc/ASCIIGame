@@ -63,7 +63,7 @@ public class AlertPanel extends JPanel {
 	
 	public void processLog() {
 		for(int i = 0; i < log.size(); i++) {
-			if(log.get(i).length() > 40) {
+			if(log.get(i).length() > 37) {
 				//int index = log.get(i).lastIndexOf(' ');
 				String str = log.get(i);
 				int index = -1;
