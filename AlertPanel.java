@@ -25,7 +25,7 @@ public class AlertPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
-		setBounds(new Rectangle(800, 00));
+		setBounds(new Rectangle(200, 550));
 		int height = (int)this.getBounds().getHeight();
 		g2.setFont(new Font("Arial", Font.PLAIN, 14));
 		g2.setColor(Color.WHITE);
@@ -33,7 +33,12 @@ public class AlertPanel extends JPanel {
 		processLog();
 		if(log.size() > 0) {
 			for(int i = 0; i < log.size(); i++) {
-				g2.drawString(log.get(i), 0, height - (log.size() - i) * 28);
+				if(i == 0)  {
+					g2.setColor(Color.BLUE);
+				} else {
+					g2.setColor(Color.WHITE);
+				}
+				g2.drawString(log.get(i), 5, height - (i * 28));
 			}
 		}
 	}
