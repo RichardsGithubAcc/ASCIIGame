@@ -86,6 +86,17 @@ public class AStar {
 			for(int dX = -1; dX < 2; dX++) {
 				for(int dY = -1; dY < 2; dY++) {
 					//calculate cost, then check if the cell is in the open list
+					if(dX != 0 && dY != 0) {
+						Point p = new Point(current.getPoint().x + dX, current.getPoint().y + dY);
+						Tile t = map.getPoint(p);
+						int cost = current.getCost() + t.getTerrain().getMoveMod() + Math.abs(p.x - end.x) + Math.abs(p.y - end.y);
+						Cell c = openList.contains(new Cell(p, 0));
+						if(c != null) {
+							//check if the current path(cost) is better
+						} else {
+							openList.add(new Cell(p, cost));
+						}
+					}
 				}
 			}
 		}
