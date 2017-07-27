@@ -58,3 +58,6 @@
 /AlexInventoryPanel$7.class
 /ExtendedASCII.class
 /AlertPanel.class
+/AStar.class
+/AStar$Cell.class
+/AStar$CellQueue.class
