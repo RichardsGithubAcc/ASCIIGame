@@ -16,9 +16,10 @@ public class AStar {
 		private int fCost;
 		private Cell previous;
 		
-		public Cell(Point p, int c) {
+		public Cell(Point p, int c, Cell pe) {
 			point = p;
 			fCost = c;
+			previous = pe;
 		}
 		
 		public Point getPoint() {
@@ -78,23 +79,26 @@ public class AStar {
 	}
 	
 	public LinkedList<Cell> getPath() {
-		openList.add(new Cell(start, 0));
+		openList.add(new Cell(start, 0, null));
 		Cell current;
 		boolean done = false;
 		while(!done) {
 			current = openList.poll();
+			closedList.add(current);//check this line
 			for(int dX = -1; dX < 2; dX++) {
 				for(int dY = -1; dY < 2; dY++) {
 					//calculate cost, then check if the cell is in the open list
 					if(dX != 0 && dY != 0) {
 						Point p = new Point(current.getPoint().x + dX, current.getPoint().y + dY);
 						Tile t = map.getPoint(p);
-						int cost = current.getCost() + t.getTerrain().getMoveMod() + Math.abs(p.x - end.x) + Math.abs(p.y - end.y);
-						Cell c = openList.contains(new Cell(p, 0));
-						if(c != null) {
-							//check if the current path(cost) is better
-						} else {
-							openList.add(new Cell(p, cost));
+						if(t.getTerrain().isPassable() && t.hasCreature() == null) {
+							int cost = current.getCost() + t.getTerrain().getMoveMod() + Math.abs(p.x - end.x) + Math.abs(p.y - end.y);
+							Cell c = openList.contains(new Cell(p, 0, current));
+							if(c != null) {
+								if(cost < c.getCost()) c.setPrevious(current);//check this line
+							} else {
+								openList.add(new Cell(p, cost, current));
+							}
 						}
 					}
 				}
