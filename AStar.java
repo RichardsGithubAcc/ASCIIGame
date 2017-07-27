@@ -85,7 +85,7 @@ public class AStar {
 			current = openList.poll();
 			for(int dX = -1; dX < 2; dX++) {
 				for(int dY = -1; dY < 2; dY++) {
-					
+					//calculate cost, then check if the cell is in the open list
 				}
 			}
 		}
