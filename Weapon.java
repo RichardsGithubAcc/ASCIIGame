@@ -80,8 +80,9 @@ public class Weapon extends Item {
 			if(c != null) {
 				System.out.println(c.getName());
 				c.hit(attackMod * inventory[0].getDamage(), inventory[0], host);
+				System.out.println("ouch");
 			}
-		}
+		}	
 		inventory[0].setDurability(inventory[0].getDurability() - 1);
 	}
 	

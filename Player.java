@@ -17,7 +17,7 @@ public class Player extends Creature {
 		perception = pe;
 		maxWeight = 20 + 2 * strength;
 		hunger = 0;
-		thirst = 0;
+		setThirst(0);
 		volumeCarried = 0;
 		weightCarried = 0;
 		maxVolume = 0;
@@ -31,7 +31,7 @@ public class Player extends Creature {
 		perception = pe;
 		maxWeight = 20 + 2 * strength;
 		hunger = 0;
-		thirst = 0;
+		setThirst(0);
 		volumeCarried = 0;
 		weightCarried = 0;
 		maxVolume = 0;
@@ -48,7 +48,7 @@ public class Player extends Creature {
 		maxWeight = 20 + 2 * strength;
 		maxVolume = 0;
 		hunger = 0;
-		thirst = 0;
+		setThirst(0);
 	}
 	
 	public Player(Player origin) {
@@ -81,7 +81,7 @@ public class Player extends Creature {
 		if(super.getDelay() > 0) {
 			super.removeDelay(1);
 		}
-		thirst++;
+		setThirst(getThirst() + 1);
 	}
 	
 	public int checkWeight() {
@@ -254,5 +254,19 @@ public class Player extends Creature {
 	 */
 	public void setMaxWeight(double maxWeight) {
 		this.maxWeight = maxWeight;
+	}
+
+	/**
+	 * @return the thirst
+	 */
+	public int getThirst() {
+		return thirst;
+	}
+
+	/**
+	 * @param thirst the thirst to set
+	 */
+	public void setThirst(int thirst) {
+		this.thirst = thirst;
 	}
 }

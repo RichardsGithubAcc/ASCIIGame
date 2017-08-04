@@ -171,7 +171,7 @@ public class InventoryPanel extends JPanel {
 		add(emptyLabel2);
 		add(progressLabel);
 		
-		textPanel = new AlertPanel(game);
+		textPanel = new AlertPanel(game, 250, 600);
 		add(textPanel, BorderLayout.SOUTH);
 //		
 //		textArea = new JTextArea();

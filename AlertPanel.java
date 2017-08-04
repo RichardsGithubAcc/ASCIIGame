@@ -15,20 +15,24 @@ public class AlertPanel extends JPanel {
 	private ArrayList<String> log;
 	private Game game;
 	private int newAlerts;
+	private int x;
+	private int y;
 	
-	public AlertPanel(Game g) {
+	public AlertPanel(Game g, int x, int y) {
 		this.setBackground(Color.BLACK);
-		setBounds(new Rectangle(250, 600));
+		this.x = x;
+		this.y = y;
+		setBounds(new Rectangle(x, y));
 		setVisible(true);
 		game = g;
 		log = new ArrayList<String>();
-		this.setPreferredSize(new Dimension(250, 600));
+		this.setPreferredSize(new Dimension(x, y));
 	}
 	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g2);
-		setBounds(new Rectangle(200, 550));
+		setBounds(new Rectangle(x, y - 50));
 		int height = (int)this.getBounds().getHeight();
 		g2.setFont(new Font("Arial", Font.PLAIN, 14));
 		g2.setColor(Color.WHITE);

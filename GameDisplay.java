@@ -55,6 +55,8 @@ public class GameDisplay extends JFrame {
 		InventoryPanel inventoryPanel = new InventoryPanel(game);
 		contentPane.add(inventoryPanel, BorderLayout.EAST);
 		
+		
+		
 		/*
 		 * inventory panel
 		 */
