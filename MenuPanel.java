@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel {
-	private String prompt;
+	private String promptStr;
 	private Game game;
 	private ArrayList<String> options;
 	private int x;
@@ -32,6 +32,69 @@ public class MenuPanel extends JPanel {
 	
 	
 	}
-	
+
+	/**
+	 * @return the promptStr
+	 */
+	public String getPromptStr() {
+		return promptStr;
+	}
+
+	/**
+	 * @param promptStr the promptStr to set
+	 */
+	public void setPromptStr(String promptStr) {
+		this.promptStr = promptStr;
+	}
+
+	/**
+	 * @return the game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	/**
+	 * @param game the game to set
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
+	/**
+	 * @return the options
+	 */
+	public ArrayList<String> getOptions() {
+		return options;
+	}
+
+	/**
+	 * @return the x
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * @param x the x to set
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	/**
+	 * @return the y
+	 */
+	public int getY() {
+		return y;
+	}
+
+	/**
+	 * @param y the y to set
+	 */
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	
 }

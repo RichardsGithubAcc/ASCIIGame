@@ -62,10 +62,10 @@ public class AlertPanel extends JPanel {
 		}
 		game.setProgress(new ArrayList<String>());
 		newAlerts = progress.size();
-		processLog();
+		formatLog();
 	}
 	
-	public void processLog() {
+	public void formatLog() {
 		for(int i = 0; i < log.size(); i++) {
 			if(log.get(i).length() > 36) {
 				//int index = log.get(i).lastIndexOf(' ');
