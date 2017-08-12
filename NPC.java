@@ -48,8 +48,20 @@ public class NPC extends Creature {
 				super.attack(super.getGame().getPlayer());
 			} else {
 				//moveTowards(playerX, playerY);
-				AStar foo = new AStar(super.getGame().getMap(), new Point(super.getX(), super.getY()), new Point(lol.getX(), lol.getY()));
+				Point target = new Point(lol.getX(), lol.getY());
+				for(int dX = -1; dX < 2; dX++) {
+					for(int dY = -1; dY < 2; dY++) {
+						if(Math.abs(dX + dY) == 1) {
+							Tile t = super.getGame().getMap().getPoint(target);
+							if(t.getTerrain().isPassable() && t.hasCreature() == null) {
+								target = new Point(target.x + dX, target.y + dY);
+							}
+						}
+					}
+				}
+				AStar foo = new AStar(super.getGame().getMap(), new Point(super.getX(), super.getY()), target);
 				path = foo.getPath();//this is pretty inefficient, find a way to not constantly research the path
+				path.removeFirst();
 				moveTowards(path.getFirst().x, path.getFirst().y);
 				path.removeFirst();
 			}

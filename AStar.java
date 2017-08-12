@@ -97,16 +97,20 @@ public class AStar {
 	}
 	
 	public LinkedList<Point> getPath() {
-		System.out.println("pathfinding started");
+		System.out.println("pathfinding started, target (" + end.x + ", " + end.y + ")");
 		openList.add(new Cell(start, 0, null));
+		
 		Cell current;
 		boolean done = false;
 		while(!done) {
+			if(closedList.size() > 100) return null;
 			if(openList.isEmpty()) return null;
 			current = openList.poll();
+			System.out.println("current point is (" + current.getPoint().x + ", " + current.getPoint().y + ")");
 			closedList.add(current);//check this line
-			System.out.println("closed list expanded");
+			System.out.println("closed list expanded, now " + closedList.size());
 			if(current.getPoint().x == end.x && current.getPoint().y == end.y) {//we're done
+				done = true;
 				System.out.println("pathfinding done");
 				LinkedList<Point> path = new LinkedList<Point>();
 				path.addFirst(current.getPoint());
@@ -123,15 +127,38 @@ public class AStar {
 						System.out.println("considering (" + (current.getPoint().x + dX) + ", " + (current.getPoint().y + dY) + ")");
 						Point p = new Point(current.getPoint().x + dX, current.getPoint().y + dY);
 						Tile t = map.getPoint(p);
-						if(t.getTerrain().isPassable() && t.hasCreature() == null) {
+						boolean notOnClosedList = true;
+						for(int i = 0; i < closedList.size(); i++) {
+							Cell lol = closedList.get(i);//only add it if its not already in the closedList
+							if(lol.getPoint().x == p.x && lol.getPoint().y == p.y) notOnClosedList = false;
+						}
+						if(t.getTerrain().isPassable() && notOnClosedList) {
 							current.calcCost(end);
 							int cost = current.getMoveCost() + t.getTerrain().getMoveMod();// + Math.abs(p.x - end.x) + Math.abs(p.y - end.y);
 							Cell c = openList.contains(new Cell(p, 0, current));
 							if(c != null) {
-								if(cost < c.getMoveCost()) c.setPrevious(current);//if the current path is better, use it instead
+								if(cost < c.getMoveCost()) {
+									openList.remove(c);
+									c.setPrevious(current);//if the current path is better, use it instead
+									c.calcCost(end);
+									openList.add(c);
+								}
+								System.out.println("path changed");
 							} else {
 								cost += Math.abs(p.x - end.x) + Math.abs(p.y - end.y);//cost is currently gCost, add h to convert to fCost
+//								if(p.x == end.x && p.y == end.y) {
+//									done = true;
+//									System.out.println("pathfinding done");
+//									LinkedList<Point> path = new LinkedList<Point>();
+//									path.addFirst(p);
+//									while(current.getPrevious() != null) {
+//										path.addFirst(current.getPrevious().getPoint());//construct a linked list starting at the start and ending at the end
+//										current = current.getPrevious();
+//									}
+//									return path;
+//								}
 								openList.add(new Cell(p, cost, current));
+								System.out.println("openList expanded, now " + openList.size());
 							}
 						}
 					}
