@@ -1,9 +1,11 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.util.LinkedList;
 
 public class NPC extends Creature {
 	private boolean hostile;
 	private Point tether;
+	private LinkedList<Point> path;
 
 	public NPC(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH, double hM, double armM,
 			double atkM, int dH, boolean ho) {
@@ -37,14 +39,19 @@ public class NPC extends Creature {
 	
 	public void update() {
 		super.update();
-		int playerX = super.getGame().getPlayer().getX();
-		int playerY = super.getGame().getPlayer().getY();
+		Player lol = super.getGame().getPlayer();
+		int playerX = lol.getX();
+		int playerY = lol.getY();
 		double d = Game.dist(super.getX(), super.getY(), playerX, playerY);
 		if(hostile && d < 35) {
 			if(d == 1) {
 				super.attack(super.getGame().getPlayer());
 			} else {
-				moveTowards(playerX, playerY);
+				//moveTowards(playerX, playerY);
+				AStar foo = new AStar(super.getGame().getMap(), new Point(super.getX(), super.getY()), new Point(lol.getX(), lol.getY()));
+				path = foo.getPath();//this is pretty inefficient, find a way to not constantly research the path
+				moveTowards(path.getFirst().x, path.getFirst().y);
+				path.removeFirst();
 			}
 		} else {
 			if(tether != null && Game.dist(super.getX(), super.getY(), tether.x, tether.y) > 10) {
@@ -97,6 +104,14 @@ public class NPC extends Creature {
 	 */
 	public void setTether(Point tether) {
 		this.tether = tether;
+	}
+
+	public LinkedList<Point> getPath() {
+		return path;
+	}
+
+	public void setPath(LinkedList<Point> path) {
+		this.path = path;
 	}
 	
 	
