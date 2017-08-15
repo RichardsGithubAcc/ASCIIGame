@@ -22,7 +22,7 @@ public class Game {
 	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
 	public final Terrain TREE = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
 	public final Terrain BUSH = new Terrain(this, '#', new Color(0, 200, 0), "bush", null, 0, 0, true, 1);
-	public final NPC ZOMBIE = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true);
+//	public final NPC ZOMBIE = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true);
 	public final Terrain WALL = new Terrain(this, 'W', new Color(100, 56, 0), "wall", null, 0, 0, false, 0);
 	public final Terrain FLOOR = new Terrain(this, '-', new Color(155, 108, 0), "floor", null, 0, 0, true, 0);
 	public final Door DOOR = new Door(this, new Color(114, 114, 114), "door", null, 0, 0, false, 0, "east", "key: 0", 2);
@@ -59,7 +59,13 @@ public class Game {
 		camera.y = 0;	
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
 		genForest(0, 0, panelCols, panelRows);
-		buildHouse(-30, -30, 13, 21, "east");
+		constructRoom(-30, -30, 13, 21, "east");
+		constructRoom(-30, -50, 13, 21, "east");
+		constructStore(100, 100, "south");
+		constructStore(150, 100, "west");
+		constructStore(100, 0, "east");
+		constructStore(150, 0, "north");
+		
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
 		
@@ -74,10 +80,10 @@ public class Game {
 		ArrayList<Entity> items = new ArrayList<Entity>();
 		items.add(player);
 		map.setPoint(new Point(0, 0), new Tile(this.BUSH, items));
-		map.setPoint(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
+		//map.setPoint(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		
 		progress = new ArrayList<String>();
-		spawnHorde(-40, -40, -10, -10);
+		//spawnHorde(-40, -40, -10, -10);
 		frame.repaint();
 	}
 	
@@ -121,12 +127,12 @@ public class Game {
 		dynamic.add(player);
 	
 		genForest(0, 0, map.getPanelCols(), map.getPanelRows());
-		buildHouse(-30, -30, 13, 21, "east");
+		constructRoom(-30, -30, 13, 21, "east");
 	
 		ArrayList<Entity> items = new ArrayList<Entity>();
 		items.add(player);
 		map.setPoint(new Point(0, 0), new Tile(this.BUSH, items));
-		map.setPoint(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
+		//map.setPoint(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		spawnHorde(-40, -40, -10, -10);
 	}
 
@@ -229,8 +235,7 @@ public class Game {
 		}
 	} 
 	
-	public void buildHouse(int x, int y, int width, int length, String direction) {
-		
+	public void constructRoom(int x, int y, int width, int length, String direction) {
 		for (int col = x; col <= x + width; col++) {
 			for (int row = y; row <= y + length; row++) {
 				if ((col == x || col == x + width) || (row == y || row == y + length)) {
@@ -284,6 +289,43 @@ public class Game {
 			break;
 			
 		}
+	}
+	
+	public void constructHouse(int x, int y, String direction) {
+		
+	}
+	
+	public void constructStore(int x, int y, String direction) {
+		switch (direction.toLowerCase()) {
+		case "north":
+			constructRoom(x, y, 39, 25, "north");
+			constructRoom(x-15, y+4, 15, 17, "east");
+			constructRoom(x+39, y+4, 15, 17, "west");
+			constructRoom(x+10, y-8, 18, 8, "north");
+			break;
+		case "south":
+			constructRoom(x, y, 39, 25, "south");
+			constructRoom(x-15, y+4, 15, 17, "east");
+			constructRoom(x+39, y+4, 15, 17, "west");
+			constructRoom(x+11, y+25, 18, 8, "south");
+			break;
+		case "east":
+			constructRoom(x, y, 25, 39, "east");
+			constructRoom(x+4, y+39, 17, 15, "south");
+			constructRoom(x+4, y-15, 17, 15, "north");
+			constructRoom(x-8, y+11, 8, 18, "east");
+			break;
+		case "west":
+			constructRoom(x, y, 25, 39, "west");
+			constructRoom(x+4, y+39, 17, 15, "south");
+			constructRoom(x+4, y-15, 17, 15, "north");
+			constructRoom(x+25, y+10, 8, 18, "west");
+			break;
+		}
+	}
+	
+	public void constructTown(int x, int y) {
+		
 	}
 	
 	public ArrayList<Dynamic> getDynamic() {
