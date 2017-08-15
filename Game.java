@@ -150,7 +150,7 @@ public class Game {
 			int bX = Math.round((float)player.getX() / 1000);
 			int bY = Math.round((float)player.getY() / 1000);
 			
-			Integer[] seed = new Integer[5];
+			Integer[] seed = new Integer[6];
 			int rngSeed = (int)Math.round(Math.random() * 100);
 			if(rngSeed < townSpawnChance) {
 				seed[0] = ((rngSeed - townSpawnChance) / townDensityConstant) + 1;
@@ -215,7 +215,7 @@ public class Game {
 	
 	public void kill(Dynamic c) {
 		for(int i  = 0; i < dynamic.size(); i++) {
-			if(dynamic.get(i) == c) dynamic.remove(i);
+			if(dynamic.get(i) == c) dynamic.set(i, null);
 		}
 	}
 	
@@ -347,6 +347,11 @@ public class Game {
 			paveRoad(bounds.y + bounds.height/2 - 3, bounds.x, bounds.width, false, ((double)bounds.height) / bounds.width);
 		}
 		
+		for(int x = bounds.x; x < bounds.x + bounds.width; x++) {
+			for(int y = bounds.y; y > bounds.y - bounds.height; y--) {
+				
+			}
+		}
 	}
 	
 	/*
@@ -360,12 +365,17 @@ public class Game {
 			for(int i = 0; i < 5; i++) {
 				paveVRoad(x + i, y, length);
 			}
-			for(int x2 = x; x2 < Math.abs(x) + length; x2++) {
-				//TODO add branch roads
+			for(int dX = x; dX < length; dX += 30 + Math.random() * 10) {
+				int newLength = (int)Math.round((double)length * ratio);
+				paveRoad(x + dX, y + newLength/2 + 2, newLength, false, ratio);
 			}
 		} else {
-			for(int i = 0; i < 5; i += 30 + Math.random() * 10) {
+			for(int i = 0; i < 5; i ++) {
 				paveHRoad(x, y + i, length);
+			}
+			for(int dY = y; dY < length; dY += 30 + Math.random() * 10) {
+				int newLength = (int)Math.round((double)length * ratio);
+				paveRoad(x + length/2 + 2, y + dY, newLength, false, ratio);
 			}
 		}
 	}

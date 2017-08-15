@@ -14,6 +14,7 @@ public class Creature extends Entity implements Dynamic {
 	private ArrayList<Item> inventory;
 	private Clothing arms, legs, torso, head, feet, hands;
 	private Item holding;
+	public static final int DEFAULT_MOVE_DELAY = 3;
 
 	public Creature(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int armV, int mH,
 			double hM, double armM, double atkM, int dH) {
@@ -196,7 +197,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord, yCoord + 1), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
-				delay += 1 + t.getTerrain().getMoveMod();
+				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}
@@ -218,7 +219,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord, yCoord - 1), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
-				delay += 1 + t.getTerrain().getMoveMod();
+				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}
@@ -240,7 +241,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord - 1, yCoord), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
-				delay += 1 + t.getTerrain().getMoveMod();
+				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}
@@ -262,7 +263,7 @@ public class Creature extends Entity implements Dynamic {
 				t.addItem(this);
 				map.setPoint(new Point(xCoord + 1, yCoord), t);
 				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
-				delay += 1 + t.getTerrain().getMoveMod();
+				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}
 		}

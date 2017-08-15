@@ -5,6 +5,7 @@ public class Player extends Creature {
 	private int hunger, volumeCarried, maxVolume, thirst;
 	private int strength, dexterity, intelligence, perception;
 	private double weightCarried, maxWeight;
+	public static final int DEFAULT_PLAYER_MOVE_DELAY = 2;
 
 
 	public Player(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int h, int mH, double hM, double armM,
@@ -268,5 +269,93 @@ public class Player extends Creature {
 	 */
 	public void setThirst(int thirst) {
 		this.thirst = thirst;
+	}
+	
+	public boolean moveUp() {
+		if(super.getDelay() > 0) return false;
+		int yCoord = super.getY();
+		int xCoord = super.getX();
+		WorldMap map = super.getGame().getMap();
+		Tile t = (map.getPoint(new Point(xCoord, yCoord + 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord + 1));
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setY(yCoord + 1);
+				t.addItem(this);
+				map.setPoint(new Point(xCoord, yCoord + 1), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean moveDown() {
+		if(super.getDelay() > 0) return false;
+		int yCoord = super.getY();
+		int xCoord = super.getX();
+		WorldMap map = super.getGame().getMap();
+		Tile t = (map.getPoint(new Point(xCoord, yCoord - 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord - 1));
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setY(yCoord - 1);
+				t.addItem(this);
+				map.setPoint(new Point(xCoord, yCoord - 1), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean moveLeft() {
+		if(super.getDelay() > 0) return false;
+		WorldMap map = super.getGame().getMap();
+		int yCoord = super.getY();
+		int xCoord = super.getX();
+		Tile t = (map.getPoint(new Point(xCoord - 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord - 1, yCoord));
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setX(xCoord - 1);
+				t.addItem(this);
+				map.setPoint(new Point(xCoord - 1, yCoord), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean moveRight() {
+		if(super.getDelay() > 0) return false;
+		WorldMap map = super.getGame().getMap();
+		int yCoord = super.getY();
+		int xCoord = super.getX();
+		Tile t = (map.getPoint(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord + 1, yCoord));
+		Creature c = t.hasCreature();
+		if (c != null) {
+			attack(c);
+		} else {
+			if (t.getTerrain().isPassable()) {
+				super.setX(xCoord + 1);
+				t.addItem(this);
+				map.setPoint(new Point(xCoord + 1, yCoord), t);
+				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
+				return true;
+			}
+		}
+		return false;
 	}
 }
