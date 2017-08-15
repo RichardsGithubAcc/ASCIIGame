@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.awt.Point;
 import javax.swing.JFrame;
@@ -12,6 +13,11 @@ public class Game {
 	private Player dummyPlayer;
 	private ArrayList<String> progress;
 	private GameDisplay frame;
+	private ArrayList<Rectangle> blocks = new ArrayList<Rectangle>();
+	private int townSpawnChance = 70;
+	private int townDensityConstant = 15;
+	private int forestSpawnChance = 30;
+	private int forestDensityConstant = 10;
 	
 	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
 	public final Terrain TREE = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
@@ -134,20 +140,51 @@ public class Game {
 				d.update();
 			}
 		}
+		if(player.getX()%500 == 50 || player.getY()%500 == 50 || player.getX()%500 == 450 || player.getY()%500 == 450) {
+			int bX = Math.round((float)player.getX() / 500);
+			int bY = Math.round((float)player.getY() / 500);
+			
+			Integer[] seed = new Integer[5];
+			int rngSeed = (int)Math.round(Math.random() * 100);
+			if(rngSeed < townSpawnChance) {
+				seed[0] = ((rngSeed - townSpawnChance) / townDensityConstant) + 1;
+			}
+			if(rngSeed < forestSpawnChance) {
+				seed[5] = ((rngSeed - forestSpawnChance) / forestDensityConstant) + 1;
+			}
+			
+			loadBlock(bX, bY, seed);
+		}
+	}
+	/* 
+	 * higher numbers indicate higher densities
+	 * seed[0] = towns
+	 * seed[1] = TBD
+	 * seed[2] = TBD
+	 * seed[3] = TBD
+	 * seed[4] = TBD
+	 * seed[5] = forests
+	 */
+	public void loadBlock(int x, int y, Integer[] blockStructures) {
+		
 	}
 	
 	public static double dist(int x1, int y1, int x2, int y2) {
 		return (double)(Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)));
 	}
-
+	
 	public void genForest(int x1, int y1, int x2, int y2) {
-		for (int x = (int) (x1 - Math.random() * 10); x <= x2 + Math.random() * 10; x++) {
-			for (int y = (int) (y1 - Math.random() * 10); y <= y2 + Math.random() * 10; y++) {
-				if (Math.random() < 0.3) {
+		genForest(x1, y1, x2, y2, 0.3, 10);
+	}
+
+	public void genForest(int x1, int y1, int x2, int y2, double forestDensity, int forestFuzziness) {
+		for (int x = (int) (x1 - Math.random() * forestFuzziness); x <= x2 + Math.random() * forestFuzziness; x++) {
+			for (int y = (int) (y1 - Math.random() * forestFuzziness); y <= y2 + Math.random() * forestFuzziness; y++) {
+				if (Math.random() < forestDensity) {
 					map.setPoint(new Point(x, y), new Tile(new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, x, y, false, 0)));
 					
 				} else {
-					if (Math.random() < 0.2)
+					if (Math.random() < forestDensity * 0.66)
 						map.setPoint(new Point(x, y), new Tile(new Terrain(this, '#', new Color(0, 200, 0), "bush", null, x, y, true, 1)));
 
 				}
