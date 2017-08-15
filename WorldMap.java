@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.HashMap;
 
 public class WorldMap {
@@ -65,5 +66,17 @@ public class WorldMap {
 	
 	public void clear() {
 		map.clear();
+	}
+	
+	/*
+	 *returns true if and only if every coordinate point within the rectangle, sides included, is associated with a null reference in the map
+	 */
+	public boolean isEmpty(Rectangle search) {
+		for(int x = 0; x < search.width; x++) {
+			for(int y = 0; y < search.height; y++) {
+				if(getPoint(new Point(search.x + x, search.y + y))!= null) return false;
+			}
+		}
+		return true;
 	}
 }

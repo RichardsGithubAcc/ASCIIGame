@@ -146,9 +146,9 @@ public class Game {
 				d.update();
 			}
 		}
-		if(player.getX()%500 == 50 || player.getY()%500 == 50 || player.getX()%500 == 450 || player.getY()%500 == 450) {
-			int bX = Math.round((float)player.getX() / 500);
-			int bY = Math.round((float)player.getY() / 500);
+		if(player.getX()%1000 < 50 || player.getY()%1000 < 50 || player.getX()%1000 > 950 || player.getY()%1000 > 950) {
+			int bX = Math.round((float)player.getX() / 1000);
+			int bY = Math.round((float)player.getY() / 1000);
 			
 			Integer[] seed = new Integer[5];
 			int rngSeed = (int)Math.round(Math.random() * 100);
@@ -223,15 +223,28 @@ public class Game {
 		// display appropriate icon for intersection
 	}
 	
-	public void paveHRoad(int x1, int x2, int y) {
-		for(int x = x1; x <= x2; x++) {
-			map.setPoint(new Point(x, y), new Tile(H_ROAD));
+	/*
+	 * LEFT TO RIGHT
+	 */
+	public void paveHRoad(int x, int y, int length) {
+		for(int i = 0; i < length; i++) {
+			if(map.getPoint(new Point(x + i, y)).getTerrain().getName().equalsIgnoreCase("V_ROAD")) {
+				map.setPoint(new Point(x + i, y), new Tile(CROSS_ROAD));
+			} else {
+				map.setPoint(new Point(x + i, y), new Tile(H_ROAD));
+			}
 		}
 	}
 	
-	public void paveVRoad(int x, int y1, int y2) {
-		for(int y = y1; y >= y2; y--) {
-			map.setPoint(new Point(x, y), new Tile(V_ROAD));
+	/*
+	 * TOP TO BOTTOM
+	 */
+	public void paveVRoad(int x, int y, int length) {
+		for(int i = 0; i < length; i++) {
+			if(map.getPoint(new Point(x, y - i)).getTerrain().getName().equalsIgnoreCase("H_ROAD")) {
+				map.setPoint(new Point(x, y - i), new Tile(CROSS_ROAD));
+			}
+			map.setPoint(new Point(x, y - i), new Tile(V_ROAD));
 		}
 	} 
 	
@@ -324,8 +337,37 @@ public class Game {
 		}
 	}
 	
-	public void constructTown(int x, int y) {
+	/*
+	 * Constructs a town within the given rectangle
+	 */
+	public void constructTown(Rectangle bounds) {
+		if(bounds.height > bounds.width) {
+			paveRoad(bounds.x + bounds.width/2 - 3, bounds.y, bounds.height, true, ((double)bounds.width) / bounds.height);
+		} else {
+			paveRoad(bounds.y + bounds.height/2 - 3, bounds.x, bounds.width, false, ((double)bounds.height) / bounds.width);
+		}
 		
+	}
+	
+	/*
+	 * Creates and populates a road with upper left corner at (x, y), extending for length units
+	 * Pass true for a vertical road, false for a horizontal one
+	 * Will recursively create smaller branch roads for the town creator to put buildings next to
+	 * Intended specifically for use in towns, so only makes width 5 roads
+	 */
+	public void paveRoad(int x, int y, int length, boolean vertical, double ratio) {
+		if(vertical) {
+			for(int i = 0; i < 5; i++) {
+				paveVRoad(x + i, y, length);
+			}
+			for(int x2 = x; x2 < Math.abs(x) + length; x2++) {
+				//TODO add branch roads
+			}
+		} else {
+			for(int i = 0; i < 5; i += 30 + Math.random() * 10) {
+				paveHRoad(x, y + i, length);
+			}
+		}
 	}
 	
 	public ArrayList<Dynamic> getDynamic() {
