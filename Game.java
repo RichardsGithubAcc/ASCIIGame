@@ -59,13 +59,12 @@ public class Game {
 		camera.y = 0;	
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
 		genForest(0, 0, panelCols, panelRows);
-		constructRoom(-30, -30, 13, 21, "east");
-		constructRoom(-30, -50, 13, 21, "east");
 		constructStore(100, 100, "south");
 		constructStore(150, 100, "west");
 		constructStore(100, 0, "east");
 		constructStore(150, 0, "north");
-		
+		constructHouse(-40, -40, "north");
+		constructHouse(-60, -80, "south");
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
 		
@@ -305,7 +304,82 @@ public class Game {
 	}
 	
 	public void constructHouse(int x, int y, String direction) {
-		
+		constructRoom(x, y, 23, 23, direction);
+		double rand = Math.random();
+		double rand2 = Math.random();
+		if (rand <= 0.125) { 
+			constructRoom(x, y, 9, 9, "north");
+			if (rand2 <= 0.167) constructRoom(x, y+16, 7, 7, "south");
+			else if (rand2 <= 0.333) constructRoom(x, y+16, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x+16, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x+16, y, 7, 7, "west");
+			else if (rand2 <= 0.833) constructRoom(x+16, y+16, 7, 7, "south");
+			else constructRoom(x+16, y+16, 7, 7, "west");
+		}
+		else if (rand <= 0.25) {
+			constructRoom(x, y, 9, 9, "east");
+			if (rand2 <= 0.167) constructRoom(x, y+16, 7, 7, "south");
+			else if (rand2 <= 0.333) constructRoom(x, y+16, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x+16, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x+16, y, 7, 7, "west");
+			else if (rand2 <= 0.833) constructRoom(x+16, y+16, 7, 7, "south");
+			else constructRoom(x+16, y+16, 7, 7, "west");
+		}
+		else if (rand <= 0.375) {
+			constructRoom(x+14, y, 9, 9, "north");
+			if (rand2 <= 0.167) constructRoom(x, y+16, 7, 7, "south");
+			else if (rand2 <= 0.333) constructRoom(x, y+16, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x, y, 7, 7, "east");
+			else if (rand2 <= 0.833) constructRoom(x+16, y+16, 7, 7, "south");
+			else constructRoom(x+16, y+16, 7, 7, "west");
+		}
+		else if (rand <= 0.5) {
+			constructRoom(x+14, y, 9, 9, "west");
+			if (rand2 <= 0.167) constructRoom(x, y+16, 7, 7, "south");
+			else if (rand2 <= 0.333) constructRoom(x, y+16, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x, y, 7, 7, "east");
+			else if (rand2 <= 0.833) constructRoom(x+16, y+16, 7, 7, "south");
+			else constructRoom(x+16, y+16, 7, 7, "west");
+		}
+		else if (rand <= 0.625) {
+			constructRoom(x, y+14, 9, 9, "south");
+			if (rand2 <= 0.167) constructRoom(x, y, 7, 7, "north");
+			else if (rand2 <= 0.333) constructRoom(x, y, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x+16, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x+16, y, 7, 7, "west");
+			else if (rand2 <= 0.833) constructRoom(x+16, y+16, 7, 7, "south");
+			else constructRoom(x+16, y+16, 7, 7, "west");
+		}
+		else if (rand <= 0.75) {
+			constructRoom(x, y+14, 9, 9, "east");
+			constructRoom(x, y+14, 9, 9, "south");
+			if (rand2 <= 0.167) constructRoom(x, y, 7, 7, "north");
+			else if (rand2 <= 0.333) constructRoom(x, y, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x+16, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x+16, y, 7, 7, "west");
+			else if (rand2 <= 0.833) constructRoom(x+16, y+16, 7, 7, "south");
+			else constructRoom(x+16, y+16, 7, 7, "west");
+		}
+		else if (rand <= 0.875) {
+			constructRoom(x+14, y+14, 9, 9, "south");
+			if (rand2 <= 0.167) constructRoom(x, y+16, 7, 7, "south");
+			else if (rand2 <= 0.333) constructRoom(x, y+16, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x+16, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x+16, y, 7, 7, "west");
+			else if (rand2 <= 0.833) constructRoom(x, y, 7, 7, "north");
+			else constructRoom(x, y, 7, 7, "east");
+		}
+		else {
+			constructRoom(x+14, y+14, 9, 9, "west");
+			if (rand2 <= 0.167) constructRoom(x, y+16, 7, 7, "south");
+			else if (rand2 <= 0.333) constructRoom(x, y+16, 7, 7, "east");
+			else if (rand2 <= 0.5) constructRoom(x+16, y, 7, 7, "north");
+			else if (rand2 <= 0.667) constructRoom(x+16, y, 7, 7, "west");
+			else if (rand2 <= 0.833) constructRoom(x, y, 7, 7, "north");
+			else constructRoom(x, y, 7, 7, "east");
+		}
 	}
 	
 	public void constructStore(int x, int y, String direction) {
