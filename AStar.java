@@ -27,7 +27,7 @@ public class AStar {
 			return point;
 		}
 		
-		public void setPoint(Point p) {
+		public void setTile(Point p) {
 			point = p;
 		}
 		

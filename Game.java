@@ -80,8 +80,8 @@ public class Game {
 		
 		ArrayList<Entity> items = new ArrayList<Entity>();
 		items.add(player);
-		map.setPoint(new Point(0, 0), new Tile(this.BUSH, items));
-		//map.setPoint(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
+		map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
+		//map.setTile(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		
 		progress = new ArrayList<String>();
 		//spawnHorde(-40, -40, -10, -10);
@@ -132,8 +132,8 @@ public class Game {
 	
 		ArrayList<Entity> items = new ArrayList<Entity>();
 		items.add(player);
-		map.setPoint(new Point(0, 0), new Tile(this.BUSH, items));
-		//map.setPoint(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
+		map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
+		//map.setTile(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		spawnHorde(-40, -40, -10, -10);
 	}
 
@@ -188,11 +188,11 @@ public class Game {
 		for (int x = (int) (x1 - Math.random() * forestFuzziness); x <= x2 + Math.random() * forestFuzziness; x++) {
 			for (int y = (int) (y1 - Math.random() * forestFuzziness); y <= y2 + Math.random() * forestFuzziness; y++) {
 				if (Math.random() < forestDensity) {
-					map.setPoint(new Point(x, y), new Tile(new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, x, y, false, 0)));
+					map.setTile(new Point(x, y), new Tile(new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, x, y, false, 0)));
 					
 				} else {
 					if (Math.random() < forestDensity * 0.66)
-						map.setPoint(new Point(x, y), new Tile(new Terrain(this, '#', new Color(0, 200, 0), "bush", null, x, y, true, 1)));
+						map.setTile(new Point(x, y), new Tile(new Terrain(this, '#', new Color(0, 200, 0), "bush", null, x, y, true, 1)));
 
 				}
 			}
@@ -205,7 +205,7 @@ public class Game {
 				if(Math.random() < 0.05) {
 					Tile tile = map.getTile(new Point(x, y));
 					if(tile == null) {
-						map.setPoint(new Point(x, y), new Tile(null, (Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true))));
+						map.setTile(new Point(x, y), new Tile(null, (Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true))));
 					} else {
 						map.getTile(new Point(x, y)).addEntity((Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true)));
 					}
@@ -230,9 +230,9 @@ public class Game {
 	public void paveHRoad(int x, int y, int length) {
 		for(int i = 0; i < length; i++) {
 			if(map.getTile(new Point(x + i, y)).getTerrain().getName().equalsIgnoreCase("V_ROAD")) {
-				map.setPoint(new Point(x + i, y), new Tile(CROSS_ROAD));
+				map.setTile(new Point(x + i, y), new Tile(CROSS_ROAD));
 			} else {
-				map.setPoint(new Point(x + i, y), new Tile(H_ROAD));
+				map.setTile(new Point(x + i, y), new Tile(H_ROAD));
 			}
 		}
 	}
@@ -243,9 +243,9 @@ public class Game {
 	public void paveVRoad(int x, int y, int length) {
 		for(int i = 0; i < length; i++) {
 			if(map.getTile(new Point(x, y - i)).getTerrain().getName().equalsIgnoreCase("H_ROAD")) {
-				map.setPoint(new Point(x, y - i), new Tile(CROSS_ROAD));
+				map.setTile(new Point(x, y - i), new Tile(CROSS_ROAD));
 			}
-			map.setPoint(new Point(x, y - i), new Tile(V_ROAD));
+			map.setTile(new Point(x, y - i), new Tile(V_ROAD));
 		}
 	} 
 	
@@ -253,9 +253,9 @@ public class Game {
 		for (int col = x; col <= x + width; col++) {
 			for (int row = y; row <= y + length; row++) {
 				if ((col == x || col == x + width) || (row == y || row == y + length)) {
-					map.setPoint(new Point(col, row), new Tile(new Terrain(WALL)));
+					map.setTile(new Point(col, row), new Tile(new Terrain(WALL)));
 				} else {
-					map.setPoint(new Point(col, row), new Tile(new Terrain(FLOOR)));
+					map.setTile(new Point(col, row), new Tile(new Terrain(FLOOR)));
 				}
 			}
 		}
@@ -289,17 +289,17 @@ public class Game {
 		Tile tile = new Tile(newDoor);
 		switch (direction.toLowerCase()) {
 		case "north":
-			map.setPoint(new Point(x + width/2, y + length), tile);
+			map.setTile(new Point(x + width/2, y + length), tile);
 			break;
 		case "east":
-			map.setPoint(new Point(x + width, y + length/2), tile);
+			map.setTile(new Point(x + width, y + length/2), tile);
 			break;
 		case "west":
-			map.setPoint(new Point(x , y + length/2), tile);
+			map.setTile(new Point(x , y + length/2), tile);
 			break;
 		case "south":
 			default:
-			map.setPoint(new Point(x + width/2, y), tile);
+			map.setTile(new Point(x + width/2, y), tile);
 			break;
 			
 		}

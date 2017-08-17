@@ -45,7 +45,7 @@ public class WorldMap {
 		this.camera = camera;
 	}
 	
-	public void setPoint(Point point, Tile tile) {
+	public void setTile(Point point, Tile tile) {
 		map.put(point, tile);
 	}
 	

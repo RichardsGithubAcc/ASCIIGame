@@ -297,7 +297,7 @@ public class Player extends Creature {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord + 1);
 				t.addEntity(this);
-				map.setPoint(new Point(xCoord, yCoord + 1), t);
+				map.setTile(new Point(xCoord, yCoord + 1), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
 				return true;
@@ -319,7 +319,7 @@ public class Player extends Creature {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord - 1);
 				t.addEntity(this);
-				map.setPoint(new Point(xCoord, yCoord - 1), t);
+				map.setTile(new Point(xCoord, yCoord - 1), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
 				return true;
@@ -341,7 +341,7 @@ public class Player extends Creature {
 			if (t.getTerrain().isPassable()) {
 				super.setX(xCoord - 1);
 				t.addEntity(this);
-				map.setPoint(new Point(xCoord - 1, yCoord), t);
+				map.setTile(new Point(xCoord - 1, yCoord), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
 				return true;
@@ -363,7 +363,7 @@ public class Player extends Creature {
 			if (t.getTerrain().isPassable()) {
 				super.setX(xCoord + 1);
 				t.addEntity(this);
-				map.setPoint(new Point(xCoord + 1, yCoord), t);
+				map.setTile(new Point(xCoord + 1, yCoord), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
 				return true;

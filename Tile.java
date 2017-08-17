@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class Tile {
 	private Terrain terrain;
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
+	private Creature creature;
+	private Item item;
 	
 	public Tile(Terrain t, ArrayList<Entity> i) {
 		terrain = t;
@@ -14,14 +16,41 @@ public class Tile {
 		entities.add(e);
 	}
 	
+	public Tile(Terrain t, Item i) {
+		terrain = t;
+		item = i;
+	}
+	
+	public Tile(Terrain t, Creature c) {
+		terrain = t;
+		creature = c;
+		
+	}	
+	
 	public Tile(Terrain t) {
 		terrain = t;
 	}
 
+	public void setItem(Item i) {
+		item = i;
+	}
+	
+	public void setCreature(Creature c) {
+		creature = c;
+	}
+	
 	public void addEntity(Entity e) {
 		entities.add(e);
 	}
 
+	public Item getItem() {
+		return item;
+	}
+	
+	public Creature getCreature() {
+		return creature;
+	}
+	
 	public Entity removeCreature(Entity e) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) == e)
