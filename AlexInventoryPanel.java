@@ -170,12 +170,12 @@ public class AlexInventoryPanel extends JPanel {
 
 		String name = player.getHolding().getName();
 
-		holdingDropdown.addItem(name);
+		holdingDropdown.addEntity(name);
 			
 		for (Item item: inventory) {
 		
 		    if (item.getName() != name) {
-		    	holdingDropdown.addItem(item.getName());
+		    	holdingDropdown.addEntity(item.getName());
 		    } 
 		}
 		

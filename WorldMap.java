@@ -49,7 +49,7 @@ public class WorldMap {
 		map.put(point, tile);
 	}
 	
-	public Tile getPoint(Point point) {
+	public Tile getTile(Point point) {
 		Tile result = map.get(point);
 		if (result != null) {
 			return result;
@@ -74,7 +74,7 @@ public class WorldMap {
 	public boolean isEmpty(Rectangle search) {
 		for(int x = 0; x < search.width; x++) {
 			for(int y = 0; y < search.height; y++) {
-				if(getPoint(new Point(search.x + x, search.y + y))!= null) return false;
+				if(getTile(new Point(search.x + x, search.y + y))!= null) return false;
 			}
 		}
 		return true;

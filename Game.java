@@ -38,6 +38,7 @@ public class Game {
 	public final Terrain T_INTERSECTION_DOWN = new Terrain(this, ExtendedASCII.getASCII(203), new Color(153, 153, 153), "vertical road", null, 0, 0, true, 0);
 	public final Terrain T_INTERSECTION_LEFT = new Terrain(this, ExtendedASCII.getASCII(185), new Color(153, 153, 153), "vertical road", null, 0, 0, true, 0);
 	public final Terrain T_INTERSECTION_RIGHT = new Terrain(this, ExtendedASCII.getASCII(204), new Color(153, 153, 153), "vertical road", null, 0, 0, true, 0);
+	public final Item GARBAGE = new Item(this, 'G', new Color(180, 180, 180), "garbage", null, 0, 0, true, 5, 5, 100, 100, 0);
 	
 	public static final int DEF_HEALTH = 100;
 	public static final int DEF_MAX_HEALTH = 100;
@@ -68,7 +69,7 @@ public class Game {
 		constructHouse(-60, -80, "south");
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
-		
+		getMap().getTile(new Point(-12, -12)).addEntity(GARBAGE);
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
@@ -202,11 +203,11 @@ public class Game {
 		for(int x  = x1; x <= x2; x++) {
 			for(int y = y1; y <= y2; y++) {
 				if(Math.random() < 0.05) {
-					Tile tile = map.getPoint(new Point(x, y));
+					Tile tile = map.getTile(new Point(x, y));
 					if(tile == null) {
 						map.setPoint(new Point(x, y), new Tile(null, (Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true))));
 					} else {
-						map.getPoint(new Point(x, y)).addItem((Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true)));
+						map.getTile(new Point(x, y)).addEntity((Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true)));
 					}
 				}
 			}
@@ -228,7 +229,7 @@ public class Game {
 	 */
 	public void paveHRoad(int x, int y, int length) {
 		for(int i = 0; i < length; i++) {
-			if(map.getPoint(new Point(x + i, y)).getTerrain().getName().equalsIgnoreCase("V_ROAD")) {
+			if(map.getTile(new Point(x + i, y)).getTerrain().getName().equalsIgnoreCase("V_ROAD")) {
 				map.setPoint(new Point(x + i, y), new Tile(CROSS_ROAD));
 			} else {
 				map.setPoint(new Point(x + i, y), new Tile(H_ROAD));
@@ -241,7 +242,7 @@ public class Game {
 	 */
 	public void paveVRoad(int x, int y, int length) {
 		for(int i = 0; i < length; i++) {
-			if(map.getPoint(new Point(x, y - i)).getTerrain().getName().equalsIgnoreCase("H_ROAD")) {
+			if(map.getTile(new Point(x, y - i)).getTerrain().getName().equalsIgnoreCase("H_ROAD")) {
 				map.setPoint(new Point(x, y - i), new Tile(CROSS_ROAD));
 			}
 			map.setPoint(new Point(x, y - i), new Tile(V_ROAD));

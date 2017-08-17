@@ -57,11 +57,11 @@ public class GraphicsPanel extends JPanel {
 			for (int j = 0; j < row; j++) {
 				point.x = startX + i;
 				point.y = startY + j;
-				tile = map.getPoint(point);
+				tile = map.getTile(point);
 
 				if (tile != null && tile.getTerrain() != null) {
 					str = "";
-					Creature c = tile.hasCreature();
+					Creature c = tile.getEntity();
 					if (c != null) {
 						g2.setColor(c.getColor());
 						str += c.getIcon();

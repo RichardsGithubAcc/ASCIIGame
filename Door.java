@@ -98,8 +98,8 @@ public class Door extends Terrain {
 	public void use() {
 		if(this.status == 3) {
 		if (direction.equalsIgnoreCase("south") || direction.equalsIgnoreCase("north")) {// horizontal
-			Creature c = super.getGame().getMap().getPoint(new Point(super.getX(), super.getY() + 1)).hasCreature();
-			Creature c2 = super.getGame().getMap().getPoint(new Point(super.getX(), super.getY() - 1)).hasCreature();
+			Creature c = super.getGame().getMap().getTile(new Point(super.getX(), super.getY() + 1)).getEntity();
+			Creature c2 = super.getGame().getMap().getTile(new Point(super.getX(), super.getY() - 1)).getEntity();
 			if (c != null) {
 				ArrayList<Item> in = c.getInventory();
 				for (Item i : in) {
@@ -123,8 +123,8 @@ public class Door extends Terrain {
 		}
 
 		if (direction.equalsIgnoreCase("east") || direction.equalsIgnoreCase("west")) {// vertical
-			Creature c = super.getGame().getMap().getPoint(new Point(super.getX() + 1, super.getY())).hasCreature();
-			Creature c2 = super.getGame().getMap().getPoint(new Point(super.getX() - 1, super.getY())).hasCreature();
+			Creature c = super.getGame().getMap().getTile(new Point(super.getX() + 1, super.getY())).getEntity();
+			Creature c2 = super.getGame().getMap().getTile(new Point(super.getX() - 1, super.getY())).getEntity();
 			if (c != null) {
 				ArrayList<Item> in = c.getInventory();
 				for (Item i : in) {

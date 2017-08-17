@@ -85,7 +85,7 @@ public class Creature extends Entity implements Dynamic {
 	public void update() {
 		if(health <= 0) {
 			super.getGame().kill(this);
-			super.getGame().getMap().getPoint(new Point(super.getX(), super.getY())).removeCreature();
+			super.getGame().getMap().getTile(new Point(super.getX(), super.getY())).removeCreature();
 		}
 		if (delay <= 0) {
 			health += dHealth;
@@ -187,16 +187,16 @@ public class Creature extends Entity implements Dynamic {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
-		Tile t = (map.getPoint(new Point(xCoord, yCoord + 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord + 1));
-		Creature c = t.getCreature();
+		Tile t = (map.getTile(new Point(xCoord, yCoord + 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord, yCoord + 1));
+		Creature c = t.getEntity();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord + 1);
-				t.addItem(this);
+				t.addEntity(this);
 				map.setPoint(new Point(xCoord, yCoord + 1), t);
-				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}
@@ -209,16 +209,16 @@ public class Creature extends Entity implements Dynamic {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
-		Tile t = (map.getPoint(new Point(xCoord, yCoord - 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord - 1));
-		Creature c = t.getCreature();
+		Tile t = (map.getTile(new Point(xCoord, yCoord - 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord, yCoord - 1));
+		Creature c = t.getEntity();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord - 1);
-				t.addItem(this);
+				t.addEntity(this);
 				map.setPoint(new Point(xCoord, yCoord - 1), t);
-				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}
@@ -231,16 +231,16 @@ public class Creature extends Entity implements Dynamic {
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
-		Tile t = (map.getPoint(new Point(xCoord - 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord - 1, yCoord));
-		Creature c = t.getCreature();
+		Tile t = (map.getTile(new Point(xCoord - 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord - 1, yCoord));
+		Creature c = t.getEntity();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setX(xCoord - 1);
-				t.addItem(this);
+				t.addEntity(this);
 				map.setPoint(new Point(xCoord - 1, yCoord), t);
-				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}
@@ -253,16 +253,16 @@ public class Creature extends Entity implements Dynamic {
 		WorldMap map = super.getGame().getMap();
 		int yCoord = super.getY();
 		int xCoord = super.getX();
-		Tile t = (map.getPoint(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord + 1, yCoord));
-		Creature c = t.getCreature();
+		Tile t = (map.getTile(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord + 1, yCoord));
+		Creature c = t.getEntity();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setX(xCoord + 1);
-				t.addItem(this);
+				t.addEntity(this);
 				map.setPoint(new Point(xCoord + 1, yCoord), t);
-				map.getPoint(new Point(xCoord, yCoord)).removeCreature();
+				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				delay += DEFAULT_MOVE_DELAY + t.getTerrain().getMoveMod();
 				return true;
 			}

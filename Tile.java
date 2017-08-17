@@ -18,7 +18,7 @@ public class Tile {
 		terrain = t;
 	}
 
-	public void addItem(Entity e) {
+	public void addEntity(Entity e) {
 		entities.add(e);
 	}
 
@@ -30,7 +30,7 @@ public class Tile {
 		return null;
 	}
 
-	public Creature getCreature() {
+	public Creature getEntity() {
 		if (entities != null && entities.size() > 0) {
 			for (Entity e : entities) {
 				if (e instanceof Creature) {

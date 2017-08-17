@@ -23,7 +23,7 @@ public class AStar {
 			previous = pe;
 		}
 		
-		public Point getPoint() {
+		public Point getTile() {
 			return point;
 		}
 		
@@ -33,7 +33,7 @@ public class AStar {
 		
 		public int getMoveCost() {
 			if(previous == null) return 0;
-			int g = map.getPoint(point).getTerrain().getMoveMod() + previous.getMoveCost();
+			int g = map.getTile(point).getTerrain().getMoveMod() + previous.getMoveCost();
 			gCost = g;
 			return g;
 		}
@@ -69,11 +69,11 @@ public class AStar {
 	
 	public class CellQueue extends PriorityQueue<Cell> {
 		public Cell contains(Cell c) {
-			System.out.println("Does this contain (" + c.getPoint().x + ", " + c.getPoint().y + ")");
+			System.out.println("Does this contain (" + c.getTile().x + ", " + c.getTile().y + ")");
 			Cell[] foo = super.toArray(new Cell[0]);
 			for(int i = 0; i < foo.length; i++) {
-				if(foo[i].getPoint().x == c.getPoint().x && foo[i].getPoint().y == c.getPoint().y) {
-					System.out.println("answer: (" + foo[i].getPoint().x + ", " + foo[i].getPoint().y + ")");
+				if(foo[i].getTile().x == c.getTile().x && foo[i].getTile().y == c.getTile().y) {
+					System.out.println("answer: (" + foo[i].getTile().x + ", " + foo[i].getTile().y + ")");
 					return foo[i];
 				}
 			}
@@ -106,16 +106,16 @@ public class AStar {
 			if(closedList.size() > 100) return null;
 			if(openList.isEmpty()) return null;
 			current = openList.poll();
-			System.out.println("current point is (" + current.getPoint().x + ", " + current.getPoint().y + ")");
+			System.out.println("current point is (" + current.getTile().x + ", " + current.getTile().y + ")");
 			closedList.add(current);//check this line
 			System.out.println("closed list expanded, now " + closedList.size());
-			if(current.getPoint().x == end.x && current.getPoint().y == end.y) {//we're done
+			if(current.getTile().x == end.x && current.getTile().y == end.y) {//we're done
 				done = true;
 				System.out.println("pathfinding done");
 				LinkedList<Point> path = new LinkedList<Point>();
-				path.addFirst(current.getPoint());
+				path.addFirst(current.getTile());
 				while(current.getPrevious() != null) {
-					path.addFirst(current.getPrevious().getPoint());//construct a linked list starting at the start and ending at the end
+					path.addFirst(current.getPrevious().getTile());//construct a linked list starting at the start and ending at the end
 					current = current.getPrevious();
 				}
 				return path;
@@ -124,13 +124,13 @@ public class AStar {
 				for(int dY = -1; dY < 2; dY++) {
 					//calculate cost, then check if the cell is in the open list
 					if(Math.abs(dY + dX) == 1) {
-						System.out.println("considering (" + (current.getPoint().x + dX) + ", " + (current.getPoint().y + dY) + ")");
-						Point p = new Point(current.getPoint().x + dX, current.getPoint().y + dY);
-						Tile t = map.getPoint(p);
+						System.out.println("considering (" + (current.getTile().x + dX) + ", " + (current.getTile().y + dY) + ")");
+						Point p = new Point(current.getTile().x + dX, current.getTile().y + dY);
+						Tile t = map.getTile(p);
 						boolean notOnClosedList = true;
 						for(int i = 0; i < closedList.size(); i++) {
 							Cell lol = closedList.get(i);//only add it if its not already in the closedList
-							if(lol.getPoint().x == p.x && lol.getPoint().y == p.y) notOnClosedList = false;
+							if(lol.getTile().x == p.x && lol.getTile().y == p.y) notOnClosedList = false;
 						}
 						if(t.getTerrain().isPassable() && notOnClosedList) {
 							current.calcCost(end);
@@ -152,7 +152,7 @@ public class AStar {
 //									LinkedList<Point> path = new LinkedList<Point>();
 //									path.addFirst(p);
 //									while(current.getPrevious() != null) {
-//										path.addFirst(current.getPrevious().getPoint());//construct a linked list starting at the start and ending at the end
+//										path.addFirst(current.getPrevious().getTile());//construct a linked list starting at the start and ending at the end
 //										current = current.getPrevious();
 //									}
 //									return path;
