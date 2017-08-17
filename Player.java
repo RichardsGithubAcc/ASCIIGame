@@ -131,6 +131,19 @@ public class Player extends Creature {
 		super.getGame().getFrame().repaint();
 	}
 
+	public void pickUp() {
+		Tile tile = super.getGame().getMap().getPoint(new Point(super.getX(), super.getY()));
+		for (int i = 0; i < tile.getEntities().size(); i++) {
+			if (tile.getEntities().get(i) instanceof Item) {
+				Item item = (Item) tile.getEntities().get(i);
+				if (weightCarried+item.getWeight() <= maxWeight && volumeCarried + item.getVolume() <= maxVolume)
+					addToInventory(item);
+			}
+				
+		}
+		
+	}
+	
 	/**
 	 * @return the hunger
 	 */
@@ -277,7 +290,7 @@ public class Player extends Creature {
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = (map.getPoint(new Point(xCoord, yCoord + 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord + 1));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
@@ -299,7 +312,7 @@ public class Player extends Creature {
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = (map.getPoint(new Point(xCoord, yCoord - 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord - 1));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
@@ -321,7 +334,7 @@ public class Player extends Creature {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = (map.getPoint(new Point(xCoord - 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord - 1, yCoord));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
@@ -343,7 +356,7 @@ public class Player extends Creature {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = (map.getPoint(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord + 1, yCoord));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {

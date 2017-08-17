@@ -2,16 +2,16 @@ import java.util.ArrayList;
 
 public class Tile {
 	private Terrain terrain;
-	private ArrayList<Entity> items = new ArrayList<Entity>();
-
+	private ArrayList<Entity> entities = new ArrayList<Entity>();
+	
 	public Tile(Terrain t, ArrayList<Entity> i) {
 		terrain = t;
-		items = i;
+		entities = i;
 	}
 	
 	public Tile(Terrain t, Entity e) {
 		terrain = t;
-		items.add(e);
+		entities.add(e);
 	}
 	
 	public Tile(Terrain t) {
@@ -19,20 +19,20 @@ public class Tile {
 	}
 
 	public void addItem(Entity e) {
-		items.add(e);
+		entities.add(e);
 	}
 
-	public Entity removeItem(Entity e) {
-		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i) == e)
-				return items.remove(i);
+	public Entity removeCreature(Entity e) {
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i) == e)
+				return entities.remove(i);
 		}
 		return null;
 	}
 
-	public Creature hasCreature() {
-		if (items != null && items.size() > 0) {
-			for (Entity e : items) {
+	public Creature getCreature() {
+		if (entities != null && entities.size() > 0) {
+			for (Entity e : entities) {
 				if (e instanceof Creature) {
 					return (Creature) e;
 				}
@@ -42,9 +42,9 @@ public class Tile {
 	}
 	
 	public void removeCreature() {
-		for(int i = 0; i < items.size(); i++) {
-			if(items.get(i) instanceof Creature) {
-				items.remove(i);
+		for(int i = 0; i < entities.size(); i++) {
+			if(entities.get(i) instanceof Creature) {
+				entities.remove(i);
 			}
 		}
 	}
@@ -67,16 +67,16 @@ public class Tile {
 	/**
 	 * @return the items
 	 */
-	public ArrayList<Entity> getItems() {
-		return items;
+	public ArrayList<Entity> getEntities() {
+		return entities;
 	}
 
 	/**
 	 * @param items
 	 *            the items to set
 	 */
-	public void setItems(ArrayList<Entity> items) {
-		this.items = items;
+	public void setCreatures(ArrayList<Entity> entities) {
+		this.entities = entities;
 	}
 
 }

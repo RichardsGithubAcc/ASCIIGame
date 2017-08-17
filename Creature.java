@@ -188,7 +188,7 @@ public class Creature extends Entity implements Dynamic {
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = (map.getPoint(new Point(xCoord, yCoord + 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord + 1));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
@@ -210,7 +210,7 @@ public class Creature extends Entity implements Dynamic {
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = (map.getPoint(new Point(xCoord, yCoord - 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord, yCoord - 1));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
@@ -232,7 +232,7 @@ public class Creature extends Entity implements Dynamic {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = (map.getPoint(new Point(xCoord - 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord - 1, yCoord));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
@@ -254,7 +254,7 @@ public class Creature extends Entity implements Dynamic {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = (map.getPoint(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getPoint(new Point(xCoord + 1, yCoord));
-		Creature c = t.hasCreature();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {

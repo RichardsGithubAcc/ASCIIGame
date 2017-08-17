@@ -14,10 +14,11 @@ public class Game {
 	private ArrayList<String> progress;
 	private GameDisplay frame;
 	private ArrayList<Rectangle> blocks = new ArrayList<Rectangle>();
-	private int townSpawnChance = 70;
-	private int townDensityConstant = 15;
-	private int forestSpawnChance = 30;
-	private int forestDensityConstant = 10;
+	
+	private final int TOWN_SPAWN_CHANCE = 70;
+	private final int TOWN_DENSITY_CONST = 15;
+	private final int FOREST_SPAWN_CHANCE = 30;
+	private final int FOREST_DENSITY_CONST = 10;
 	
 	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
 	public final Terrain TREE = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
@@ -151,11 +152,11 @@ public class Game {
 			
 			Integer[] seed = new Integer[6];
 			int rngSeed = (int)Math.round(Math.random() * 100);
-			if(rngSeed < townSpawnChance) {
-				seed[0] = ((rngSeed - townSpawnChance) / townDensityConstant) + 1;
+			if(rngSeed < TOWN_SPAWN_CHANCE) {
+				seed[0] = ((rngSeed - TOWN_SPAWN_CHANCE) / TOWN_DENSITY_CONST) + 1;
 			}
-			if(rngSeed < forestSpawnChance) {
-				seed[5] = ((rngSeed - forestSpawnChance) / forestDensityConstant) + 1;
+			if(rngSeed < FOREST_SPAWN_CHANCE) {
+				seed[5] = ((rngSeed - FOREST_SPAWN_CHANCE) / FOREST_DENSITY_CONST) + 1;
 			}
 			
 			loadBlock(bX, bY, seed);
