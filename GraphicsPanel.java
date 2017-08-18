@@ -61,7 +61,7 @@ public class GraphicsPanel extends JPanel {
 
 				if (tile != null && tile.getTerrain() != null) {
 					str = "";
-					Creature c = tile.getEntity();
+					Creature c = tile.getCreature();
 					if (c != null) {
 						g2.setColor(c.getColor());
 						str += c.getIcon();

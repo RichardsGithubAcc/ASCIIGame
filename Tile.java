@@ -6,16 +6,6 @@ public class Tile {
 	private Creature creature;
 	private Item item;
 	
-	public Tile(Terrain t, ArrayList<Entity> i) {
-		terrain = t;
-		entities = i;
-	}
-	
-	public Tile(Terrain t, Entity e) {
-		terrain = t;
-		entities.add(e);
-	}
-	
 	public Tile(Terrain t, Item i) {
 		terrain = t;
 		item = i;
@@ -24,7 +14,6 @@ public class Tile {
 	public Tile(Terrain t, Creature c) {
 		terrain = t;
 		creature = c;
-		
 	}	
 	
 	public Tile(Terrain t) {
@@ -38,10 +27,6 @@ public class Tile {
 	public void setCreature(Creature c) {
 		creature = c;
 	}
-	
-	public void addEntity(Entity e) {
-		entities.add(e);
-	}
 
 	public Item getItem() {
 		return item;
@@ -51,31 +36,8 @@ public class Tile {
 		return creature;
 	}
 	
-	public Entity removeCreature(Entity e) {
-		for (int i = 0; i < entities.size(); i++) {
-			if (entities.get(i) == e)
-				return entities.remove(i);
-		}
-		return null;
-	}
-
-	public Creature getEntity() {
-		if (entities != null && entities.size() > 0) {
-			for (Entity e : entities) {
-				if (e instanceof Creature) {
-					return (Creature) e;
-				}
-			}
-		}
-		return null;
-	}
-	
 	public void removeCreature() {
-		for(int i = 0; i < entities.size(); i++) {
-			if(entities.get(i) instanceof Creature) {
-				entities.remove(i);
-			}
-		}
+		creature = null;
 	}
 
 	/**
@@ -92,20 +54,4 @@ public class Tile {
 	public void setTerrain(Terrain terrain) {
 		this.terrain = terrain;
 	}
-
-	/**
-	 * @return the items
-	 */
-	public ArrayList<Entity> getEntities() {
-		return entities;
-	}
-
-	/**
-	 * @param items
-	 *            the items to set
-	 */
-	public void setCreatures(ArrayList<Entity> entities) {
-		this.entities = entities;
-	}
-
 }

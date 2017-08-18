@@ -133,15 +133,9 @@ public class Player extends Creature {
 
 	public void pickUp() {
 		Tile tile = super.getGame().getMap().getTile(new Point(super.getX(), super.getY()));
-		for (int i = 0; i < tile.getEntities().size(); i++) {
-			if (tile.getEntities().get(i) instanceof Item) {
-				Item item = (Item) tile.getEntities().get(i);
-				if (weightCarried+item.getWeight() <= maxWeight && volumeCarried + item.getVolume() <= maxVolume)
+				Item item = tile.getItem();
+				if (weightCarried+item.getWeight()<=maxWeight && volumeCarried+item.getVolume()<=maxVolume)
 					addToInventory(item);
-			}
-				
-		}
-		
 	}
 	
 	/**
@@ -290,13 +284,13 @@ public class Player extends Creature {
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = (map.getTile(new Point(xCoord, yCoord + 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord, yCoord + 1));
-		Creature c = t.getEntity();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord + 1);
-				t.addEntity(this);
+				t.setCreature(this);
 				map.setTile(new Point(xCoord, yCoord + 1), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
@@ -312,13 +306,13 @@ public class Player extends Creature {
 		int xCoord = super.getX();
 		WorldMap map = super.getGame().getMap();
 		Tile t = (map.getTile(new Point(xCoord, yCoord - 1)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord, yCoord - 1));
-		Creature c = t.getEntity();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setY(yCoord - 1);
-				t.addEntity(this);
+				t.setCreature(this);
 				map.setTile(new Point(xCoord, yCoord - 1), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
@@ -334,13 +328,13 @@ public class Player extends Creature {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = (map.getTile(new Point(xCoord - 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord - 1, yCoord));
-		Creature c = t.getEntity();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setX(xCoord - 1);
-				t.addEntity(this);
+				t.setCreature(this);
 				map.setTile(new Point(xCoord - 1, yCoord), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
@@ -356,13 +350,13 @@ public class Player extends Creature {
 		int yCoord = super.getY();
 		int xCoord = super.getX();
 		Tile t = (map.getTile(new Point(xCoord + 1, yCoord)) == null) ? new Tile(new Terrain(super.getGame(), '.', new Color(0, 142, 25), "sparse", null, 0, 0, true, 0)) : map.getTile(new Point(xCoord + 1, yCoord));
-		Creature c = t.getEntity();
+		Creature c = t.getCreature();
 		if (c != null) {
 			attack(c);
 		} else {
 			if (t.getTerrain().isPassable()) {
 				super.setX(xCoord + 1);
-				t.addEntity(this);
+				t.setCreature(this);
 				map.setTile(new Point(xCoord + 1, yCoord), t);
 				map.getTile(new Point(xCoord, yCoord)).removeCreature();
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());

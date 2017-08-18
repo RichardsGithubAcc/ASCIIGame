@@ -53,7 +53,7 @@ public class NPC extends Creature {
 					for(int dY = -1; dY < 2; dY++) {
 						if(Math.abs(dX + dY) == 1) {
 							Tile t = super.getGame().getMap().getTile(target);
-							if(t.getTerrain().isPassable() && t.getEntity() == null) {
+							if(t.getTerrain().isPassable() && t.getCreature() == null) {
 								target = new Point(target.x + dX, target.y + dY);
 							}
 						}

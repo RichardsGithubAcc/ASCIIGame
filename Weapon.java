@@ -76,7 +76,7 @@ public class Weapon extends Item {
 		if(d < range) return;
 		double p = 60/(double)range;//60% is total range penalty
 		if(Math.random() * 101 < accuracy + accMod - p * d) {
-			Creature c = super.getGame().getMap().getTile(new Point(tX, tY)).getEntity();
+			Creature c = super.getGame().getMap().getTile(new Point(tX, tY)).getCreature();
 			if(c != null) {
 				System.out.println(c.getName());
 				c.hit(attackMod * inventory[0].getDamage(), inventory[0], host);

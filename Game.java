@@ -69,7 +69,7 @@ public class Game {
 		constructHouse(-60, -80, "south");
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
-		getMap().getTile(new Point(-12, -12)).addEntity(GARBAGE);
+		getMap().getTile(new Point(-12, -12)).setItem(GARBAGE);
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
@@ -78,9 +78,10 @@ public class Game {
 		//dynamic = new ArrayList<Dynamic>();
 		dynamic.add(player);
 		
-		ArrayList<Entity> items = new ArrayList<Entity>();
-		items.add(player);
-		map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
+//		ArrayList<Entity> items = new ArrayList<Entity>();
+//		items.add(player);
+//		map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
+		map.setTile(new Point(0, 0), new Tile(this.BUSH, player));
 		//map.setTile(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		
 		progress = new ArrayList<String>();
@@ -130,9 +131,10 @@ public class Game {
 		genForest(0, 0, map.getPanelCols(), map.getPanelRows());
 		constructRoom(-30, -30, 13, 21, "east");
 	
-		ArrayList<Entity> items = new ArrayList<Entity>();
-		items.add(player);
-		map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
+//		ArrayList<Entity> items = new ArrayList<Entity>();
+//		items.add(player);
+//		map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
+		map.setTile(new Point(0, 0), new Tile(this.BUSH, player));
 		//map.setTile(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		spawnHorde(-40, -40, -10, -10);
 	}
@@ -205,9 +207,9 @@ public class Game {
 				if(Math.random() < 0.05) {
 					Tile tile = map.getTile(new Point(x, y));
 					if(tile == null) {
-						map.setTile(new Point(x, y), new Tile(null, (Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true))));
+						map.setTile(new Point(x, y), new Tile(null, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true)));
 					} else {
-						map.getTile(new Point(x, y)).addEntity((Entity)(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true)));
+						map.getTile(new Point(x, y)).setCreature(new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true));
 					}
 				}
 			}
