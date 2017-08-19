@@ -134,7 +134,7 @@ public class Player extends Creature {
 	public void pickUp() {
 		Tile tile = super.getGame().getMap().getTile(new Point(super.getX(), super.getY()));
 		Item item = tile.getItem();
-		if (weightCarried+item.getWeight()<=maxWeight && volumeCarried+item.getVolume()<=maxVolume) {
+		if (item != null && weightCarried+item.getWeight()<=maxWeight && volumeCarried+item.getVolume()<=maxVolume) {
 			addToInventory(item);
 			tile.setItem(null);
 		}
