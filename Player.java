@@ -138,7 +138,11 @@ public class Player extends Creature {
 			addToInventory(item);
 			tile.setItem(null);
 		}
-		
+	}
+	
+	public void drop() {
+		super.getGame().getMap().getTile(new Point(super.getX(), super.getY())).setItem(getHolding());
+		getInventory().remove(getHolding());
 	}
 	
 	/**

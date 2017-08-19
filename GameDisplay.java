@@ -137,6 +137,7 @@ public class GameDisplay extends JFrame {
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("I"), "INVENTORY");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("F"), "FIRE");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("C"), "PICK_UP");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("D"), "DROP");
 		keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
@@ -145,6 +146,7 @@ public class GameDisplay extends JFrame {
 		keyboard.getActionMap().put("INVENTORY", new InventoryAction(game));
 		keyboard.getActionMap().put("FIRE", new AimAction(game,game.getPlayer(), graphicsPanel, keyboard));
 		keyboard.getActionMap().put("PICK_UP", new PickUpAction(game, game.getPlayer(), keyboard));
+		keyboard.getActionMap().put("DROP", new DropAction(game, game.getPlayer(), keyboard));
 		buttonPanel.add(keyboard);
 				
 	}
@@ -198,6 +200,22 @@ public class GameDisplay extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) {
 			p.pickUp();
+		}
+	}
+	
+	public class DropAction extends AbstractAction {
+		Game g;
+		Player p;
+		JButton b;
+		
+		public DropAction(Game g, Player p, JButton b) {
+			this.g = g;
+			this.p = p;
+			this.b = b;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			p.drop();
 		}
 	}
 	
