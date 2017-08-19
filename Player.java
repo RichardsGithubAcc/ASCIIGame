@@ -141,8 +141,11 @@ public class Player extends Creature {
 	}
 	
 	public void drop() {
-		super.getGame().getMap().getTile(new Point(super.getX(), super.getY())).setItem(getHolding());
-		getInventory().remove(getHolding());
+		if (getHolding().getName() != "fist") {
+			getInventory().remove(getHolding());
+			super.getGame().getMap().getTile(new Point(super.getX(), super.getY())).setItem(getHolding());
+			setHolding(new Weapon(getGame(), 'f', null, "fist", null, getX(), getY(), true, 0, 0, -1, -1, 5, 0,0,1,null));
+		}
 	}
 	
 	/**
