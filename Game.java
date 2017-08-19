@@ -69,7 +69,7 @@ public class Game {
 		constructHouse(-60, -80, "south");
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
-		getMap().getTile(new Point(0, -20)).setItem(GARBAGE);
+		
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/
@@ -82,6 +82,7 @@ public class Game {
 //		items.add(player);
 //		map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
 		map.setTile(new Point(0, 0), new Tile(this.BUSH, player));
+		map.getTile(new Point(0, 0)).setItem(GARBAGE);
 		//map.setTile(new Point(-10, -10), new Tile(this.BUSH, new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0, 50, 1, 1, 1, 0, true)));
 		
 		progress = new ArrayList<String>();
