@@ -59,7 +59,7 @@ public class NPC extends Creature {
 						}
 					}
 				}
-				if(path == null || ((path.size() < 5 || d < 5) && super.getDelay() == 0)) {
+				if(path == null || ((path.size() < 5 || d < 5) && super.getDelay() == 0)) {//fix this to if the target moves too much
 					AStar foo = new AStar(super.getGame().getMap(), new Point(super.getX(), super.getY()), target);
 					path = foo.getPath();//this is pretty inefficient, find a way to not constantly re-search the path
 				}
