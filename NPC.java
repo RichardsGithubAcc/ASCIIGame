@@ -60,10 +60,12 @@ public class NPC extends Creature {
 					}
 				}
 				AStar foo = new AStar(super.getGame().getMap(), new Point(super.getX(), super.getY()), target);
-				path = foo.getPath();//this is pretty inefficient, find a way to not constantly research the path
-				path.removeFirst();
-				moveTowards(path.getFirst().x, path.getFirst().y);
-				path.removeFirst();
+				path = foo.getPath();//this is pretty inefficient, find a way to not constantly re-search the path
+				//if(path.size() > 0)path.removeFirst();
+				if(path != null && path.size() > 0) {
+					moveTowards(path.getFirst().x, path.getFirst().y);
+					path.removeFirst();
+				}
 			}
 		} else {
 			if(tether != null && Game.dist(super.getX(), super.getY(), tether.x, tether.y) > 10) {

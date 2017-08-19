@@ -115,7 +115,8 @@ public class AStar {
 				LinkedList<Point> path = new LinkedList<Point>();
 				path.addFirst(current.getTile());
 				while(current.getPrevious() != null) {
-					path.addFirst(current.getPrevious().getTile());//construct a linked list starting at the start and ending at the end
+					if(current.getPrevious() != null || (current.getTile().x != end.x && current.getTile().y != end.y))path.addFirst(current.getPrevious().getTile());
+					//construct a linked list starting at the start and ending at the end
 					current = current.getPrevious();
 				}
 				return path;
