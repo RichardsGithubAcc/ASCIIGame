@@ -69,15 +69,15 @@ public class AStar {
 	
 	public class CellQueue extends PriorityQueue<Cell> {
 		public Cell contains(Cell c) {
-			System.out.println("Does this contain (" + c.getTile().x + ", " + c.getTile().y + ")");
+			//System.out.println("Does this contain (" + c.getTile().x + ", " + c.getTile().y + ")");
 			Cell[] foo = super.toArray(new Cell[0]);
 			for(int i = 0; i < foo.length; i++) {
 				if(foo[i].getTile().x == c.getTile().x && foo[i].getTile().y == c.getTile().y) {
-					System.out.println("answer: (" + foo[i].getTile().x + ", " + foo[i].getTile().y + ")");
+					//System.out.println("answer: (" + foo[i].getTile().x + ", " + foo[i].getTile().y + ")");
 					return foo[i];
 				}
 			}
-			System.out.println("answer: no");
+			//System.out.println("answer: no");
 			return null;
 		}
 	}
@@ -97,7 +97,7 @@ public class AStar {
 	}
 	
 	public LinkedList<Point> getPath() {
-		System.out.println("pathfinding started, target (" + end.x + ", " + end.y + ")");
+		//System.out.println("pathfinding started, target (" + end.x + ", " + end.y + ")");
 		openList.add(new Cell(start, 0, null));
 		
 		Cell current;
@@ -106,12 +106,12 @@ public class AStar {
 			if(closedList.size() > 100) return null;
 			if(openList.isEmpty()) return null;
 			current = openList.poll();
-			System.out.println("current point is (" + current.getTile().x + ", " + current.getTile().y + ")");
+			//System.out.println("current point is (" + current.getTile().x + ", " + current.getTile().y + ")");
 			closedList.add(current);//check this line
-			System.out.println("closed list expanded, now " + closedList.size());
+			//System.out.println("closed list expanded, now " + closedList.size());
 			if(current.getTile().x == end.x && current.getTile().y == end.y) {//we're done
 				done = true;
-				System.out.println("pathfinding done");
+				//System.out.println("pathfinding done");
 				LinkedList<Point> path = new LinkedList<Point>();
 				path.addFirst(current.getTile());
 				while(current.getPrevious() != null) {
@@ -125,7 +125,7 @@ public class AStar {
 				for(int dY = -1; dY < 2; dY++) {
 					//calculate cost, then check if the cell is in the open list
 					if(Math.abs(dY + dX) == 1) {
-						System.out.println("considering (" + (current.getTile().x + dX) + ", " + (current.getTile().y + dY) + ")");
+						//System.out.println("considering (" + (current.getTile().x + dX) + ", " + (current.getTile().y + dY) + ")");
 						Point p = new Point(current.getTile().x + dX, current.getTile().y + dY);
 						Tile t = map.getTile(p);
 						boolean notOnClosedList = true;
@@ -144,7 +144,7 @@ public class AStar {
 									c.calcCost(end);
 									openList.add(c);
 								}
-								System.out.println("path changed");
+								//System.out.println("path changed");
 							} else {
 								cost += Math.abs(p.x - end.x) + Math.abs(p.y - end.y);//cost is currently gCost, add h to convert to fCost
 //								if(p.x == end.x && p.y == end.y) {
@@ -159,7 +159,7 @@ public class AStar {
 //									return path;
 //								}
 								openList.add(new Cell(p, cost, current));
-								System.out.println("openList expanded, now " + openList.size());
+								//System.out.println("openList expanded, now " + openList.size());
 							}
 						}
 					}
