@@ -21,7 +21,7 @@ public class Player extends Creature {
 		thirst = 0;
 		volumeCarried = 0;
 		weightCarried = 0;
-		maxVolume = 0;
+		maxVolume = 5;
 	}
 	
 	public Player(Game ge, char i, Color c, String n, String[] tags, int x, int y, int health, int str, int dex, int in, int pe) {
@@ -35,7 +35,7 @@ public class Player extends Creature {
 		setThirst(0);
 		volumeCarried = 0;
 		weightCarried = 0;
-		maxVolume = 0;
+		maxVolume = 5;
 	}
 	
 	public Player(Game ge, int x, int y) {
@@ -47,7 +47,7 @@ public class Player extends Creature {
 		weightCarried = 0;
 		volumeCarried = 0;
 		maxWeight = 20 + 2 * strength;
-		maxVolume = 0;
+		maxVolume = 5;
 		hunger = 0;
 		setThirst(0);
 	}

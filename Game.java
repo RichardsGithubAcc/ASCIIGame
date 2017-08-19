@@ -38,7 +38,7 @@ public class Game {
 	public final Terrain T_INTERSECTION_DOWN = new Terrain(this, ExtendedASCII.getASCII(203), new Color(153, 153, 153), "vertical road", null, 0, 0, true, 0);
 	public final Terrain T_INTERSECTION_LEFT = new Terrain(this, ExtendedASCII.getASCII(185), new Color(153, 153, 153), "vertical road", null, 0, 0, true, 0);
 	public final Terrain T_INTERSECTION_RIGHT = new Terrain(this, ExtendedASCII.getASCII(204), new Color(153, 153, 153), "vertical road", null, 0, 0, true, 0);
-	public final Item GARBAGE = new Item(this, 'G', new Color(180, 180, 180), "garbage", null, 0, 0, true, 5, 0, 10, 10, 0);
+	public final Item GARBAGE = new Item(this, 'G', new Color(180, 180, 180), "garbage", null, 0, 0, true, 5, 1, 10, 10, 0);
 	
 	public static final int DEF_HEALTH = 100;
 	public static final int DEF_MAX_HEALTH = 100;
