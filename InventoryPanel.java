@@ -300,10 +300,10 @@ public class InventoryPanel extends JPanel {
 		if (inventory == null) {
 			System.out.println("null");
 		}
-		inventory.add(w1);
-		inventory.add(w2);
-		inventory.add(w3);
-		inventory.add(w4);
+//		inventory.add(w1);
+//		inventory.add(w2);
+//		inventory.add(w3);
+//		inventory.add(w4);
 	}
 
 	public void reset() {
