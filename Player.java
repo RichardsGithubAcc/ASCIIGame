@@ -18,7 +18,7 @@ public class Player extends Creature {
 		perception = pe;
 		maxWeight = 20 + 2 * strength;
 		hunger = 0;
-		setThirst(0);
+		thirst = 0;
 		volumeCarried = 0;
 		weightCarried = 0;
 		maxVolume = 0;

@@ -69,7 +69,7 @@ public class Game {
 		constructHouse(-60, -80, "south");
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
-		getMap().getTile(new Point(-12, -12)).setItem(GARBAGE);
+		getMap().getTile(new Point(0, -20)).setItem(GARBAGE);
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
 				DEF_STREANGTH, DEF_DEXTERITY, DEF_INTELLIGENCE, DEF_PERCEPTION);*/

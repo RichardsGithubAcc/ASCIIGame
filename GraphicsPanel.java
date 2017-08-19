@@ -62,22 +62,27 @@ public class GraphicsPanel extends JPanel {
 				if (tile != null && tile.getTerrain() != null) {
 					str = "";
 					Creature c = tile.getCreature();
+					Item it = tile.getItem();
 					if (c != null) {
 						g2.setColor(c.getColor());
 						str += c.getIcon();
 						g2.drawString(str, (int) (i * tileWidth) + startDrawX,
 								(int) ((row - j) * tileHeight) + startDrawY);
-					} else {
+					}
+					else if (it != null) {
+						g2.setColor(it.getColor());
+						str += it.getIcon();
+						g2.drawString(str, (int)(i*tileWidth) + startDrawX, (int)((row - j) * tileHeight)+startDrawY);
+					}
+					else {
 						g2.setColor(tile.getTerrain().getColor());
 						str += tile.getTerrain().getIcon();
 						g2.drawString(str, (int) (i * tileWidth) + startDrawX,
 								(int) ((row - j) * tileHeight) + startDrawY);
-						;
 					}
 				} else {
 					g2.setColor(new Color(0, 142, 25));
 					g2.drawString(".", (int) (i * tileWidth) + startDrawX, (int) ((row - j) * tileHeight) + startDrawY);
-					;
 				}
 
 			}
