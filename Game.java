@@ -426,8 +426,26 @@ public class Game {
 		}
 		
 		for(int x = bounds.x; x < bounds.x + bounds.width; x++) {
-			for(int y = bounds.y; y > bounds.y - bounds.height; y--) {
+			for(int y = bounds.y; y > bounds.y - bounds.height; y--) {//check to see if exactly one neighbor is a road
+				boolean east = (map.getTile(new Point(x + 1, y)) != null);
+				boolean west = (map.getTile(new Point(x - 1, y)) != null);
+				boolean north = (map.getTile(new Point(x, y + 1)) != null);
+				boolean south = (map.getTile(new Point(x, y - 1)) != null);
+				if(north && !(east && west && south) && map.getTile(new Point(x, y - 1)).getTerrain().getName().substring(2).equals("ROAD")) {
+					int building = (int)Math.random() * 100;//build a building of some kind
+				}
 				
+				if(south && !(east && north && west) && map.getTile(new Point(x, y - 1)).getTerrain().getName().substring(2).equals("ROAD")) {
+					int building = (int)Math.random() * 100;
+				}
+				
+				if(west && !(north && south && east) && map.getTile(new Point(x - 1, y)).getTerrain().getName().substring(2).equals("ROAD")) {
+					int building = (int)Math.random() * 100;
+				}
+				
+				if(east && !(north && south && west) && map.getTile(new Point(x + 1, y)).getTerrain().getName().substring(2).equals("ROAD")) {
+					int building = (int)Math.random() * 100;
+				}
 			}
 		}
 	}
