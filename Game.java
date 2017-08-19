@@ -147,7 +147,7 @@ public class Game {
 		map.setCamera(new Point(player.getX(), player.getY()));
 		if (dynamic != null) {
 			for (Dynamic d : dynamic) {
-				d.update();
+				if(d != null) d.update();
 			}
 		}
 		if(player.getX()%1000 < 50 || player.getY()%1000 < 50 || player.getX()%1000 > 950 || player.getY()%1000 > 950) {
