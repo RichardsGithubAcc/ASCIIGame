@@ -16,9 +16,9 @@ public class Game {
 	private ArrayList<Rectangle> blocks = new ArrayList<Rectangle>();
 	
 	private final int TOWN_SPAWN_CHANCE = 70;
-	private final int TOWN_DENSITY_CONST = 15;
+	private final int TOWN_DENSITY_CONST = 5;
 	private final int FOREST_SPAWN_CHANCE = 30;
-	private final int FOREST_DENSITY_CONST = 10;
+	private final int FOREST_DENSITY_CONST = 1;
 	
 	public final Player DEF_PLAYER = new Player(this, '@', Color.WHITE, "player", null, 0, 0, false, 100, 100, 1, 1, 1, 0, 8, 8, 8, 8);
 	public final Terrain TREE = new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, 0, 0, false, 0);
@@ -60,15 +60,19 @@ public class Game {
 		camera.x = 0;
 		camera.y = 0;	
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
-		genForest(0, 0, panelCols, panelRows);
+		//genForest(0, 0, panelCols, panelRows);
 		constructStore(100, 100, "south");
 		constructStore(150, 100, "west");
 		constructStore(100, 0, "east");
 		constructStore(150, 0, "north");
 		constructHouse(-40, -40, "north");
 		constructHouse(-60, -80, "south");
+		//constructTown(new Rectangle(0, 0, 500, 300));
+		paveRoad(50, -50, 200, true, 0.66);
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
+		Integer[] lol = {3, 0, 0, 0, 0, 3};
+		//loadBlock(0, 1, lol);
 		
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
@@ -150,10 +154,17 @@ public class Game {
 				if(d != null) d.update();
 			}
 		}
-		if(player.getX()%1000 < 50 || player.getY()%1000 < 50 || player.getX()%1000 > 950 || player.getY()%1000 > 950) {
-			int bX = Math.round((float)player.getX() / 1000);
-			int bY = Math.round((float)player.getY() / 1000);
-			
+		boolean left = player.getX()%1000 < 100;
+		boolean down = player.getY()%1000 < 100;
+		boolean right = player.getX()%1000 > 900;
+		boolean up = player.getY()%1000 > 900;
+		if(left || down || right || up) {
+			int bX = (int)((float)player.getX() / 1000);
+			int bY = (int)((float)player.getY() / 1000) + 1;
+			if(left) bX -= 1;
+			if(right) bX += 1;
+			if(up) bY += 1;
+			if(down) bY -= 1;
 			Integer[] seed = new Integer[6];
 			int rngSeed = (int)Math.round(Math.random() * 100);
 			if(rngSeed < TOWN_SPAWN_CHANCE) {
@@ -163,20 +174,45 @@ public class Game {
 				seed[5] = ((rngSeed - FOREST_SPAWN_CHANCE) / FOREST_DENSITY_CONST) + 1;
 			}
 			
-			loadBlock(bX, bY, seed);
+			boolean load = true;
+			for(int i = 0; i < blocks.size(); i++) {
+				if(blocks.get(i).x == bX && blocks.get(i).y== bY) load = false;
+			}
+			if(load)  {
+				//loadBlock(bX, bY, seed);
+				
+			}
 		}
 	}
 	/* 
 	 * higher numbers indicate higher densities
-	 * seed[0] = towns
+	 * seed[0] = towns - number indicates width/height
 	 * seed[1] = TBD
 	 * seed[2] = TBD
 	 * seed[3] = TBD
 	 * seed[4] = TBD
-	 * seed[5] = forests
+	 * seed[5] = forests - number is the forest density constant, number * 10 +- Math.random = forest fuzziness constant;
 	 */
-	public void loadBlock(int x, int y, Integer[] blockStructures) {
+	public void loadBlock(int x1, int y1, Integer[] seed) {
+		int x = x1 * 1000;
+		int y = y1 * 1000;
+		if(seed == null) return;
+		blocks.add(new Rectangle(x1, y1, 1000, 1000));
+		if(seed[5] != null && seed[5] > 0) {
+			System.out.println(seed[5]);
+			genForest(x, y, x + 1000, y + 1000, seed[5], seed[5] * 30 + ((int)Math.random() * 20 - 10));
+		}
 		
+		if(seed[0] != null && seed[0] > 0) {
+			int adj = (int)Math.random() * 50 - 25;
+			int width = 300 + 100 * seed[0] + adj;
+			int height = 300 + 100 * seed[0];
+			int bX = (int)Math.random() * (1000 - width) + x;
+			int bY = (int)Math.random() * (1000 - height) + y;
+			map.setEmpty(new Rectangle(bX - 2, bY - 2, width + 2, height + 2));
+			constructTown(new Rectangle(bX, bY, width, height));
+		}
+		System.out.println("Block loaded: (" + x1 + ", " + y1 + ")");
 	}
 	
 	public static double dist(int x1, int y1, int x2, int y2) {
@@ -184,17 +220,17 @@ public class Game {
 	}
 	
 	public void genForest(int x1, int y1, int x2, int y2) {
-		genForest(x1, y1, x2, y2, 0.3, 10);
+		genForest(x1, y1, x2, y2, 30, 10);
 	}
 
 	public void genForest(int x1, int y1, int x2, int y2, double forestDensity, int forestFuzziness) {
 		for (int x = (int) (x1 - Math.random() * forestFuzziness); x <= x2 + Math.random() * forestFuzziness; x++) {
 			for (int y = (int) (y1 - Math.random() * forestFuzziness); y <= y2 + Math.random() * forestFuzziness; y++) {
-				if (Math.random() < forestDensity) {
+				if (Math.random() * 100 < forestDensity) {
 					map.setTile(new Point(x, y), new Tile(new Terrain(this, 'T', new Color(0, 142, 25), "tree", null, x, y, false, 0)));
 					
 				} else {
-					if (Math.random() < forestDensity * 0.66)
+					if (Math.random() * 100 < forestDensity * 0.66)
 						map.setTile(new Point(x, y), new Tile(new Terrain(this, '#', new Color(0, 200, 0), "bush", null, x, y, true, 1)));
 
 				}
@@ -232,7 +268,7 @@ public class Game {
 	 */
 	public void paveHRoad(int x, int y, int length) {
 		for(int i = 0; i < length; i++) {
-			if(map.getTile(new Point(x + i, y)).getTerrain().getName().equalsIgnoreCase("V_ROAD")) {
+			if(map.getTile(new Point(x + i, y)).getTerrain().getName().equals("vertical road")) {
 				map.setTile(new Point(x + i, y), new Tile(CROSS_ROAD));
 			} else {
 				map.setTile(new Point(x + i, y), new Tile(H_ROAD));
@@ -245,7 +281,7 @@ public class Game {
 	 */
 	public void paveVRoad(int x, int y, int length) {
 		for(int i = 0; i < length; i++) {
-			if(map.getTile(new Point(x, y - i)).getTerrain().getName().equalsIgnoreCase("H_ROAD")) {
+			if(map.getTile(new Point(x, y - i)).getTerrain().getName().equals("horizontal road")) {
 				map.setTile(new Point(x, y - i), new Tile(CROSS_ROAD));
 			}
 			map.setTile(new Point(x, y - i), new Tile(V_ROAD));
@@ -421,11 +457,15 @@ public class Game {
 	 */
 	public void constructTown(Rectangle bounds) {
 		if(bounds.height > bounds.width) {
-			paveRoad(bounds.x + bounds.width/2 - 3, bounds.y, bounds.height, true, ((double)bounds.width) / bounds.height);
+			paveRoad(bounds.x + bounds.width/2 - 3, bounds.y, bounds.height, true, ((double)bounds.width) / (double)bounds.height);
 		} else {
-			paveRoad(bounds.y + bounds.height/2 - 3, bounds.x, bounds.width, false, ((double)bounds.height) / bounds.width);
+			paveRoad(bounds.y + bounds.height/2 - 3, bounds.x, bounds.width, false, ((double)bounds.height) / (double)bounds.width);
 		}
-		
+		/*
+		 * building distribution(rough)
+		 * 70% houses
+		 * 30% stores
+		 */
 		for(int x = bounds.x; x < bounds.x + bounds.width; x++) {
 			for(int y = bounds.y; y > bounds.y - bounds.height; y--) {//check to see if exactly one neighbor is a road
 				boolean east = (map.getTile(new Point(x + 1, y)) != null);
@@ -434,6 +474,9 @@ public class Game {
 				boolean south = (map.getTile(new Point(x, y - 1)) != null);
 				if(north && !(east && west && south) && map.getTile(new Point(x, y - 1)).getTerrain().getName().substring(2).equals("ROAD")) {
 					int building = (int)Math.random() * 100;//build a building of some kind
+					if(building < 70) {
+						boolean empty = map.isEmpty(new Rectangle());//I NEED HOUSE DIMENSIONS
+					}
 				}
 				
 				if(south && !(east && north && west) && map.getTile(new Point(x, y - 1)).getTerrain().getName().substring(2).equals("ROAD")) {
@@ -451,28 +494,36 @@ public class Game {
 		}
 	}
 	
+	public void paveRoad(int x, int y, int length, boolean vertical, double ratio) {
+		paveRoad(x, y, length, vertical, ratio, 0);
+	}
+	
 	/*
 	 * Creates and populates a road with upper left corner at (x, y), extending for length units
 	 * Pass true for a vertical road, false for a horizontal one
 	 * Will recursively create smaller branch roads for the town creator to put buildings next to
 	 * Intended specifically for use in towns, so only makes width 5 roads
 	 */
-	public void paveRoad(int x, int y, int length, boolean vertical, double ratio) {
+	public void paveRoad(int x, int y, int length, boolean vertical, double ratio, int counter) {
+		if(length < 10) return;
+		if(counter > 2) return;
+		System.out.println("PAVE! " + length + " " + vertical);
 		if(vertical) {
 			for(int i = 0; i < 5; i++) {
 				paveVRoad(x + i, y, length);
 			}
-			for(int dX = x; dX < length; dX += 30 + Math.random() * 10) {
+			for(int dY = y; dY < length; dY += 70 + Math.random() * 10) {
 				int newLength = (int)Math.round((double)length * ratio);
-				paveRoad(x + dX, y + newLength/2 + 2, newLength, false, ratio);
+				paveRoad(x - newLength/2 + 2, y - dY, newLength, false, ratio, counter++);
 			}
-		} else {
+			
+		} else if(!vertical) {
 			for(int i = 0; i < 5; i ++) {
 				paveHRoad(x, y + i, length);
 			}
-			for(int dY = y; dY < length; dY += 30 + Math.random() * 10) {
+			for(int dX = x; dX < length; dX += 69 + Math.random() * 10) {
 				int newLength = (int)Math.round((double)length * ratio);
-				paveRoad(x + length/2 + 2, y + dY, newLength, false, ratio);
+				paveRoad(x + dX, y + newLength/2 + 2, newLength, true, ratio, counter++);
 			}
 		}
 	}

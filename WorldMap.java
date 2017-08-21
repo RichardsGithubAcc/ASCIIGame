@@ -79,4 +79,12 @@ public class WorldMap {
 		}
 		return true;
 	}
+	
+	public void setEmpty(Rectangle area) {
+		for(int x = area.x; x < area.width; x++) {
+			for(int y = area.y; y < area.height; y++) {
+				setTile(new Point(x, y), null);
+			}
+		}
+	}
 }

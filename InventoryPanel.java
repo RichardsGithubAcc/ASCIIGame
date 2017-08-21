@@ -31,10 +31,12 @@ public class InventoryPanel extends JPanel {
 	private JTextArea textArea;
 	private AlertPanel textPanel;
 	private JLabel health;
+	private JLabel coords;
 
 	public InventoryPanel(Game game) {
 		this.setBackground(Color.BLACK);
 		health = new JLabel();
+		coords = new JLabel();
 //		health.setFont(new Font("Arial", Font.PLAIN, 18));
 		String h = "";
 		for (int i = 0; i < game.getPlayer().getHealth() / 20; i++) {
@@ -56,7 +58,11 @@ public class InventoryPanel extends JPanel {
 				health.setText("<html>health: <font color = 'yellow'>" + h + "</font></html>");
 			}
 		}
+		
+		coords.setText("X: " + game.getPlayer().getX() + " Y: " + game.getPlayer().getY());
+		
 		add(health);
+		add(coords);
 		this.game = game;
 		genWeapons();
 
@@ -213,6 +219,8 @@ public class InventoryPanel extends JPanel {
 				health.setText("<html><font color = 'white'>health: </font><font color = 'green'>" + h + "</font></html>");
 			}
 		}
+		
+		coords.setText("X: " + game.getPlayer().getX() + " Y: " + game.getPlayer().getY());
 
 		holdingDropdown.removeAllItems();
 
