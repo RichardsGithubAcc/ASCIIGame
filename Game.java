@@ -68,11 +68,11 @@ public class Game {
 		constructHouse(-40, -40, "north");
 		constructHouse(-60, -80, "south");
 		//constructTown(new Rectangle(0, 0, 500, 300));
-		paveRoad(50, -50, 200, true, 0.66);
+		//paveRoad(50, -50, 200, true, 0.66);
 		paveHRoad(-16, 0, -20);
 		paveVRoad(0, -20, -40);
 		Integer[] lol = {3, 0, 0, 0, 0, 3};
-		//loadBlock(0, 1, lol);
+		loadBlock(0, 1, lol);
 		
 		/*player = new Player(this, 'P', Color.RED, "Player", null, camera.x, camera.y, false,
 				DEF_HEALTH, DEF_MAX_HEALTH, DEF_HEALTH_MOD, DEF_ARMOR_MOD,DEF_ATTACK_MOD, DEF_D_HEALTH, 
@@ -179,7 +179,7 @@ public class Game {
 				if(blocks.get(i).x == bX && blocks.get(i).y== bY) load = false;
 			}
 			if(load)  {
-				//loadBlock(bX, bY, seed);
+				loadBlock(bX, bY, seed);
 				
 			}
 		}
@@ -474,21 +474,46 @@ public class Game {
 				boolean south = (map.getTile(new Point(x, y - 1)) != null);
 				if(north && !(east && west && south) && map.getTile(new Point(x, y - 1)).getTerrain().getName().substring(2).equals("ROAD")) {
 					int building = (int)Math.random() * 100;//build a building of some kind
-					if(building < 70) {
-						boolean empty = map.isEmpty(new Rectangle());//I NEED HOUSE DIMENSIONS
+					if(building < 30) {
+						boolean empty = map.isEmpty(new Rectangle(x - 34, y, 69, 33));
+						if(empty) constructStore(x - 34, y - 33, "north");
+					} else {
+						boolean empty = map.isEmpty(new Rectangle(x - 11, y, 23, 23));
+						if(empty) constructHouse(x - 11, y - 23, "north");
 					}
 				}
 				
 				if(south && !(east && north && west) && map.getTile(new Point(x, y - 1)).getTerrain().getName().substring(2).equals("ROAD")) {
 					int building = (int)Math.random() * 100;
+					if(building < 30) {
+						boolean empty = map.isEmpty(new Rectangle(x - 34, y + 33, 69, 33));
+						if(empty) constructStore(x - 34, y, "south");
+					} else {
+						boolean empty = map.isEmpty(new Rectangle(x - 11, y + 11, 23, 23));
+						if(empty) constructHouse(x - 11, y, "south");
+					}
 				}
 				
 				if(west && !(north && south && east) && map.getTile(new Point(x - 1, y)).getTerrain().getName().substring(2).equals("ROAD")) {
 					int building = (int)Math.random() * 100;
+					if(building < 30) {
+						boolean empty = map.isEmpty(new Rectangle(x, y + 34, 33, 69));
+						if(empty) constructStore(x, y - 34, "west");
+					} else {
+						boolean empty = map.isEmpty(new Rectangle(x, y + 11, 23, 23));
+						if(empty) constructHouse(x, y - 11, "west");
+					}
 				}
 				
 				if(east && !(north && south && west) && map.getTile(new Point(x + 1, y)).getTerrain().getName().substring(2).equals("ROAD")) {
 					int building = (int)Math.random() * 100;
+					if(building < 30) {
+						boolean empty = map.isEmpty(new Rectangle(x - 16, y + 34, 33, 69));
+						if(empty) constructStore(x - 16, y - 34, "east");
+					} else {
+						boolean empty = map.isEmpty(new Rectangle(x - 11, y + 11, 23, 23));
+						if(empty) constructHouse(x - 11, y - 11, "east");
+					}
 				}
 			}
 		}
