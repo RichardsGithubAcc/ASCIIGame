@@ -68,6 +68,7 @@ public class Game {
 //		constructHouse(-40, -40, "north");
 //		constructHouse(-60, -80, "south");
 		constructTown(new Rectangle(-100, 0, 200, 500));
+		//constructStore(0, 0, "west");
 		//paveRoad(0, 0, 200, true, 0.66);
 		//paveHRoad(-16, 0, -20);
 		//paveVRoad(0, -20, -40);
@@ -423,31 +424,33 @@ public class Game {
 		}
 	}
 	
-	public void constructStore(int x, int y, String direction) {
+	public void constructStore(int x1, int y1, String direction) {
+		int x = x1 + 8;
+		int y = y1 + 15;
 		switch (direction.toLowerCase()) {
 		case "north":
-			constructRoom(x, y, 39, 25, "north");
-			constructRoom(x-15, y+4, 15, 17, "east");
-			constructRoom(x+39, y+4, 15, 17, "west");
-			constructRoom(x+10, y-8, 18, 8, "north");
+			constructRoom(x+7, y-7, 39, 25, "north");
+			constructRoom(x-15+7, y+4-7, 15, 17, "east");
+			constructRoom(x+39+7, y+4-7, 15, 17, "west");
+			constructRoom(x+10+7, y-8-7, 18, 8, "north");
 			break;
 		case "south":
-			constructRoom(x, y, 39, 25, "south");
-			constructRoom(x-15, y+4, 15, 17, "east");
-			constructRoom(x+39, y+4, 15, 17, "west");
-			constructRoom(x+11, y+25, 18, 8, "south");
+			constructRoom(x+7, y-15, 39, 25, "south");
+			constructRoom(x-15+7, y+4-15, 15, 17, "east");
+			constructRoom(x+39+7, y+4-15, 15, 17, "west");
+			constructRoom(x+11+7, y+25-15, 18, 8, "south");
 			break;
 		case "east":
 			constructRoom(x, y, 25, 39, "east");
 			constructRoom(x+4, y+39, 17, 15, "south");
 			constructRoom(x+4, y-15, 17, 15, "north");
-			constructRoom(x-8, y+11, 8, 18, "east");
+			constructRoom(x-4, y+11, 8, 18, "east");
 			break;
 		case "west":
-			constructRoom(x, y, 25, 39, "west");
-			constructRoom(x+4, y+39, 17, 15, "south");
-			constructRoom(x+4, y-15, 17, 15, "north");
-			constructRoom(x+25, y+10, 8, 18, "west");
+			constructRoom(x-8, y, 25, 39, "west");
+			constructRoom(x+4-8, y+39, 17, 15, "south");
+			constructRoom(x+4-8, y-15, 17, 15, "north");
+			constructRoom(x+25-8, y+10, 8, 18, "west");
 			break;
 		}
 	}
@@ -463,8 +466,8 @@ public class Game {
 		}
 		/*
 		 * building distribution(rough)
-		 * 70% houses
-		 * 30% stores
+		 * 70% houses(23x23)
+		 * 30% stores(69x33)
 		 */
 		for(int x = bounds.x; x < bounds.x + bounds.width; x++) {
 			for(int y = bounds.y; y > bounds.y - bounds.height; y--) {//check to see if exactly one neighbor is a road
@@ -473,49 +476,49 @@ public class Game {
 				boolean north = !(map.getTile(new Point(x, y + 1)).getTerrain().getName().equals("sparse"));
 				boolean south = !(map.getTile(new Point(x, y - 1)).getTerrain().getName().equals("sparse"));
 				String name = map.getTile(new Point(x, y + 1)).getTerrain().getName();
-				System.out.println("north: " + north + " south: " + south + " east: " + east + " west: " + west + "(" + x + ", " + y + ")");
-				if(north && !(east && west && south) && (name.equals("horizontal road") || name.equals("vertical road"))) {
-					int building = (int)Math.random() * 100;//build a building of some kind
+				//System.out.println("north: " + north + " south: " + south + " east: " + east + " west: " + west + "(" + x + ", " + y + ")");
+				if(north && !(east && west && south) && (name.endsWith("road"))) {
+					int building = (int)(Math.random() * 100);//build a building of some kind
 					if(building < 30) {
 						boolean empty = map.isEmpty(new Rectangle(x - 34, y - 1, 69, 33));
-						if(empty) constructStore(x - 34, y - 33, "north");
+						if(empty) constructStore(x - 34, y - 34, "north");
 					} else {
 						boolean empty = map.isEmpty(new Rectangle(x - 11, y - 1, 23, 23));
 						if(empty) constructHouse(x - 11, y - 23, "north");
 					}
 				}
 				name = map.getTile(new Point(x, y - 1)).getTerrain().getName();
-				if(south && !(east && north && west) && (name.equals("horizontal road") || name.equals("vertical road"))) {
-					int building = (int)Math.random() * 100;
+				if(south && !(east && north && west) && (name.endsWith("road"))) {
+					int building = (int)(Math.random() * 100);
 					if(building < 30) {
-						boolean empty = map.isEmpty(new Rectangle(x - 34, y + 33, 69, 33));
-						if(empty) constructStore(x - 34, y, "south");
+						boolean empty = map.isEmpty(new Rectangle(x - 34, y + 34, 69, 33));
+						if(empty) constructStore(x - 34, y + 1, "south");
 					} else {
 						boolean empty = map.isEmpty(new Rectangle(x - 11, y + 23, 23, 23));
 						if(empty) constructHouse(x - 11, y, "south");
 					}
 				}
 				name = map.getTile(new Point(x - 1, y)).getTerrain().getName();
-				if(west && !(north && south && east) && (name.equals("horizontal road") || name.equals("vertical road"))) {
-					int building = (int)Math.random() * 100;
-					if(building < 30) {
-						boolean empty = map.isEmpty(new Rectangle(x + 1, y + 34, 33, 69));
-						if(empty) constructStore(x, y - 34, "west");
-					} else {
-						boolean empty = map.isEmpty(new Rectangle(x + 1, y + 11, 23, 23));
-						if(empty) constructHouse(x, y - 11, "west");
-					}
+				if(west && !(north && south && east) && (name.endsWith("road"))) {
+//					int building = (int)(Math.random() * 100);
+//					if(building < 30) {
+//						boolean empty = map.isEmpty(new Rectangle(x + 1, y + 34, 33, 69));
+//						if(empty) constructStore(x, y - 34, "west");
+//					} else {
+//						boolean empty = map.isEmpty(new Rectangle(x + 1, y + 11, 23, 23));
+//						if(empty) constructHouse(x, y - 11, "west");
+//					}
 				}
 				name = map.getTile(new Point(x + 1, y)).getTerrain().getName();
-				if(east && !(north && south && west) && (name.equals("horizontal road") || name.equals("vertical road"))) {
-					int building = (int)Math.random() * 100;
-					if(building < 30) {
-						boolean empty = map.isEmpty(new Rectangle(x - 33, y + 34, 33, 69));
-						if(empty) constructStore(x - 16, y - 34, "east");
-					} else {
-						boolean empty = map.isEmpty(new Rectangle(x - 23, y + 11, 23, 23));
-						if(empty) constructHouse(x - 11, y - 11, "east");
-					}
+				if(east && !(north && south && west) && (name.endsWith("road"))) {
+//					int building = (int)(Math.random() * 100);
+//					if(building < 30) {
+//						boolean empty = map.isEmpty(new Rectangle(x - 33, y + 34, 33, 69));
+//						if(empty) constructStore(x - 16, y - 34, "east");
+//					} else {
+//						boolean empty = map.isEmpty(new Rectangle(x - 23, y + 11, 23, 23));
+//						if(empty) constructHouse(x - 11, y - 11, "east");
+//					}
 				}
 			}
 		}
