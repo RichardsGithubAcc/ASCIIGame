@@ -564,13 +564,13 @@ public class Game {
 					// y + ")");
 					if (north && !(east && west && south) && (name.endsWith("road")) && !placed) {
 						 if(building < 30) {
-							 boolean empty = map.isEmpty(new Rectangle(x - 35, y - 1, 71, 33));
+							 boolean empty = map.isEmpty(new Rectangle(x - 36, y - 1, 73, 33));
 							 if(empty) {
 								 constructStore(x - 34, y - 34, "north");
 								 placed = true;
 							 }
 						 } else {
-						 boolean empty = map.isEmpty(new Rectangle(x - 12, y - 1, 25, 23));
+						 boolean empty = map.isEmpty(new Rectangle(x - 13, y - 1, 27, 23));
 						 if(empty) {
 							 constructHouse(x - 11, y - 24, "north");
 							 placed = true;
@@ -580,13 +580,13 @@ public class Game {
 					name = map.getTile(new Point(x, y - 1)).getTerrain().getName();
 					if (south && !(east && north && west) && (name.endsWith("road")) && !placed) {
 						if (building < 30) {
-							boolean empty = map.isEmpty(new Rectangle(x - 35, y + 34, 71, 33));
+							boolean empty = map.isEmpty(new Rectangle(x - 36, y + 34, 73, 33));
 							if (empty) {
 								constructStore(x - 34, y, "south");
 								placed = true;
 							}
 						} else {
-							boolean empty = map.isEmpty(new Rectangle(x - 12, y + 23, 25, 23));
+							boolean empty = map.isEmpty(new Rectangle(x - 13, y + 23, 27, 23));
 							if (empty) {
 								constructHouse(x - 11, y, "south");
 								placed = true;
@@ -596,13 +596,13 @@ public class Game {
 					name = map.getTile(new Point(x - 1, y)).getTerrain().getName();
 					if (west && !(north && south && east) && (name.endsWith("road")) && !placed) {
 						 if(building < 30) {
-							 boolean empty = map.isEmpty(new Rectangle(x + 1, y + 35, 33, 71));
+							 boolean empty = map.isEmpty(new Rectangle(x + 1, y + 37, 33, 75));
 						 	if(empty) {
 						 		constructStore(x + 1, y - 34, "west");
 						 		placed = true;
 						 	}
 						 } else {
-							 boolean empty = map.isEmpty(new Rectangle(x + 1, y + 12, 23, 25));
+							 boolean empty = map.isEmpty(new Rectangle(x + 1, y + 14, 23, 29));
 							 if(empty) {
 								 constructHouse(x + 1, y - 11, "west");
 								 placed = true;
@@ -612,13 +612,13 @@ public class Game {
 					name = map.getTile(new Point(x + 1, y)).getTerrain().getName();
 					if (east && !(north && south && west) && (name.endsWith("road")) && !placed) {
 						 if(building < 30) {
-							 boolean empty = map.isEmpty(new Rectangle(x - 33, y + 35, 33, 71));
+							 boolean empty = map.isEmpty(new Rectangle(x - 33, y + 36, 33, 73));
 							 if(empty) {
 								 constructStore(x - 33, y - 34, "east");
 								 placed = true;
 							 }
 						 } else {
-							 boolean empty = map.isEmpty(new Rectangle(x - 23, y + 12, 23, 25));
+							 boolean empty = map.isEmpty(new Rectangle(x - 23, y + 13, 23, 27));
 							 if(empty) {
 								 constructHouse(x - 24, y - 11, "east");
 								 placed = true;
