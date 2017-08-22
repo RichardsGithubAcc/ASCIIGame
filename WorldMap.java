@@ -74,7 +74,7 @@ public class WorldMap {
 	public boolean isEmpty(Rectangle search) {
 		for(int x = 0; x < search.width; x++) {
 			for(int y = 0; y < search.height; y++) {
-				if(getTile(new Point(search.x + x, search.y + y))!= null) return false;
+				if(map.get(new Point(search.x + x, search.y + y))!= null) return false;
 			}
 		}
 		return true;
