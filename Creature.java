@@ -136,14 +136,14 @@ public class Creature extends Entity implements Dynamic {
 		double tA = armorVal * armorMod;
 		// int red = (int)Math.pow(this.getArmorVal() * this.getArmorMod(),
 		// 0.926);
-		if (w.hasTag("bashing")) {
+		if (w.hasTag("BASHING")) {
 			tA *= 0.4;
 		}
-		if (w.hasTag("bullet")) {
-			if (!torso.hasTag("bulletproof")) {
+		if (w.hasTag("BULLET")) {
+			if (!torso.hasTag("BULLETPROOF")) {
 				tA *= 0.1;
 			}
-			if (!head.hasTag("bulletproof")) {
+			if (!head.hasTag("BULLETPROOF")) {
 				if (Math.random() < 0.15) {
 					d *= 5;
 				}
@@ -151,15 +151,18 @@ public class Creature extends Entity implements Dynamic {
 		}
 		int red = (int) Math.round(Math.pow(tA, 0.926));
 		d = (d - red > 0) ? d - red : 0;
-		if (w.hasTag("cutting")) {
+		if (w.hasTag("CUTTING")) {
 			d *= 1.5;
 			if (d - 10 > 0)
 				dHealth = (int)Math.round(-1 * (d - 10));
 		}
-		if (w.hasTag("piercing") && d > 0) {
+		if (w.hasTag("PIERCING") && d > 0) {
 			double target = (double) d / dInit;
 			if (Math.random() < target)
 				d *= 3;
+		}
+		if(w.hasTag("IGNORE_ARMOR")) {
+			d += red;
 		}
 		d = (d > 0) ? d : 0;
 		health -= d;

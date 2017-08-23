@@ -27,6 +27,25 @@ public class Weapon extends Item {
 		capacity = 0;
 	}
 	
+	/**
+	 * 
+	 * @param ge game
+	 * @param i icon
+	 * @param c color
+	 * @param name
+	 * @param tags
+	 * @param x
+	 * @param y
+	 * @param w weight
+	 * @param v volume
+	 * @param d durability
+	 * @param dm max durability
+	 * @param dmg damage(melee)
+	 * @param a accuracy(as an integer %)
+	 * @param r max range
+	 * @param am attack modifier
+	 * @param amm ammo type
+	 */
 	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] amm) {
 		super(ge, i, c, name, tags, x, y, true, w, v, d, dm, dmg);
 		accuracy = a;
@@ -36,6 +55,26 @@ public class Weapon extends Item {
 		capacity = 0;
 	}
 	
+	/**
+	 * 
+	 * @param ge game
+	 * @param i icon
+	 * @param c color
+	 * @param name
+	 * @param tags
+	 * @param x
+	 * @param y
+	 * @param w weight
+	 * @param v volume
+	 * @param d durability
+	 * @param dm max durability
+	 * @param dmg damage(melee)
+	 * @param a accuracy(as an integer %)
+	 * @param r max range
+	 * @param am attack modifier
+	 * @param amm ammo type
+	 * @param ca ammo capacity
+	 */
 	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] amm, int ca) {
 		super(ge, i, c, name, tags, x, y, true, w, v, d, dm, dmg);
 		accuracy = a;

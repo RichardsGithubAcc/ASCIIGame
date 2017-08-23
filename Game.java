@@ -258,6 +258,21 @@ public class Game {
 	public static double dist(int x1, int y1, int x2, int y2) {
 		return (double) (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 	}
+	/*
+	 * 0-50 ranged
+	 * 0-25 guns
+	 * 25-50 magic?
+	 * 50-100 melee
+	 */
+	public Item spawnItem(int id) {
+		switch(id) {
+		case(0): String[] tags = {"RANGED"};
+			String[] ammo = {"Argent-Based Plasma"};
+			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20, 666, ammo, 3);
+		case(49):
+		}
+		return null;
+	}
 
 	public void genForest(int x1, int y1, int x2, int y2) {
 		genForest(x1, y1, x2, y2, 30, 10);

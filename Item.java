@@ -1,8 +1,8 @@
 import java.awt.Color;
 
 public class Item extends Entity implements Usable {
-	private double weight;
-	private double volume;
+	private double weight;//in kilograms
+	private double volume;//in liters
 	private int durability, maxDurability;
 	private double damage;
 	
