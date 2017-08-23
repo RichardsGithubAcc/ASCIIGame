@@ -64,3 +64,5 @@
 /MenuPanel.class
 /GameDisplay$PickUpAction.class
 /GameDisplay$DropAction.class
+/GameBoard.class
+/DijkstraMap.class
