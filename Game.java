@@ -724,7 +724,7 @@ public class Game {
 		map.setCamera(new Point(player.getX(), player.getY()));
 	}
 	
-	public void spawnNPC(NPC newGuy) {
+	public void spawnCreature(Creature newGuy) {
 		map.getTile(new Point(newGuy.getX(), newGuy.getY())).setCreature((Creature) newGuy);
 		map.addDynamic((Dynamic) newGuy);
 	}
