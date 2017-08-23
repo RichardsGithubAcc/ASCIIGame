@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.Point;
 import javax.swing.JFrame;
 
@@ -9,6 +10,9 @@ public class Game {
 
 	private ArrayList<Dynamic> dynamic = new ArrayList<Dynamic>();
 	private WorldMap map;
+	private HashMap<Integer, WorldMap> maps;
+	private int activeMap;
+
 	private Player player;
 	private Player dummyPlayer;
 	private ArrayList<String> progress;
@@ -76,7 +80,10 @@ public class Game {
 		Point camera = new Point();
 		camera.x = 0;
 		camera.y = 0;
+		maps = new HashMap<Integer, WorldMap>();
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
+		maps.put(0, map);
+		maps.put(-1, new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows));
 		// genForest(0, 0, panelCols, panelRows);
 		// constructStore(100, 100, "south");
 		// constructStore(150, 100, "west");
@@ -102,6 +109,7 @@ public class Game {
 		dummyPlayer = new Player(player);
 		// dynamic = new ArrayList<Dynamic>();
 		dynamic.add(player);
+		map.addDynamic(player);
 
 		// ArrayList<Entity> items = new ArrayList<Entity>();
 		// items.add(player);
@@ -113,7 +121,7 @@ public class Game {
 		// 50, 1, 1, 1, 0, true)));
 
 		progress = new ArrayList<String>();
-		// spawnHorde(-40, -40, -10, -10);
+		spawnHorde(-40, -40, -10, -10);
 		frame.repaint();
 	}
 
@@ -175,6 +183,7 @@ public class Game {
 			frame.gameOver();
 		}
 		map.setCamera(new Point(player.getX(), player.getY()));
+		dynamic = map.getDynamic();
 		if (dynamic != null) {
 			for (Dynamic d : dynamic) {
 				if (d != null)
@@ -276,22 +285,24 @@ public class Game {
 			for (int y = y1; y <= y2; y++) {
 				if (Math.random() < 0.05) {
 					Tile tile = map.getTile(new Point(x, y));
+					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true);
+					map.addDynamic(zombie);
 					if (tile == null) {
-						map.setTile(new Point(x, y), new Tile(null, new NPC(this, 'Z', new Color(85, 160, 144),
-								"zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true)));
+						map.setTile(new Point(x, y), new Tile(null, zombie));
 					} else {
-						map.getTile(new Point(x, y)).setCreature(new NPC(this, 'Z', new Color(85, 160, 144), "zombie",
-								null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true));
+						map.getTile(new Point(x, y)).setCreature(zombie);
 					}
 				}
 			}
 		}
 	}
 
-	public void kill(Dynamic c) {
+	public void kill(int x, int y, Dynamic c) {
 		for (int i = 0; i < dynamic.size(); i++) {
-			if (dynamic.get(i) == c)
+			if (dynamic.get(i) == c) {
 				dynamic.set(i, null);
+				map.getTile(new Point(x, y)).setCreature(null);
+			}
 		}
 	}
 
@@ -547,7 +558,6 @@ public class Game {
 		 */
 		boolean stop = false;
 		boolean placed = false;
-		boolean found = false;
 		while (!stop) {
 			int building = (int) (Math.random() * 100);
 			//System.out.println(building);
@@ -683,5 +693,39 @@ public class Game {
 	public void setProgress(ArrayList<String> progress) {
 		this.progress = progress;
 	}
+	
+	public int getActiveMap() {
+		return activeMap;
+	}
 
+	public void setActiveMap(int activeMap) {
+		this.activeMap = activeMap;
+	}
+	
+	public void moveUp() {
+		activeMap++;
+		WorldMap newMap = maps.get(activeMap);
+		if(newMap == null) {
+			newMap = new WorldMap(this, 80, 80, new Point(player.getX(), player.getY()), 80*80);
+			maps.put(activeMap, newMap);
+		}
+		map = newMap;
+		map.setCamera(new Point(player.getX(), player.getY()));
+	}
+	
+	public void moveDown() {
+		activeMap--;
+		WorldMap newMap = maps.get(activeMap);
+		if(newMap == null) {
+			newMap = new WorldMap(this, 80, 80, new Point(player.getX(), player.getY()), 80*80);
+			maps.put(activeMap, newMap);
+		}
+		map = newMap;
+		map.setCamera(new Point(player.getX(), player.getY()));
+	}
+	
+	public void spawnNPC(NPC newGuy) {
+		map.getTile(new Point(newGuy.getX(), newGuy.getY())).setCreature((Creature) newGuy);
+		map.addDynamic((Dynamic) newGuy);
+	}
 }

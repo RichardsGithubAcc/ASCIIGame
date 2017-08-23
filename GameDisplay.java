@@ -138,6 +138,8 @@ public class GameDisplay extends JFrame {
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("F"), "FIRE");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("C"), "PICK_UP");
 		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("D"), "DROP");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("<"), "MOVE_Z_UP");
+		keyboard.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(">"), "MOVE_Z_DOWN");
 		keyboard.getActionMap().put("MOVE_UP", new MoveAction(1, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_DOWN", new MoveAction(3, game.getPlayer(), game));
 		keyboard.getActionMap().put("MOVE_LEFT", new MoveAction(2, game.getPlayer(), game));
@@ -147,6 +149,8 @@ public class GameDisplay extends JFrame {
 		keyboard.getActionMap().put("FIRE", new AimAction(game,game.getPlayer(), graphicsPanel, keyboard));
 		keyboard.getActionMap().put("PICK_UP", new PickUpAction(game, game.getPlayer(), keyboard));
 		keyboard.getActionMap().put("DROP", new DropAction(game, game.getPlayer(), keyboard));
+		keyboard.getActionMap().put("MOVE_Z_UP", new ZAction(game, 1));
+		keyboard.getActionMap().put("MOVE_Z_DOWN", new ZAction(game, -1));
 		buttonPanel.add(keyboard);
 				
 	}
@@ -368,6 +372,25 @@ public class GameDisplay extends JFrame {
 				break;
 			}
 			repaint();
+		}
+	}
+	
+	public class ZAction extends AbstractAction {
+		Game game;
+		int z;
+		
+		public ZAction(Game g, int zDir) {
+			game = g;
+			z = zDir;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(z == 1) {
+				game.getPlayer().moveZUp();
+			} else {
+				game.getPlayer().moveZDown();
+			}
 		}
 	}
 }

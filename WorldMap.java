@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WorldMap {
@@ -9,6 +10,7 @@ public class WorldMap {
 	private int panelCols;
 	private int panelRows;
 	private Point camera;
+	private ArrayList<Dynamic> dynamic = new ArrayList<Dynamic>();
 	
 	public WorldMap(Game g) {
 		game = g;
@@ -86,5 +88,17 @@ public class WorldMap {
 				setTile(new Point(x, y), null);
 			}
 		}
+	}
+
+	public ArrayList<Dynamic> getDynamic() {
+		return dynamic;
+	}
+
+	public void setDynamic(ArrayList<Dynamic> dynamic) {
+		this.dynamic = dynamic;
+	}
+	
+	public void addDynamic(Dynamic d) {
+		dynamic.add(d);
 	}
 }

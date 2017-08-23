@@ -83,6 +83,11 @@ public class Player extends Creature {
 			super.removeDelay(1);
 		}
 		setThirst(getThirst() + 1);
+		for(int i = 0; i < super.getInventory().size(); i++) {
+			Item lol = super.getInventory().get(i);
+			lol.setX(super.getX());
+			lol.setY(super.getY());
+		}
 	}
 	
 	public int checkWeight() {
@@ -372,6 +377,28 @@ public class Player extends Creature {
 				super.addDelay(super.getDelay() + DEFAULT_PLAYER_MOVE_DELAY + t.getTerrain().getMoveMod());
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	public boolean moveZUp() {
+		Tile t = super.getGame().getMap().getTile(new Point(super.getX(), super.getY()));
+		if(t.getTerrain().hasTag("PASSAGE_UP")) {
+			super.getGame().getMap().getDynamic().remove(this);
+			super.getGame().moveUp();
+			super.getGame().getMap().getDynamic().add(this);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean moveZDown() {
+		Tile t = super.getGame().getMap().getTile(new Point(super.getX(), super.getY()));
+		if(t.getTerrain().hasTag("PASSAGE_DOWN")) {
+			super.getGame().getMap().getDynamic().remove(this);
+			super.getGame().moveDown();
+			super.getGame().getMap().getDynamic().add(this);
+			return true;
 		}
 		return false;
 	}

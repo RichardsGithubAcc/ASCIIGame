@@ -84,7 +84,7 @@ public class Creature extends Entity implements Dynamic {
 	@Override
 	public void update() {
 		if(health <= 0) {
-			super.getGame().kill(this);
+			super.getGame().kill(super.getX(), super.getY(), this);
 			super.getGame().getMap().getTile(new Point(super.getX(), super.getY())).removeCreature();
 		}
 		if (delay <= 0) {

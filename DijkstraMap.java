@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /*
  * Implementation of a Dijkstra Map, which is something the guy who made Brogue came up with - not Dijkstra
- * Use only for close up finesse pathfinding. AStar is better over long distances or when intelligence is not required
+ * Use only for close up finesse pathfinding. AStar is better over long distances or when frequent path recalculating not required
  */
 public class DijkstraMap {
 	private GameBoard board;
