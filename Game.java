@@ -91,7 +91,7 @@ public class Game {
 		// constructStore(150, 0, "north");
 		// constructHouse(-40, -40, "north");
 		// constructHouse(-60, -80, "south");
-		constructTown(new Rectangle(-100, 0, 200, 500));
+		//constructTown(new Rectangle(-100, 0, 200, 500));
 		// constructStore(0, 0, "west");
 		// paveRoad(0, 0, 200, true, 0.66);
 		// paveHRoad(-16, 0, -20);
@@ -100,10 +100,10 @@ public class Game {
 		Integer[] lowerLeft = { 1, 0, 0, 0, 0, 2 };
 		Integer[] upperRight = { 0, 0, 0, 0, 0, 1 };
 		Integer[] lowerRight = { 2, 0, 0, 0, 0, 0 };
-//		loadBlock(-1, 0, upperLeft);
-//		loadBlock(0, 0, upperRight);
-//		loadBlock(0, -1, lowerRight);
-//		loadBlock(-1, -1, lowerLeft);
+		loadBlock(-1, 0, upperLeft);
+		loadBlock(0, 0, upperRight);
+		loadBlock(0, -1, lowerRight);
+		loadBlock(-1, -1, lowerLeft);
 
 		/*
 		 * player = new Player(this, 'P', Color.RED, "Player", null, camera.x,
@@ -253,13 +253,14 @@ public class Game {
 		}
 
 		if (seed[0] != null && seed[0] > 0) {
-			int adj = (int) Math.random() * 50 - 25;
+			int adj = (int) (Math.random() * 50 - 25);
 			int width = 300 + 100 * seed[0] + adj;
 			int height = 300 + 100 * seed[0];
-			int bX = (int) Math.random() * (1000 - width) + x;
-			int bY = (int) Math.random() * (1000 - height) + y;
-			map.setEmpty(new Rectangle(bX - 2, bY - 2, width + 2, height + 2));
-			constructTown(new Rectangle(bX, bY, width, height));
+			int bX = (int) (Math.random() * 1000 - width) + x;
+			int bY = (int) (Math.random() * 1000 - height) + y;
+			map.setEmpty(new Rectangle(bX - 2, bY + 2 + height, width + 4, height + 4));
+			System.out.println("town construction beginning at (" + bX + ", " + bY + ")");
+			constructTown(new Rectangle(bX, bY + height, width, height));
 		}
 		String[] tags = {""};
 		Terrain rose = new Terrain(this, 'f', new Color(255, 0, 0), "rose", tags,  0, 0, true, 0);
@@ -614,6 +615,7 @@ public class Game {
 		/*
 		 * building distribution(rough) 70% houses(23x23) 30% stores(69x33)
 		 */
+		System.out.println("Placing buildings");
 		boolean stop = false;
 		boolean placed = false;
 		while (!stop) {
@@ -627,9 +629,9 @@ public class Game {
 					boolean north = !(map.getTile(new Point(x, y + 1)).getTerrain().getName().equals("sparse"));
 					boolean south = !(map.getTile(new Point(x, y - 1)).getTerrain().getName().equals("sparse"));
 					String name = map.getTile(new Point(x, y + 1)).getTerrain().getName();
-					// System.out.println("north: " + north + " south: " + south
-					// + " east: " + east + " west: " + west + "(" + x + ", " +
-					// y + ")");
+//					 System.out.println("north: " + north + " south: " + south
+//					 + " east: " + east + " west: " + west + "(" + x + ", " +
+//					 y + ")");
 					if (north && !(east && west && south) && (name.endsWith("road")) && !placed) {
 						 if(building < 30) {
 							 boolean empty = map.isEmpty(new Rectangle(x - 36, y - 1, 73, 33));
@@ -737,6 +739,7 @@ public class Game {
 	}
 	
 	public void paveRoad(Rectangle bounds) {
+		System.out.println("paving roads");
 		int sx = bounds.x;
 		int sy = bounds.y;
 		int ex = bounds.x + bounds.width;
