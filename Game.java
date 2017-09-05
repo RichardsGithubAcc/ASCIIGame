@@ -96,8 +96,14 @@ public class Game {
 		// paveRoad(0, 0, 200, true, 0.66);
 		// paveHRoad(-16, 0, -20);
 		// paveVRoad(0, -20, -40);
-		Integer[] lol = { 3, 0, 0, 0, 0, 3 };
-		// loadBlock(0, 1, lol);
+		Integer[] upperLeft = { 3, 0, 0, 0, 0, 3 };
+		Integer[] lowerLeft = { 1, 0, 0, 0, 0, 2 };
+		Integer[] upperRight = { 0, 0, 0, 0, 0, 1 };
+		Integer[] lowerRight = { 2, 0, 0, 0, 0, 0 };
+//		loadBlock(-1, 0, upperLeft);
+//		loadBlock(0, 0, upperRight);
+//		loadBlock(0, -1, lowerRight);
+//		loadBlock(-1, -1, lowerLeft);
 
 		/*
 		 * player = new Player(this, 'P', Color.RED, "Player", null, camera.x,
@@ -220,8 +226,7 @@ public class Game {
 					load = false;
 			}
 			if (load) {
-				// loadBlock(bX, bY, seed);
-
+				loadBlock(bX, bY, seed);
 			}
 		}
 	}
@@ -231,8 +236,12 @@ public class Game {
 	 * indicates width/height seed[1] = TBD seed[2] = TBD seed[3] = TBD seed[4]
 	 * = TBD seed[5] = forests - number is the forest density constant, number *
 	 * 10 +- Math.random = forest fuzziness constant;
+	 * x and y is lower left corner
 	 */
 	public void loadBlock(int x1, int y1, Integer[] seed) {
+		for(Rectangle r : blocks) {
+			if(r.x == x1 && r.y == y1) return;
+		}
 		int x = x1 * 1000;
 		int y = y1 * 1000;
 		if (seed == null)
@@ -252,6 +261,38 @@ public class Game {
 			map.setEmpty(new Rectangle(bX - 2, bY - 2, width + 2, height + 2));
 			constructTown(new Rectangle(bX, bY, width, height));
 		}
+		String[] tags = {""};
+		Terrain rose = new Terrain(this, 'f', new Color(255, 0, 0), "rose", tags,  0, 0, true, 0);
+		Terrain bluebell = new Terrain(this, 'f', new Color(0, 0, 255), "bluebell", tags,  0, 0, true, 0);
+		Terrain dandelion = new Terrain(this, 'f', new Color(255, 255, 0), "dandelion", tags,  0, 0, true, 0);
+		Terrain bush = new Terrain(this, '#', new Color(0, 200, 0), "bush", null, x, y, true, 1);
+		for(int nx = x; nx < x + 1000; nx++) {
+			Terrain t = null;
+			for(int ny = y; ny < y + 1000; ny++) {
+				switch((int)(Math.random() * 4)) {
+				case 0: t = rose;
+					t.setX(nx);
+					t.setY(ny);
+					break;
+				case 1: t = bluebell;
+					t.setX(nx);
+					t.setY(ny);
+					break;
+				case 2: t = dandelion;
+					t.setX(nx);
+					t.setY(ny);
+					break;
+				case 3: t = bush;
+					t.setX(nx);
+					t.setY(ny);
+					break;
+				}
+				if(map.getTile(new Point(nx, ny)).getTerrain().getName().equals("sparse") && Math.random() * 100 < 0.1) {
+					map.setTile(new Point(nx, ny), new Tile(new Terrain(t)));
+				}
+			}
+		}
+		
 		System.out.println("Block loaded: (" + x1 + ", " + y1 + ")");
 	}
 
@@ -562,11 +603,13 @@ public class Game {
 	 */
 	public void constructTown(Rectangle bounds) {
 		if (bounds.height > bounds.width) {
-			paveRoad(bounds.x + bounds.width / 2 - 3, bounds.y, bounds.height, true,
-					((double) bounds.width) / (double) bounds.height);
+//			paveRoad(bounds.x + bounds.width / 2 - 3, bounds.y, bounds.height, true,
+//					((double) bounds.width) / (double) bounds.height);
+			paveRoad(bounds);
 		} else {
-			paveRoad(bounds.y + bounds.height / 2 - 3, bounds.x, bounds.width, false,
-					((double) bounds.height) / (double) bounds.width);
+//			paveRoad(bounds.y + bounds.height / 2 - 3, bounds.x, bounds.width, false,
+//					((double) bounds.height) / (double) bounds.width);
+			paveRoad(bounds);
 		}
 		/*
 		 * building distribution(rough) 70% houses(23x23) 30% stores(69x33)
@@ -658,7 +701,7 @@ public class Game {
 	}
 
 	public void paveRoad(int x, int y, int length, boolean vertical, double ratio) {
-		paveRoad(x, y, length, vertical, ratio, 0);
+		paveOldRoad(x, y, length, vertical, ratio, 0);
 	}
 
 	/*
@@ -668,7 +711,7 @@ public class Game {
 	 * put buildings next to Intended specifically for use in towns, so only
 	 * makes width 5 roads
 	 */
-	public void paveRoad(int x, int y, int length, boolean vertical, double ratio, int counter) {
+	public void paveOldRoad(int x, int y, int length, boolean vertical, double ratio, int counter) {
 		if (length < 24)
 			return;
 		if (counter > 2)
@@ -680,7 +723,7 @@ public class Game {
 			}
 			for (int dY = y; dY < length; dY += 70) {
 				int newLength = (int) Math.round((double) length * ratio);
-				paveRoad(x - newLength / 2 + 2, y - dY, newLength, false, ratio, counter++);
+				paveOldRoad(x - newLength / 2 + 2, y - dY, newLength, false, ratio, counter++);
 			}
 		} else if (!vertical) {
 			for (int i = 0; i < 5; i++) {
@@ -688,7 +731,24 @@ public class Game {
 			}
 			for (int dX = x; dX < length; dX += 69 + Math.random() * 10) {
 				int newLength = (int) Math.round((double) length * ratio);
-				paveRoad(x + dX, y + newLength / 2 + 2, newLength, true, ratio, counter++);
+				paveOldRoad(x + dX, y + newLength / 2 + 2, newLength, true, ratio, counter++);
+			}
+		}
+	}
+	
+	public void paveRoad(Rectangle bounds) {
+		int sx = bounds.x;
+		int sy = bounds.y;
+		int ex = bounds.x + bounds.width;
+		int ey = bounds.y - bounds.height;
+		for(int x = sx; x < ex; x += 60 + (int)(Math.random() * 30)) {
+			for (int i = 0; i < 5; i++) {
+				paveVRoad(x + i, sy, bounds.height);
+			}
+		}
+		for(int y = sy; y > ey; y-= 60 + (int)(Math.random() * 30)) {
+			for (int i = 0; i < 5; i++) {
+				paveHRoad(sx, y - i, bounds.width);
 			}
 		}
 	}

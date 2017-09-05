@@ -3,6 +3,18 @@ import java.awt.Color;
 public class Terrain extends Entity implements Usable{
 	private int moveMod;
 	
+	/**
+	 * 
+	 * @param ge
+	 * @param i icon
+	 * @param c color
+	 * @param n name
+	 * @param tags 
+	 * @param x
+	 * @param y
+	 * @param p passable
+	 * @param mM moveMod
+	 */
 	public Terrain(Game ge, char i, Color c, String n, String[] tags, int x, int y, boolean p, int mM) {
 		super(ge, i, c, n, tags, x, y, p);
 		setMoveMod(mM);
