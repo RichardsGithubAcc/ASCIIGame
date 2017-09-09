@@ -10,8 +10,33 @@ public class Item extends Entity implements Usable {
 		
 	}
 	
+	/**
+	 * 
+	 * @param ge game
+	 * @param i icon
+	 * @param c color
+	 * @param name name
+	 * @param t tags
+	 * @param x
+	 * @param y
+	 * @param p passable
+	 * @param w weight
+	 * @param v volume
+	 * @param d durability
+	 * @param dm maxDurability
+	 * @param dmg damage
+	 */
 	public Item(Game ge, char i, Color c, String name, String[] t, int x, int y, boolean p, double w, double v, int d, int dm, double dmg) {
 		super(ge, i, c, name, t, x, y, p);
+		weight = w;
+		volume = v;
+		durability = d;
+		maxDurability = dm;
+		damage = dmg;
+	}
+	
+	public Item(Game ge, char i, Color c, String name, String[] t, double w, double v, int d, int dm, double dmg) {
+		super(ge, i, c, name, t, 0, 0, true);
 		weight = w;
 		volume = v;
 		durability = d;

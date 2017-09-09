@@ -303,17 +303,23 @@ public class Game {
 	/*
 	 * 0-50 ranged
 	 * 0-25 guns
-	 * 25-50 magic?
-	 * 50-100 melee
+	 * 25-49 magic?
+	 * 50-99 melee
 	 */
 	public Item spawnItem(int id) {
 		switch(id) {
 		case(0): String[] tags = {"RANGED"};
 			String[] ammo = {"Argent-Based Plasma"};
 			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20, 666, ammo, 3);
-		case(49):
+		case(50): Color c = (Math.random() < 0.5) ? Color.BLUE : Color.RED;
+		String[] tags1 = {"IGNORE_ARMOR"};
+			return new Item(this, '/', c, "Lightsaber", tags1, 0, 0, true, 0.1, 0.1, 999, 999, 999);
+		case(100): String[] tag = {"IGNORE_ARMOR"};
+			Item r = new Item(this, '=', new Color(88, 255, 50), "Argent-Based Plasma", tag, 0, 0, true, 0.5, 0.2, 3, 3, 1);
+			return r;
+		default: return  null;
 		}
-		return null;
+		//return null;
 	}
 
 	public void genForest(int x1, int y1, int x2, int y2) {

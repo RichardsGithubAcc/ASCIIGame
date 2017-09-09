@@ -103,13 +103,13 @@ public class AStar {
 		Cell current;
 		boolean done = false;
 		while(!done) {
-			if(closedList.size() > 100) return null;
+			//if(closedList.size() > 100) return null;
 			if(openList.isEmpty()) return null;
 			current = openList.poll();
 			//System.out.println("current point is (" + current.getTile().x + ", " + current.getTile().y + ")");
 			closedList.add(current);//check this line
 			//System.out.println("closed list expanded, now " + closedList.size());
-			if(current.getTile().x == end.x && current.getTile().y == end.y) {//we're done
+			if((current.getTile().x == end.x && current.getTile().y == end.y) || closedList.size() > 100) {//we're done
 				done = true;
 				//System.out.println("pathfinding done");
 				LinkedList<Point> path = new LinkedList<Point>();
