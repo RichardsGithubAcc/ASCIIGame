@@ -301,8 +301,8 @@ public class Game {
 		return (double) (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 	}
 	/*
-	 * 0-50 ranged
-	 * 0-25 guns
+	 * 0-49 ranged
+	 * 0-24 guns
 	 * 25-49 magic?
 	 * 50-99 melee
 	 */
@@ -312,8 +312,11 @@ public class Game {
 			String[] ammo = {"Argent-Based Plasma"};
 			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20, 666, ammo, 3);
 		case(50): Color c = (Math.random() < 0.5) ? Color.BLUE : Color.RED;
-		String[] tags1 = {"IGNORE_ARMOR"};
+			String[] tags1 = {"IGNORE_ARMOR"};
 			return new Item(this, '/', c, "Lightsaber", tags1, 0, 0, true, 0.1, 0.1, 999, 999, 999);
+		case(122): Color c1 = new Color(170, 126, 3);
+			String[] tags2 = {"PIERCING"};
+			return new Item(this, '-', c1, "wooden bolt", null, 0.016, 0.01, 10, 10, 1);
 		case(100): String[] tag = {"IGNORE_ARMOR"};
 			Item r = new Item(this, '=', new Color(88, 255, 50), "Argent-Based Plasma", tag, 0, 0, true, 0.5, 0.2, 3, 3, 1);
 			return r;
