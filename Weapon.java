@@ -8,6 +8,7 @@ public class Weapon extends Item {
 	private Item[] inventory = new Item[1];
 	private String[] ammo;
 	private int capacity;
+	private int loadTime;
 	
 	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, boolean p, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] lol, int ca) {
 		super(ge, i, c, name, tags, x, y, p, w, v, d, dm, dmg);
@@ -46,7 +47,8 @@ public class Weapon extends Item {
 	 * @param am attack modifier
 	 * @param amm ammo type
 	 */
-	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] amm) {
+	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x
+			, int y, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] amm) {
 		super(ge, i, c, name, tags, x, y, true, w, v, d, dm, dmg);
 		accuracy = a;
 		range = r;
@@ -75,13 +77,15 @@ public class Weapon extends Item {
 	 * @param amm ammo type
 	 * @param ca ammo capacity
 	 */
-	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, int w, int v, int d, int dm, double dmg, int a, int r, double am, String[] amm, int ca) {
+	public Weapon(Game ge, char i, Color c, String name, String[] tags, int x, int y, int w, int v, int d, int dm,
+			double dmg, int a, int r, double am, String[] amm, int ca, int lt) {
 		super(ge, i, c, name, tags, x, y, true, w, v, d, dm, dmg);
 		accuracy = a;
 		range = r;
 		attackMod = am;
 		this.ammo = amm;
 		capacity = ca;
+		loadTime = lt;
 	}
 	
 	public Weapon(Weapon origin) {
@@ -113,7 +117,7 @@ public class Weapon extends Item {
 		System.out.println("bam");
 		double d = Game.dist(x, y, tX, tY);
 		if(d < range) return;
-		double p = 60/(double)range;//60% is total range penalty
+		double p = 30/(double)range;//30% is total range penalty
 		if(Math.random() * 101 < accuracy + accMod - p * d) {
 			Creature c = super.getGame().getMap().getTile(new Point(tX, tY)).getCreature();
 			if(c != null) {
@@ -191,6 +195,22 @@ public class Weapon extends Item {
 		this.ammo = ammo;
 	}
 	
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public int getLoadTime() {
+		return loadTime;
+	}
+
+	public void setLoadTime(int loadTime) {
+		this.loadTime = loadTime;
+	}
+
 	public void load(Item e) {
 		if(inventory[0] != null) {
 			if(!e.getName().equalsIgnoreCase(inventory[0].getName())) return;

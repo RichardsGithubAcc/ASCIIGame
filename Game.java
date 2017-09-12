@@ -310,13 +310,16 @@ public class Game {
 		switch(id) {
 		case(0): String[] tags = {"RANGED"};
 			String[] ammo = {"Argent-Based Plasma"};
-			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20, 666, ammo, 3);
+			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20, 666, ammo, 3, 1);
+		case(22): String[] ammo1 = {"wooden bolt", "iron bolt", "steel bolt", "carbon fiber bolt"};
+			String[] tags3 = {"RANGED"};
+			return new Weapon(this, '/', new Color(170, 126, 3), "crossbow", tags3, 0, 0, 2, 1, 50, 50, 5, 60, 12, 40, ammo1, 1, 3);
 		case(50): Color c = (Math.random() < 0.5) ? Color.BLUE : Color.RED;
 			String[] tags1 = {"IGNORE_ARMOR"};
 			return new Item(this, '/', c, "Lightsaber", tags1, 0, 0, true, 0.1, 0.1, 999, 999, 999);
 		case(122): Color c1 = new Color(170, 126, 3);
 			String[] tags2 = {"PIERCING"};
-			return new Item(this, '-', c1, "wooden bolt", null, 0.016, 0.01, 10, 10, 1);
+			return new Item(this, '-', c1, "wooden bolt", tags2, 0.016, 0.01, 10, 10, 1);
 		case(100): String[] tag = {"IGNORE_ARMOR"};
 			Item r = new Item(this, '=', new Color(88, 255, 50), "Argent-Based Plasma", tag, 0, 0, true, 0.5, 0.2, 3, 3, 1);
 			return r;
@@ -354,9 +357,30 @@ public class Game {
 					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true);
 					map.addDynamic(zombie);
 					if (tile == null) {
-						map.setTile(new Point(x, y), new Tile(null, zombie));
+						//map.setTile(new Point(x, y), new Tile(null, zombie));
+						spawnCreature(zombie);
 					} else {
-						map.getTile(new Point(x, y)).setCreature(zombie);
+						//map.getTile(new Point(x, y)).setCreature(zombie);
+						spawnCreature(zombie);
+					}
+				}
+			}
+		}
+	}
+	
+	public void spawnHorde(int x1, int y1, int x2, int y2, int spawnChance) {
+		for (int x = x1; x <= x2; x++) {
+			for (int y = y1; y <= y2; y++) {
+				if (Math.random()*100 < spawnChance) {
+					Tile tile = map.getTile(new Point(x, y));
+					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true);
+					map.addDynamic(zombie);
+					if (tile == null) {
+						//map.setTile(new Point(x, y), new Tile(null, zombie));
+						spawnCreature(zombie);
+					} else {
+						//map.getTile(new Point(x, y)).setCreature(zombie);
+						spawnCreature(zombie);
 					}
 				}
 			}
@@ -709,6 +733,7 @@ public class Game {
 			//System.out.println("this could be an infinite loop (" + placed + ")");
 			if(!placed) stop = true;
 		}
+		spawnHorde(bounds.x, bounds.y - bounds.height, bounds.x + bounds.width, bounds.y);
 	}
 
 	public void paveRoad(int x, int y, int length, boolean vertical, double ratio) {
@@ -812,7 +837,13 @@ public class Game {
 	}
 	
 	public void spawnCreature(Creature newGuy) {
-		map.getTile(new Point(newGuy.getX(), newGuy.getY())).setCreature((Creature) newGuy);
+		Tile t = map.getTile(new Point(newGuy.getX(), newGuy.getY()));
+		if(!t.getTerrain().getName().equals("sparse")) {
+			map.getTile(new Point(newGuy.getX(), newGuy.getY())).setCreature((Creature) newGuy);
+		} else {
+			t.setCreature(newGuy);
+			map.setTile(new Point(newGuy.getX(), newGuy.getY()), t);
+		}
 		map.addDynamic((Dynamic) newGuy);
 	}
 }

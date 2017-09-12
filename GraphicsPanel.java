@@ -52,7 +52,7 @@ public class GraphicsPanel extends JPanel {
 		int startX = camera.x - row / 2;
 		int startY = camera.y - col / 2;
 		int startDrawX = (int) (tileWidth / 2);
-		int startDrawY = (int) (tileHeight / 2) + 10;
+		int startDrawY = (int) (tileHeight / 2);
 		for (int i = 0; i < col; i++) {
 			for (int j = 0; j < row; j++) {
 				point.x = startX + i;
@@ -72,7 +72,7 @@ public class GraphicsPanel extends JPanel {
 					else if (it != null) {
 						g2.setColor(it.getColor());
 						str += it.getIcon();
-						g2.drawString(str, (int)(i*tileWidth) + startDrawX, (int)((row - j) * tileHeight)+startDrawY);
+						g2.drawString(str, (int)(i*tileWidth) + startDrawX, (int)((row - j) * tileHeight) + startDrawY);
 					}
 					else {
 						g2.setColor(tile.getTerrain().getColor());
@@ -92,7 +92,7 @@ public class GraphicsPanel extends JPanel {
 			int gridX = aim.x - startX;
 			int gridY = aim.y - startY;
 			g2.setColor(Color.RED);
-			g2.fillRect((int)gridX * (int)tileWidth, (int)(row - gridY) * (int)tileHeight, (int)tileWidth, (int)tileHeight);
+			g2.fillRect((int)((gridX) * tileWidth) + startDrawX, (int)((row - gridY - 1) * tileHeight) + startDrawY, (int)tileWidth, (int)tileHeight);
 			int pY = game.getPlayer().getY() - startY;
 			int pX = game.getPlayer().getX() - startX;
 			double slope = ((double)pY - gridY) / ((double)pX - gridX);
