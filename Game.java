@@ -91,15 +91,15 @@ public class Game {
 		// constructStore(150, 0, "north");
 		// constructHouse(-40, -40, "north");
 		// constructHouse(-60, -80, "south");
-		//constructTown(new Rectangle(-100, 0, 200, 500));
+		// constructTown(new Rectangle(-100, 0, 200, 500));
 		// constructStore(0, 0, "west");
 		// paveRoad(0, 0, 200, true, 0.66);
 		// paveHRoad(-16, 0, -20);
 		// paveVRoad(0, -20, -40);
 		Integer[] upperLeft = { 3, 0, 0, 0, 0, 3 };
 		Integer[] lowerLeft = { 1, 0, 0, 0, 0, 2 };
-		Integer[] upperRight = { 0, 0, 0, 0, 0, 1 };
-		Integer[] lowerRight = { 2, 0, 0, 0, 0, 0 };
+		Integer[] upperRight = { 2, 0, 0, 0, 0, 1 };
+		Integer[] lowerRight = { 0, 0, 0, 0, 0, 0 };
 		loadBlock(-1, 0, upperLeft);
 		loadBlock(0, 0, upperRight);
 		loadBlock(0, -1, lowerRight);
@@ -121,7 +121,7 @@ public class Game {
 		// items.add(player);
 		// map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
 		map.setTile(new Point(0, 0), new Tile(this.BUSH, player));
-		map.getTile(new Point(0, 0)).setItem(GARBAGE);
+		//map.getTile(new Point(0, 0)).setItem(GARBAGE);
 		// map.setTile(new Point(-10, -10), new Tile(this.BUSH, new NPC(this,
 		// 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0,
 		// 50, 1, 1, 1, 0, true)));
@@ -631,17 +631,25 @@ public class Game {
 			break;
 		}
 	}
+	
+	public void constructTown(Rectangle bounds) {
+		constructTown(bounds, 0);
+	}
 
 	/*
 	 * Constructs a town within the given rectangle
+	 * 0 - neutral/friendly town of humans
+	 * 1 - hostile town of humans
+	 * 2 - infested town
 	 */
-	public void constructTown(Rectangle bounds) {
+	public void constructTown(Rectangle bounds, int type) {
+		//map.setEmpty(bounds);
 		if (bounds.height > bounds.width) {
-//			paveRoad(bounds.x + bounds.width / 2 - 3, bounds.y, bounds.height, true,
+//			paveOldRoad(bounds.x + bounds.width / 2 - 3, bounds.y, bounds.height, true,
 //					((double) bounds.width) / (double) bounds.height);
 			paveRoad(bounds);
 		} else {
-//			paveRoad(bounds.y + bounds.height / 2 - 3, bounds.x, bounds.width, false,
+//			paveOldRoad(bounds.y + bounds.height / 2 - 3, bounds.x, bounds.width, false,
 //					((double) bounds.height) / (double) bounds.width);
 			paveRoad(bounds);
 		}
@@ -651,21 +659,26 @@ public class Game {
 		System.out.println("Placing buildings");
 		boolean stop = false;
 		boolean placed = false;
+		int building;
+		int iterations = 0;
 		while (!stop) {
-			int building = (int) (Math.random() * 100);
+			iterations++;
+			stop = true;
+			building = (int) (Math.random() * 100);
 			//System.out.println(building);
 			placed = false;
 			for (int x = bounds.x; x < bounds.x + bounds.width; x++) {
 				for (int y = bounds.y; y > bounds.y - bounds.height; y--) {
-					boolean east = !(map.getTile(new Point(x + 1, y)).getTerrain().getName().equals("sparse"));
-					boolean west = !(map.getTile(new Point(x - 1, y)).getTerrain().getName().equals("sparse"));
-					boolean north = !(map.getTile(new Point(x, y + 1)).getTerrain().getName().equals("sparse"));
-					boolean south = !(map.getTile(new Point(x, y - 1)).getTerrain().getName().equals("sparse"));
+					boolean east = map.isOccupied(new Point(x + 1, y));
+					boolean west = map.isOccupied(new Point(x - 1, y));
+					boolean north = map.isOccupied(new Point(x, y + 1));
+					boolean south = map.isOccupied(new Point(x, y - 1));
 					String name = map.getTile(new Point(x, y + 1)).getTerrain().getName();
 //					 System.out.println("north: " + north + " south: " + south
 //					 + " east: " + east + " west: " + west + "(" + x + ", " +
 //					 y + ")");
 					if (north && !(east && west && south) && (name.endsWith("road")) && !placed) {
+						//System.out.println("possible building site");
 						 if(building < 30) {
 							 boolean empty = map.isEmpty(new Rectangle(x - 36, y - 1, 73, 33));
 							 if(empty) {
@@ -682,6 +695,7 @@ public class Game {
 					}
 					name = map.getTile(new Point(x, y - 1)).getTerrain().getName();
 					if (south && !(east && north && west) && (name.endsWith("road")) && !placed) {
+						//System.out.println("possible building site");
 						if (building < 30) {
 							boolean empty = map.isEmpty(new Rectangle(x - 36, y + 34, 73, 33));
 							if (empty) {
@@ -698,7 +712,8 @@ public class Game {
 					}
 					name = map.getTile(new Point(x - 1, y)).getTerrain().getName();
 					if (west && !(north && south && east) && (name.endsWith("road")) && !placed) {
-						 if(building < 30) {
+						//System.out.println("possible building site"); 
+						if(building < 30) {
 							 boolean empty = map.isEmpty(new Rectangle(x + 1, y + 37, 33, 75));
 						 	if(empty) {
 						 		constructStore(x + 1, y - 34, "west");
@@ -714,7 +729,8 @@ public class Game {
 					}
 					name = map.getTile(new Point(x + 1, y)).getTerrain().getName();
 					if (east && !(north && south && west) && (name.endsWith("road")) && !placed) {
-						 if(building < 30) {
+						//System.out.println("possible building site"); 
+						if(building < 30) {
 							 boolean empty = map.isEmpty(new Rectangle(x - 33, y + 36, 33, 73));
 							 if(empty) {
 								 constructStore(x - 33, y - 34, "east");
@@ -723,23 +739,36 @@ public class Game {
 						 } else {
 							 boolean empty = map.isEmpty(new Rectangle(x - 23, y + 13, 23, 27));
 							 if(empty) {
-								 constructHouse(x - 24, y - 11, "east");
+								 constructHouse(x - 23, y - 11, "east");
 								 placed = true;
 							 }
 						 }
 					}
+					if(placed) {
+						building = (int) (Math.random() * 100);
+						//System.out.println("building placed");
+						placed = false;
+						stop = false;
+					}
 				}
 			}
 			//System.out.println("this could be an infinite loop (" + placed + ")");
-			if(!placed) stop = true;
+			//if(!placed) stop = true;
 		}
-		spawnHorde(bounds.x, bounds.y - bounds.height, bounds.x + bounds.width, bounds.y);
+		System.out.println("town build passes: " + iterations);
+		switch(type) {
+		case 2: spawnHorde(bounds.x, bounds.y - bounds.height, bounds.x + bounds.width, bounds.y);
+		}
 	}
 
 	public void paveRoad(int x, int y, int length, boolean vertical, double ratio) {
 		paveOldRoad(x, y, length, vertical, ratio, 0);
 	}
-
+	
+	public void paveOldRoad(int x, int y, int length, boolean vertical, double ratio) {
+		paveOldRoad(x, y, length, vertical, ratio, 0);
+	}
+	
 	/*
 	 * Creates and populates a road with upper left corner at (x, y), extending
 	 * for length units Pass true for a vertical road, false for a horizontal
@@ -752,7 +781,7 @@ public class Game {
 			return;
 		if (counter > 2)
 			return;
-		System.out.println("PAVE! " + length + " " + vertical);
+		//System.out.println("PAVE! " + length + " " + vertical);
 		if (vertical) {
 			for (int i = 0; i < 5; i++) {
 				paveVRoad(x + i, y, length);

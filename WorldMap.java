@@ -62,8 +62,7 @@ public class WorldMap {
 	}
 	
 	public boolean isOccupied(Point location) {
-		return map.get(location) != null;
-		
+		return (map.get(location) != null || !getTile(location).getTerrain().getName().equals("sparse"));	
 	}
 	
 	public void clear() {
@@ -71,12 +70,16 @@ public class WorldMap {
 	}
 	
 	/*
-	 *returns true if and only if every coordinate point within the rectangle, sides included, is associated with a null reference in the map
+	 *returns true if and only if every coordinate point within the rectangle, sides included,
+	 * is associated with a null reference in the map or is equal to the default sparse tile
 	 */
 	public boolean isEmpty(Rectangle search) {
 		for(int x = 0; x < search.width; x++) {
 			for(int y = 0; y < search.height; y++) {
-				if(map.get(new Point(search.x + x, search.y - y))!= null) return false;
+				if(map.get(new Point(search.x + x, search.y - y)) != null ||
+						!getTile(new Point(search.x + x, search.y - y)).getTerrain().getName().equals("sparse")) {
+					return false;
+				}
 			}
 		}
 		return true;
@@ -84,8 +87,8 @@ public class WorldMap {
 	
 	public void setEmpty(Rectangle area) {
 		for(int x = area.x; x < area.width; x++) {
-			for(int y = area.y; y > area.height; y--) {
-				setTile(new Point(x, y), null);
+			for(int y = area.y; y > area.y - area.height; y--) {
+				map.put(new Point(x, y), null);
 			}
 		}
 	}
