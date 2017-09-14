@@ -123,6 +123,13 @@ public class GameDisplay extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				userGuide.createWindow(game);
+				userGuide.add(new JLabel("  -Welcome to the ASCII Rogue demo-  "));
+				userGuide.add(new JLabel("   Use the arrow keys to move   "));
+				userGuide.add(new JLabel("Move into enemies to attack them"));
+				userGuide.add(new JLabel("Press 'e' + a direction to interact with the environment"));
+				userGuide.add(new JLabel("Use 'c' to pick up items on the ground"));
+				userGuide.add(new JLabel("Press the 'Keyboard' button to shift the focus onto the screen"));
+				
 			}
 					
 		});
@@ -312,7 +319,7 @@ public class GameDisplay extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) {
 			w = (Weapon)g.getPlayer().getHolding();
-			if(w instanceof Weapon && w.getInventory()[0] != null) {
+			if(w instanceof Weapon && w.getInventory()[0] != null && w.getInventory()[0].getDurability() > 0) {
 				
 			} else {
 				g.getProgress().add("You can't do that!");
@@ -357,11 +364,13 @@ public class GameDisplay extends JFrame {
 			case 4: display.moveRight();
 				break;
 			case 5: Weapon w = (Weapon)g.getPlayer().getHolding();
+				System.out.println(w instanceof Weapon);
 				int accMod = (g.getPlayer().getPerception() - 10) * 10;
 				if(w != null && w instanceof Weapon) {
 					Point p = display.getAim();
 					System.out.println(p.x + " " + p.y);
 					w.fire(g.getPlayer().getX(), g.getPlayer().getY(), p.x, p.y, accMod, g.getPlayer());
+					repaint();
 				}
 				display.setAim(null);
 				keyboard.getActionMap().put("FIRE", new AimAction(g, g.getPlayer(), display, keyboard));
@@ -391,6 +400,7 @@ public class GameDisplay extends JFrame {
 			} else {
 				game.getPlayer().moveZDown();
 			}
+			repaint();
 		}
 	}
 }

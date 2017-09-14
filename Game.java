@@ -84,18 +84,6 @@ public class Game {
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
 		maps.put(0, map);
 		maps.put(-1, new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows));
-		// genForest(0, 0, panelCols, panelRows);
-		// constructStore(100, 100, "south");
-		// constructStore(150, 100, "west");
-		// constructStore(100, 0, "east");
-		// constructStore(150, 0, "north");
-		// constructHouse(-40, -40, "north");
-		// constructHouse(-60, -80, "south");
-		// constructTown(new Rectangle(-100, 0, 200, 500));
-		// constructStore(0, 0, "west");
-		// paveRoad(0, 0, 200, true, 0.66);
-		// paveHRoad(-16, 0, -20);
-		// paveVRoad(0, -20, -40);
 		Integer[] upperLeft = { 3, 0, 0, 0, 0, 3 };
 		Integer[] lowerLeft = { 1, 0, 0, 0, 0, 2 };
 		Integer[] upperRight = { 2, 0, 0, 0, 0, 1 };
@@ -313,7 +301,7 @@ public class Game {
 			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20, 666, ammo, 3, 1);
 		case(22): String[] ammo1 = {"wooden bolt", "iron bolt", "steel bolt", "carbon fiber bolt"};
 			String[] tags3 = {"RANGED"};
-			return new Weapon(this, '/', new Color(170, 126, 3), "crossbow", tags3, 0, 0, 2, 1, 50, 50, 5, 60, 12, 40, ammo1, 1, 3);
+			return new Weapon(this, '/', new Color(170, 126, 3), "crossbow", tags3, 0, 0, 2, 1, 50, 50, 5, 60, 30, 40, ammo1, 1, 3);
 		case(50): Color c = (Math.random() < 0.5) ? Color.BLUE : Color.RED;
 			String[] tags1 = {"IGNORE_ARMOR"};
 			return new Item(this, '/', c, "Lightsaber", tags1, 0, 0, true, 0.1, 0.1, 999, 999, 999);

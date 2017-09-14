@@ -295,7 +295,7 @@ public class InventoryPanel extends JPanel {
 		Item acp45 = new Item(game, '=', Color.GRAY, ".45 ACP", tag, player.getX(), player.getY(),
 				true, 0.15, 0.04, 10, 10, 1);
 		Weapon usp45 = new Weapon(game, '/', Color.GRAY, "USP 45", null, player.getX(), player.getY(), 
-				28, 12, 100, 100, 0.25, 80, 9, 28, lol, 12, 1);
+				28, 12, 100, 100, 0.25, 80, 15, 28, lol, 12, 1);
 		usp45.load(acp45);
 		Weapon w1 = usp45;
 		

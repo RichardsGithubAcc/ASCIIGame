@@ -114,11 +114,18 @@ public class Weapon extends Item {
 	}
 	
 	public void fire(int x, int y, int tX, int tY, int accMod, Creature host) {
+		if(inventory[0] == null || inventory[0].getDurability() <= 0) return;
 		System.out.println("bam");
 		double d = Game.dist(x, y, tX, tY);
-		if(d < range) return;
+		if(d > range) {
+			System.out.println("out of range " + d + " " + range);
+			return;
+		}
 		double p = 30/(double)range;//30% is total range penalty
-		if(Math.random() * 101 < accuracy + accMod - p * d) {
+		double hit = Math.random() * 101;
+		double chance = accuracy + accMod - p * d;
+		System.out.println("rolled to hit: " + hit + " needed: " + chance);
+		if(hit < accuracy + accMod - p * d) {
 			Creature c = super.getGame().getMap().getTile(new Point(tX, tY)).getCreature();
 			if(c != null) {
 				System.out.println(c.getName());

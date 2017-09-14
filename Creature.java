@@ -140,10 +140,10 @@ public class Creature extends Entity implements Dynamic {
 			tA *= 0.4;
 		}
 		if (w.hasTag("BULLET")) {
-			if (!torso.hasTag("BULLETPROOF")) {
+			if (torso != null && !torso.hasTag("BULLETPROOF")) {
 				tA *= 0.1;
 			}
-			if (!head.hasTag("BULLETPROOF")) {
+			if (head != null && !head.hasTag("BULLETPROOF")) {
 				if (Math.random() < 0.15) {
 					d *= 5;
 				}
@@ -168,6 +168,11 @@ public class Creature extends Entity implements Dynamic {
 		health -= d;
 		super.getGame().addProgress(c.getName() + " attacked " + super.getName() + " for " + d + " damage");
 		super.getGame().updateProgress();
+		if(health <= 0) {
+			super.getGame().kill(super.getX(), super.getY(), this);
+			super.getGame().getMap().getTile(new Point(super.getX(), super.getY())).removeCreature();
+			super.getGame().getFrame().repaint();
+		}
 	}
 
 	public void attack(Creature c) {
