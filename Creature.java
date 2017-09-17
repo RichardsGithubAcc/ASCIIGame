@@ -91,10 +91,13 @@ public class Creature extends Entity implements Dynamic {
 			health += dHealth;
 			if (dHealth > 0)
 				dHealth--;
-			else if (dHealth < 0)
+			else if (dHealth < 0) {
 				dHealth++;
-		} else
+			}
+		} else {
 			delay--;
+			return;
+		}
 	}
 
 	public Item getFromInventory(String name) {
@@ -177,6 +180,7 @@ public class Creature extends Entity implements Dynamic {
 
 	public void attack(Creature c) {
 		//super.getGame().addProgress(super.getName() + " attacked " + c.getName());
+		delay += DEFAULT_MOVE_DELAY;
 		if (holding instanceof Weapon) {
 			double d = (((Weapon) holding).getAttackMod() * holding.getDamage());
 			c.hit(d, holding, this);

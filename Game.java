@@ -82,16 +82,17 @@ public class Game {
 		camera.y = 0;
 		maps = new HashMap<Integer, WorldMap>();
 		map = new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows);
+		dynamic = map.getDynamic();
 		maps.put(0, map);
 		maps.put(-1, new WorldMap(this, panelCols, panelRows, camera, panelCols * panelRows));
 		Integer[] upperLeft = { 3, 0, 0, 0, 0, 3 };
 		Integer[] lowerLeft = { 1, 0, 0, 0, 0, 2 };
 		Integer[] upperRight = { 2, 0, 0, 0, 0, 1 };
 		Integer[] lowerRight = { 0, 0, 0, 0, 0, 0 };
-		loadBlock(-1, 0, upperLeft);
-		loadBlock(0, 0, upperRight);
-		loadBlock(0, -1, lowerRight);
-		loadBlock(-1, -1, lowerLeft);
+//		loadBlock(-1, 0, upperLeft);
+//		loadBlock(0, 0, upperRight);
+//		loadBlock(0, -1, lowerRight);
+//		loadBlock(-1, -1, lowerLeft);
 
 		/*
 		 * player = new Player(this, 'P', Color.RED, "Player", null, camera.x,
@@ -183,6 +184,9 @@ public class Game {
 				if (d != null)
 					d.update();
 			}
+		}
+		while(dynamic.contains(null)) {
+			dynamic.remove(null);
 		}
 		boolean left = player.getX() % 1000 < 100;
 		boolean down = player.getY() % 1000 < 100;
@@ -361,7 +365,8 @@ public class Game {
 			for (int y = y1; y <= y2; y++) {
 				if (Math.random()*100 < spawnChance) {
 					Tile tile = map.getTile(new Point(x, y));
-					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true);
+					String[] tags = {"HOSTILE", "INFECTED"};
+					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", tags, x, y, false, 50, 0, 50, 1, 1, 1, 0, true);
 					map.addDynamic(zombie);
 					if (tile == null) {
 						//map.setTile(new Point(x, y), new Tile(null, zombie));
@@ -840,6 +845,7 @@ public class Game {
 		}
 		map = newMap;
 		map.setCamera(new Point(player.getX(), player.getY()));
+		dynamic = map.getDynamic();
 	}
 	
 	public void moveDown() {
@@ -851,6 +857,7 @@ public class Game {
 		}
 		map = newMap;
 		map.setCamera(new Point(player.getX(), player.getY()));
+		dynamic = map.getDynamic();
 	}
 	
 	public void spawnCreature(Creature newGuy) {

@@ -96,9 +96,14 @@ public class GraphicsPanel extends JPanel {
 			int pY = game.getPlayer().getY() - startY;
 			int pX = game.getPlayer().getX() - startX;
 			double slope = ((double)pY - gridY) / ((double)pX - gridX);
-			for(int i = (int)Math.signum(pX - gridX); Math.abs(i) < Math.abs(pX - gridX); i += Math.signum(pX - gridX)) {
-				int y = (int)Math.round(slope * (gridX + i) - (slope * gridX) + gridY);
-				g2.drawString("*", Math.round((gridX + i) * tileWidth), (row - y) * (int)tileHeight);
+//			for(int i = (int)Math.signum(pX - gridX); Math.abs(i) < Math.abs(pX - gridX); i += Math.signum(pX - gridX)) {
+//				int y = (int)Math.round(slope * (gridX + i) - (slope * gridX) + gridY);
+//				g2.drawString("*", Math.round((gridX + i) * tileWidth), (row - y - 1) * (int)tileHeight);
+//			}
+			double dX = (double)Math.abs(gridX - pX) / Game.dist(gridX, gridY, pX, pY);
+			for(int i = 0; i < Game.dist(gridX, gridY, pX, pY); i++) {
+				int j = (gridX - pX < 0) ? i : -1 * i;
+				g2.drawString("*", (int)(Math.round(gridX + (dX*j)) * tileWidth) + startDrawX, (int)(row + 1 - Math.round(gridY + (dX*j)*slope))*(int)tileHeight + startDrawY);
 			}
 		}
 	}

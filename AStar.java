@@ -48,7 +48,8 @@ public class AStar {
 		}
 		
 		public void calcCost(Point target) {
-			fCost = getMoveCost() + Math.abs(point.x - target.x) + Math.abs(point.y - target.y);
+			//fCost = getMoveCost() + Math.abs(point.x - target.x) + Math.abs(point.y - target.y);
+			fCost = getMoveCost() + (int)Game.dist(point.x, point.y, target.x, target.y);
 		}
 		
 		public Cell getPrevious() {
@@ -115,7 +116,9 @@ public class AStar {
 				LinkedList<Point> path = new LinkedList<Point>();
 				path.addFirst(current.getTile());
 				while(current.getPrevious() != null) {
-					if(current.getPrevious() != null || (current.getTile().x != end.x && current.getTile().y != end.y))path.addFirst(current.getPrevious().getTile());
+					if(current.getPrevious() != null || (current.getTile().x != end.x && current.getTile().y != end.y)) {
+						path.addFirst(current.getPrevious().getTile());
+					}
 					//construct a linked list starting at the start and ending at the end
 					current = current.getPrevious();
 				}

@@ -39,6 +39,7 @@ public class NPC extends Creature {
 	
 	public void update() {
 		super.update();
+		if(super.getDelay() > 0) return;
 		Player lol = super.getGame().getPlayer();
 		int playerX = lol.getX();
 		int playerY = lol.getY();
@@ -49,22 +50,24 @@ public class NPC extends Creature {
 			} else {
 				//moveTowards(playerX, playerY);
 				Point target = new Point(lol.getX(), lol.getY());
+				boolean stop = false;
 				for(int dX = -1; dX < 2; dX++) {
 					for(int dY = -1; dY < 2; dY++) {
 						if(Math.abs(dX + dY) == 1) {
-							Tile t = super.getGame().getMap().getTile(target);
-							if(t.getTerrain().isPassable() && t.getCreature() == null) {
+							Tile t = super.getGame().getMap().getTile(new Point(playerX + dX, playerY + dY));
+							if(t.getTerrain().isPassable() && t.getCreature() == null && !stop) {
 								target = new Point(target.x + dX, target.y + dY);
+								stop = true;
 							}
 						}
 					}
 				}
-				if(path == null || ((path.size() < 5 || d < 5) && super.getDelay() == 0)) {//fix this to if the target moves too much
+				if(path == null || ((path.size() < 10 || d < 10) && super.getDelay() == 0)) {//fix this to if the target moves too much
 					AStar foo = new AStar(super.getGame().getMap(), new Point(super.getX(), super.getY()), target);
 					path = foo.getPath();//this is pretty inefficient, find a way to not constantly re-search the path
 				}
 				//if(path.size() > 0)path.removeFirst();
-				if(path != null && path.size() > 0) {
+				if(path != null && path.size() > 0) {//&& super.getGame().getMap().getTile(path.getFirst()).getCreature() == null) {
 					moveTowards(path.getFirst().x, path.getFirst().y);
 					path.removeFirst();
 				}

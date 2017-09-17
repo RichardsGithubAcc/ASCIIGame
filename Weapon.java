@@ -132,7 +132,10 @@ public class Weapon extends Item {
 				c.hit(attackMod * inventory[0].getDamage(), inventory[0], host);
 				System.out.println("ouch");
 			}
-		}	
+		} else {
+			super.getGame().addProgress("Blam!");
+			super.getGame().getFrame().repaint();
+		}
 		inventory[0].setDurability(inventory[0].getDurability() - 1);
 	}
 	
