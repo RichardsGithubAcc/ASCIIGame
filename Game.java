@@ -59,6 +59,17 @@ public class Game {
 	public final Item GARBAGE = new Item(this, 'G', new Color(180, 180, 180), "garbage", null, 0, 0, true, 5, 1, 10, 10,
 			0);
 
+	public final NPC VILLAGER = new NPC(this, 'V', new Color(122, 77, 25), "villager", null, 0, 0, 50, 50, false);
+	public final NPC BANDIT = new NPC(this, 'B', new Color(85, 70, 40), "bandit", null, 0, 0, false, 50, 8, 50, 1, 1, 1,
+			1, true);
+	public final NPC ROGUE = new NPC(this, 'R', new Color(60, 80, 45), "rogue", null, 0, 0, false, 70, 20, 70, 1, 1.05,
+			1, 1, true);
+	public final NPC GUARD = new NPC(this, 'G', new Color(150, 150, 150), "guard", null, 0, 0, false, 80, 30, 80, 1, 1,
+			1, 1, false);
+	public final NPC RAIDER = new NPC(this, 'R', new Color(132, 118, 118), "raider", null, 0, 0, false, 80, 30, 80, 1.05, 1.05, 1.05, 1, true);
+	public final NPC ROGUE_KNIGHT = new NPC(this, ExtendedASCII.getASCII(217), new Color(150, 150, 150), "rogue_knight",
+			null, 0, 0, false, 100, 40, 100, 1, 1.2, 1.2, 1, true);
+
 	public static final int DEF_HEALTH = 100;
 	public static final int DEF_MAX_HEALTH = 100;
 	public static final int DEF_ARMOR_VAL = 0;
@@ -89,10 +100,10 @@ public class Game {
 		Integer[] lowerLeft = { 1, 0, 0, 0, 0, 2 };
 		Integer[] upperRight = { 2, 0, 0, 0, 0, 1 };
 		Integer[] lowerRight = { 0, 0, 0, 0, 0, 0 };
-//		loadBlock(-1, 0, upperLeft);
-//		loadBlock(0, 0, upperRight);
-//		loadBlock(0, -1, lowerRight);
-//		loadBlock(-1, -1, lowerLeft);
+		// loadBlock(-1, 0, upperLeft);
+		// loadBlock(0, 0, upperRight);
+		// loadBlock(0, -1, lowerRight);
+		// loadBlock(-1, -1, lowerLeft);
 
 		/*
 		 * player = new Player(this, 'P', Color.RED, "Player", null, camera.x,
@@ -110,7 +121,7 @@ public class Game {
 		// items.add(player);
 		// map.setTile(new Point(0, 0), new Tile(this.BUSH, items));
 		map.setTile(new Point(0, 0), new Tile(this.BUSH, player));
-		//map.getTile(new Point(0, 0)).setItem(GARBAGE);
+		// map.getTile(new Point(0, 0)).setItem(GARBAGE);
 		// map.setTile(new Point(-10, -10), new Tile(this.BUSH, new NPC(this,
 		// 'Z', new Color(85, 160, 144), "zombie", null, -10, -10, false, 50, 0,
 		// 50, 1, 1, 1, 0, true)));
@@ -185,7 +196,7 @@ public class Game {
 					d.update();
 			}
 		}
-		while(dynamic.contains(null)) {
+		while (dynamic.contains(null)) {
 			dynamic.remove(null);
 		}
 		boolean left = player.getX() % 1000 < 100;
@@ -227,12 +238,13 @@ public class Game {
 	 * higher numbers indicate higher densities seed[0] = towns - number
 	 * indicates width/height seed[1] = TBD seed[2] = TBD seed[3] = TBD seed[4]
 	 * = TBD seed[5] = forests - number is the forest density constant, number *
-	 * 10 +- Math.random = forest fuzziness constant;
-	 * x and y is lower left corner
+	 * 10 +- Math.random = forest fuzziness constant; x and y is lower left
+	 * corner
 	 */
 	public void loadBlock(int x1, int y1, Integer[] seed) {
-		for(Rectangle r : blocks) {
-			if(r.x == x1 && r.y == y1) return;
+		for (Rectangle r : blocks) {
+			if (r.x == x1 && r.y == y1)
+				return;
 		}
 		int x = x1 * 1000;
 		int y = y1 * 1000;
@@ -254,70 +266,126 @@ public class Game {
 			System.out.println("town construction beginning at (" + bX + ", " + bY + ")");
 			constructTown(new Rectangle(bX, bY + height, width, height));
 		}
-		String[] tags = {""};
-		Terrain rose = new Terrain(this, 'f', new Color(255, 0, 0), "rose", tags,  0, 0, true, 0);
-		Terrain bluebell = new Terrain(this, 'f', new Color(0, 0, 255), "bluebell", tags,  0, 0, true, 0);
-		Terrain dandelion = new Terrain(this, 'f', new Color(255, 255, 0), "dandelion", tags,  0, 0, true, 0);
+		String[] tags = { "" };
+		Terrain rose = new Terrain(this, 'f', new Color(255, 0, 0), "rose", tags, 0, 0, true, 0);
+		Terrain bluebell = new Terrain(this, 'f', new Color(0, 0, 255), "bluebell", tags, 0, 0, true, 0);
+		Terrain dandelion = new Terrain(this, 'f', new Color(255, 255, 0), "dandelion", tags, 0, 0, true, 0);
 		Terrain bush = new Terrain(this, '#', new Color(0, 200, 0), "bush", null, x, y, true, 1);
-		for(int nx = x; nx < x + 1000; nx++) {
+		for (int nx = x; nx < x + 1000; nx++) {
 			Terrain t = null;
-			for(int ny = y; ny < y + 1000; ny++) {
-				switch((int)(Math.random() * 4)) {
-				case 0: t = rose;
+			for (int ny = y; ny < y + 1000; ny++) {
+				switch ((int) (Math.random() * 4)) {
+				case 0:
+					t = rose;
 					t.setX(nx);
 					t.setY(ny);
 					break;
-				case 1: t = bluebell;
+				case 1:
+					t = bluebell;
 					t.setX(nx);
 					t.setY(ny);
 					break;
-				case 2: t = dandelion;
+				case 2:
+					t = dandelion;
 					t.setX(nx);
 					t.setY(ny);
 					break;
-				case 3: t = bush;
+				case 3:
+					t = bush;
 					t.setX(nx);
 					t.setY(ny);
 					break;
 				}
-				if(map.getTile(new Point(nx, ny)).getTerrain().getName().equals("sparse") && Math.random() * 100 < 0.1) {
+				if (map.getTile(new Point(nx, ny)).getTerrain().getName().equals("sparse")
+						&& Math.random() * 100 < 0.1) {
 					map.setTile(new Point(nx, ny), new Tile(new Terrain(t)));
 				}
 			}
 		}
-		
+
 		System.out.println("Block loaded: (" + x1 + ", " + y1 + ")");
 	}
 
 	public static double dist(int x1, int y1, int x2, int y2) {
 		return (double) (Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 	}
+
 	/*
-	 * 0-49 ranged
-	 * 0-24 guns
-	 * 25-49 magic?
-	 * 50-99 melee
+	 * 0-49 ranged 0-24 guns 25-49 magic? 50-99 melee
 	 */
 	public Item spawnItem(int id) {
-		switch(id) {
-		case(0): String[] tags = {"RANGED"};
-			String[] ammo = {"Argent-Based Plasma"};
-			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20, 666, ammo, 3, 1);
-		case(22): String[] ammo1 = {"wooden bolt", "iron bolt", "steel bolt", "carbon fiber bolt"};
-			String[] tags3 = {"RANGED"};
-			return new Weapon(this, '/', new Color(170, 126, 3), "crossbow", tags3, 0, 0, 2, 1, 50, 50, 5, 60, 30, 40, ammo1, 1, 3);
-		case(50): Color c = (Math.random() < 0.5) ? Color.BLUE : Color.RED;
-			String[] tags1 = {"IGNORE_ARMOR"};
-			return new Item(this, '/', c, "Lightsaber", tags1, 0, 0, true, 0.1, 0.1, 999, 999, 999);
-		case(122): Color c1 = new Color(170, 126, 3);
-			String[] tags2 = {"PIERCING"};
-			return new Item(this, '-', c1, "wooden bolt", tags2, 0.016, 0.01, 10, 10, 1);
-		case(100): String[] tag = {"IGNORE_ARMOR"};
-			Item r = new Item(this, '=', new Color(88, 255, 50), "Argent-Based Plasma", tag, 0, 0, true, 0.5, 0.2, 3, 3, 1);
-			return r;
-		default: return  null;
+		Color c;
+		String[] ammo;
+		String[] tags;
+		switch (id) {
+		case (0):
+			tags = new String[1];
+			tags[0] = "RANGED";
+			ammo = new String[1];
+			ammo[0] = "Argent-Based Plasma";
+			return new Weapon(this, 'B', new Color(95, 255, 5), "BFG 9000", tags, 0, 0, 4, 2, 9001, 9001, 6, 100, 20,
+					666, ammo, 3, 1);
+		case (22):
+			ammo = new String[4];
+			ammo[0] = "wooden bolt";
+			ammo[1] = "iron bolt";
+			ammo[2] = "steel bolt";
+			ammo[3] = "carbon fiber bolt";
+			tags = new String[1];
+			tags[0] = "RANGED";
+			return new Weapon(this, '/', new Color(170, 126, 3), "crossbow", tags, 0, 0, 2, 1, 50, 50, 5, 60, 30, 40,
+					ammo, 1, 3);
+		case (50):
+			c = (Math.random() < 0.5) ? Color.BLUE : Color.RED;
+			tags = new String[1];
+			tags[0] = "IGNORE_ARMOR";
+			return new Item(this, '/', c, "lightsaber", tags, 0, 0, true, 0.1, 0.1, 999, 999, 999);
+		
+		case (51):
+			return new Item(this, '-', Color.lightGray, "utility_knife", null, 0, 0, true, 0.07, 0.8, 1000, 1000, 10);
+		case (52):
+			tags = new String[2];
+			tags[0] = "CRIT_IGNORE_ARMOR";
+			tags[1] = "HIGH_CRIT_CHANCE";
+			return new Item(this, ExtendedASCII.getASCII(150), Color.lightGray, "dagger", tags, 0, 0, true, 0.1, 1.4, 1500, 1500, 17);
+		case (53):
+			tags = new String[2];
+			tags[0] = "CRIT_IGNORE_ARMOR";
+			tags[1] = "HIGH_CRIT_CHANCE";
+			return new Item(this, ExtendedASCII.getASCII(172), Color.lightGray, "combat_knife", null, 0, 0, true, 0.08, 1.2, 2000, 2000, 25);
+		case (54):
+			tags = new String[1];
+			tags[0] = "CUTTING";
+			return new Item(this, ExtendedASCII.getASCII(134), Color.lightGray, "sword", tags, 0, 0, true, 1.3, 4, 5000, 5000, 40);
+		case (55):
+			tags = new String[1];
+			tags[0] = "BASHING";
+			return new Item(this, ExtendedASCII.getASCII(182), Color.darkGray, "mace", null, 0, 0, true, 1.5, 3, 5000, 5000, 30);
+		case (56):
+			tags = new String[1];
+			tags[0] = "PIERCING";
+			return new Item(this, '/', Color.lightGray, "rapier", tags, 0, 0, true, 1, 3, 5000, 5000, 30);
+		case (57):
+			tags = new String[1];
+			tags[0] = "PIERCING";
+			return new Item(this, '|', new Color(95, 45, 10), "spear", tags, 0, 0, true, 2.8, 6.5, 5000, 5000, 50);
+		case (58):
+			tags = new String[1];
+			tags[0] = "PIERCING";
+			return new Item(this, ExtendedASCII.getASCII(356), Color.gray, "pike", tags, 0, 0, true, 3.5, 8, 5000, 5000, 60);
+		case (100):
+			tags = new String[1];
+			tags[1] = "IGNORE_ARMOR";
+			return new Item(this, '=', new Color(88, 255, 50), "Argent-Based Plasma", tags, 0, 0, true, 0.5, 0.2, 3, 3, 1);
+		case (122):
+			c = new Color(170, 126, 3);
+			tags = new String[1];
+			tags[0] = "PIERCING";
+			return new Item(this, '-', c, "wooden bolt", tags, 0.016, 0.01, 10, 10, 1);
+		default:
+			return null;
 		}
-		//return null;
+		// return null;
 	}
 
 	public void genForest(int x1, int y1, int x2, int y2) {
@@ -346,33 +414,35 @@ public class Game {
 			for (int y = y1; y <= y2; y++) {
 				if (Math.random() < 0.05) {
 					Tile tile = map.getTile(new Point(x, y));
-					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1, 1, 1, 0, true);
+					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", null, x, y, false, 50, 0, 50, 1,
+							1, 1, 0, true);
 					map.addDynamic(zombie);
 					if (tile == null) {
-						//map.setTile(new Point(x, y), new Tile(null, zombie));
+						// map.setTile(new Point(x, y), new Tile(null, zombie));
 						spawnCreature(zombie);
 					} else {
-						//map.getTile(new Point(x, y)).setCreature(zombie);
+						// map.getTile(new Point(x, y)).setCreature(zombie);
 						spawnCreature(zombie);
 					}
 				}
 			}
 		}
 	}
-	
+
 	public void spawnHorde(int x1, int y1, int x2, int y2, int spawnChance) {
 		for (int x = x1; x <= x2; x++) {
 			for (int y = y1; y <= y2; y++) {
-				if (Math.random()*100 < spawnChance) {
+				if (Math.random() * 100 < spawnChance) {
 					Tile tile = map.getTile(new Point(x, y));
-					String[] tags = {"HOSTILE", "INFECTED"};
-					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", tags, x, y, false, 50, 0, 50, 1, 1, 1, 0, true);
+					String[] tags = { "HOSTILE", "INFECTED" };
+					NPC zombie = new NPC(this, 'Z', new Color(85, 160, 144), "zombie", tags, x, y, false, 50, 0, 50, 1,
+							1, 1, 0, true);
 					map.addDynamic(zombie);
 					if (tile == null) {
-						//map.setTile(new Point(x, y), new Tile(null, zombie));
+						// map.setTile(new Point(x, y), new Tile(null, zombie));
 						spawnCreature(zombie);
 					} else {
-						//map.getTile(new Point(x, y)).setCreature(zombie);
+						// map.getTile(new Point(x, y)).setCreature(zombie);
 						spawnCreature(zombie);
 					}
 				}
@@ -476,9 +546,11 @@ public class Game {
 
 	public void constructHouse(int x, int y, String direction) {
 		constructRoom(x, y, 23, 23, direction);
-		double rand = Math.random();
+		double rand1 = Math.random();
 		double rand2 = Math.random();
-		if (rand <= 0.125) {
+		double randItemSpawn = Math.random();
+		int randItem;
+		if (rand1 <= 0.125) {
 			constructRoom(x, y, 9, 9, "north");
 			if (rand2 <= 0.167)
 				constructRoom(x, y + 16, 7, 7, "south");
@@ -492,7 +564,7 @@ public class Game {
 				constructRoom(x + 16, y + 16, 7, 7, "south");
 			else
 				constructRoom(x + 16, y + 16, 7, 7, "west");
-		} else if (rand <= 0.25) {
+		} else if (rand1 <= 0.25) {
 			constructRoom(x, y, 9, 9, "east");
 			if (rand2 <= 0.167)
 				constructRoom(x, y + 16, 7, 7, "south");
@@ -506,7 +578,7 @@ public class Game {
 				constructRoom(x + 16, y + 16, 7, 7, "south");
 			else
 				constructRoom(x + 16, y + 16, 7, 7, "west");
-		} else if (rand <= 0.375) {
+		} else if (rand1 <= 0.375) {
 			constructRoom(x + 14, y, 9, 9, "north");
 			if (rand2 <= 0.167)
 				constructRoom(x, y + 16, 7, 7, "south");
@@ -520,7 +592,7 @@ public class Game {
 				constructRoom(x + 16, y + 16, 7, 7, "south");
 			else
 				constructRoom(x + 16, y + 16, 7, 7, "west");
-		} else if (rand <= 0.5) {
+		} else if (rand1 <= 0.5) {
 			constructRoom(x + 14, y, 9, 9, "west");
 			if (rand2 <= 0.167)
 				constructRoom(x, y + 16, 7, 7, "south");
@@ -534,7 +606,7 @@ public class Game {
 				constructRoom(x + 16, y + 16, 7, 7, "south");
 			else
 				constructRoom(x + 16, y + 16, 7, 7, "west");
-		} else if (rand <= 0.625) {
+		} else if (rand1 <= 0.625) {
 			constructRoom(x, y + 14, 9, 9, "south");
 			if (rand2 <= 0.167)
 				constructRoom(x, y, 7, 7, "north");
@@ -548,7 +620,7 @@ public class Game {
 				constructRoom(x + 16, y + 16, 7, 7, "south");
 			else
 				constructRoom(x + 16, y + 16, 7, 7, "west");
-		} else if (rand <= 0.75) {
+		} else if (rand1 <= 0.75) {
 			constructRoom(x, y + 14, 9, 9, "east");
 			constructRoom(x, y + 14, 9, 9, "south");
 			if (rand2 <= 0.167)
@@ -563,7 +635,7 @@ public class Game {
 				constructRoom(x + 16, y + 16, 7, 7, "south");
 			else
 				constructRoom(x + 16, y + 16, 7, 7, "west");
-		} else if (rand <= 0.875) {
+		} else if (rand1 <= 0.875) {
 			constructRoom(x + 14, y + 14, 9, 9, "south");
 			if (rand2 <= 0.167)
 				constructRoom(x, y + 16, 7, 7, "south");
@@ -592,11 +664,25 @@ public class Game {
 			else
 				constructRoom(x, y, 7, 7, "east");
 		}
+		for(int i = x+1; i < x+22; x++) {
+			for(int j = y+1; j < y+22; j++) {
+				if (map.getTile(new Point(i, j)).getTerrain().getName().equalsIgnoreCase("floor")) {
+					if (randItemSpawn >= 0.93) {
+						//randItem = (int) Math.random() * 100;
+						//spawnItem(randItem);
+						spawnItem(52);
+					}
+				}
+			}
+		}
 	}
 
 	public void constructStore(int x1, int y1, String direction) {
 		int x = x1 + 8;
 		int y = y1 + 15;
+		double randItemSpawn = Math.random();
+		int randItem = (int) Math.random() * 100;
+		
 		switch (direction.toLowerCase()) {
 		case "north":
 			constructRoom(x + 7, y - 7, 39, 25, "north");
@@ -623,27 +709,38 @@ public class Game {
 			constructRoom(x + 25 - 8, y + 10, 8, 18, "west");
 			break;
 		}
+		for(int i = x+1; i < x+22; x++) {
+			for(int j = y+1; j < y+22; j++) {
+				if (map.getTile(new Point(i, j)).getTerrain().getName().equalsIgnoreCase("floor")) {
+					if (randItemSpawn >= 0.8) {
+						//randItem = (int) Math.random() * 100;
+						//spawnItem(randItem);
+						spawnItem(54);
+					}
+				}
+			}
+		}
 	}
-	
+
 	public void constructTown(Rectangle bounds) {
 		constructTown(bounds, 0);
 	}
 
 	/*
-	 * Constructs a town within the given rectangle
-	 * 0 - neutral/friendly town of humans
-	 * 1 - hostile town of humans
-	 * 2 - infested town
+	 * Constructs a town within the given rectangle 0 - neutral/friendly town of
+	 * humans 1 - hostile town of humans 2 - infested town
 	 */
 	public void constructTown(Rectangle bounds, int type) {
-		//map.setEmpty(bounds);
+		// map.setEmpty(bounds);
 		if (bounds.height > bounds.width) {
-//			paveOldRoad(bounds.x + bounds.width / 2 - 3, bounds.y, bounds.height, true,
-//					((double) bounds.width) / (double) bounds.height);
+			// paveOldRoad(bounds.x + bounds.width / 2 - 3, bounds.y,
+			// bounds.height, true,
+			// ((double) bounds.width) / (double) bounds.height);
 			paveRoad(bounds);
 		} else {
-//			paveOldRoad(bounds.y + bounds.height / 2 - 3, bounds.x, bounds.width, false,
-//					((double) bounds.height) / (double) bounds.width);
+			// paveOldRoad(bounds.y + bounds.height / 2 - 3, bounds.x,
+			// bounds.width, false,
+			// ((double) bounds.height) / (double) bounds.width);
 			paveRoad(bounds);
 		}
 		/*
@@ -658,7 +755,7 @@ public class Game {
 			iterations++;
 			stop = true;
 			building = (int) (Math.random() * 100);
-			//System.out.println(building);
+			// System.out.println(building);
 			placed = false;
 			for (int x = bounds.x; x < bounds.x + bounds.width; x++) {
 				for (int y = bounds.y; y > bounds.y - bounds.height; y--) {
@@ -667,28 +764,28 @@ public class Game {
 					boolean north = map.isOccupied(new Point(x, y + 1));
 					boolean south = map.isOccupied(new Point(x, y - 1));
 					String name = map.getTile(new Point(x, y + 1)).getTerrain().getName();
-//					 System.out.println("north: " + north + " south: " + south
-//					 + " east: " + east + " west: " + west + "(" + x + ", " +
-//					 y + ")");
+					// System.out.println("north: " + north + " south: " + south
+					// + " east: " + east + " west: " + west + "(" + x + ", " +
+					// y + ")");
 					if (north && !(east && west && south) && (name.endsWith("road")) && !placed) {
-						//System.out.println("possible building site");
-						 if(building < 30) {
-							 boolean empty = map.isEmpty(new Rectangle(x - 36, y - 1, 73, 33));
-							 if(empty) {
-								 constructStore(x - 34, y - 34, "north");
-								 placed = true;
-							 }
-						 } else {
-						 boolean empty = map.isEmpty(new Rectangle(x - 13, y - 1, 27, 23));
-						 if(empty) {
-							 constructHouse(x - 11, y - 24, "north");
-							 placed = true;
-						 	}
-						 }
+						// System.out.println("possible building site");
+						if (building < 30) {
+							boolean empty = map.isEmpty(new Rectangle(x - 36, y - 1, 73, 33));
+							if (empty) {
+								constructStore(x - 34, y - 34, "north");
+								placed = true;
+							}
+						} else {
+							boolean empty = map.isEmpty(new Rectangle(x - 13, y - 1, 27, 23));
+							if (empty) {
+								constructHouse(x - 11, y - 24, "north");
+								placed = true;
+							}
+						}
 					}
 					name = map.getTile(new Point(x, y - 1)).getTerrain().getName();
 					if (south && !(east && north && west) && (name.endsWith("road")) && !placed) {
-						//System.out.println("possible building site");
+						// System.out.println("possible building site");
 						if (building < 30) {
 							boolean empty = map.isEmpty(new Rectangle(x - 36, y + 34, 73, 33));
 							if (empty) {
@@ -705,63 +802,65 @@ public class Game {
 					}
 					name = map.getTile(new Point(x - 1, y)).getTerrain().getName();
 					if (west && !(north && south && east) && (name.endsWith("road")) && !placed) {
-						//System.out.println("possible building site"); 
-						if(building < 30) {
-							 boolean empty = map.isEmpty(new Rectangle(x + 1, y + 37, 33, 75));
-						 	if(empty) {
-						 		constructStore(x + 1, y - 34, "west");
-						 		placed = true;
-						 	}
-						 } else {
-							 boolean empty = map.isEmpty(new Rectangle(x + 1, y + 14, 23, 29));
-							 if(empty) {
-								 constructHouse(x + 1, y - 11, "west");
-								 placed = true;
-							 }
-						 }
+						// System.out.println("possible building site");
+						if (building < 30) {
+							boolean empty = map.isEmpty(new Rectangle(x + 1, y + 37, 33, 75));
+							if (empty) {
+								constructStore(x + 1, y - 34, "west");
+								placed = true;
+							}
+						} else {
+							boolean empty = map.isEmpty(new Rectangle(x + 1, y + 14, 23, 29));
+							if (empty) {
+								constructHouse(x + 1, y - 11, "west");
+								placed = true;
+							}
+						}
 					}
 					name = map.getTile(new Point(x + 1, y)).getTerrain().getName();
 					if (east && !(north && south && west) && (name.endsWith("road")) && !placed) {
-						//System.out.println("possible building site"); 
-						if(building < 30) {
-							 boolean empty = map.isEmpty(new Rectangle(x - 33, y + 36, 33, 73));
-							 if(empty) {
-								 constructStore(x - 33, y - 34, "east");
-								 placed = true;
-							 }
-						 } else {
-							 boolean empty = map.isEmpty(new Rectangle(x - 23, y + 13, 23, 27));
-							 if(empty) {
-								 constructHouse(x - 23, y - 11, "east");
-								 placed = true;
-							 }
-						 }
+						// System.out.println("possible building site");
+						if (building < 30) {
+							boolean empty = map.isEmpty(new Rectangle(x - 33, y + 36, 33, 73));
+							if (empty) {
+								constructStore(x - 33, y - 34, "east");
+								placed = true;
+							}
+						} else {
+							boolean empty = map.isEmpty(new Rectangle(x - 23, y + 13, 23, 27));
+							if (empty) {
+								constructHouse(x - 23, y - 11, "east");
+								placed = true;
+							}
+						}
 					}
-					if(placed) {
+					if (placed) {
 						building = (int) (Math.random() * 100);
-						//System.out.println("building placed");
+						// System.out.println("building placed");
 						placed = false;
 						stop = false;
 					}
 				}
 			}
-			//System.out.println("this could be an infinite loop (" + placed + ")");
-			//if(!placed) stop = true;
+			// System.out.println("this could be an infinite loop (" + placed +
+			// ")");
+			// if(!placed) stop = true;
 		}
 		System.out.println("town build passes: " + iterations);
-		switch(type) {
-		case 2: spawnHorde(bounds.x, bounds.y - bounds.height, bounds.x + bounds.width, bounds.y);
+		switch (type) {
+		case 2:
+			spawnHorde(bounds.x, bounds.y - bounds.height, bounds.x + bounds.width, bounds.y);
 		}
 	}
 
 	public void paveRoad(int x, int y, int length, boolean vertical, double ratio) {
 		paveOldRoad(x, y, length, vertical, ratio, 0);
 	}
-	
+
 	public void paveOldRoad(int x, int y, int length, boolean vertical, double ratio) {
 		paveOldRoad(x, y, length, vertical, ratio, 0);
 	}
-	
+
 	/*
 	 * Creates and populates a road with upper left corner at (x, y), extending
 	 * for length units Pass true for a vertical road, false for a horizontal
@@ -774,7 +873,7 @@ public class Game {
 			return;
 		if (counter > 2)
 			return;
-		//System.out.println("PAVE! " + length + " " + vertical);
+		// System.out.println("PAVE! " + length + " " + vertical);
 		if (vertical) {
 			for (int i = 0; i < 5; i++) {
 				paveVRoad(x + i, y, length);
@@ -793,19 +892,19 @@ public class Game {
 			}
 		}
 	}
-	
+
 	public void paveRoad(Rectangle bounds) {
 		System.out.println("paving roads");
 		int sx = bounds.x;
 		int sy = bounds.y;
 		int ex = bounds.x + bounds.width;
 		int ey = bounds.y - bounds.height;
-		for(int x = sx; x < ex; x += 60 + (int)(Math.random() * 30)) {
+		for (int x = sx; x < ex; x += 60 + (int) (Math.random() * 30)) {
 			for (int i = 0; i < 5; i++) {
 				paveVRoad(x + i, sy, bounds.height);
 			}
 		}
-		for(int y = sy; y > ey; y-= 60 + (int)(Math.random() * 30)) {
+		for (int y = sy; y > ey; y -= 60 + (int) (Math.random() * 30)) {
 			for (int i = 0; i < 5; i++) {
 				paveHRoad(sx, y - i, bounds.width);
 			}
@@ -827,7 +926,7 @@ public class Game {
 	public void setProgress(ArrayList<String> progress) {
 		this.progress = progress;
 	}
-	
+
 	public int getActiveMap() {
 		return activeMap;
 	}
@@ -835,34 +934,34 @@ public class Game {
 	public void setActiveMap(int activeMap) {
 		this.activeMap = activeMap;
 	}
-	
+
 	public void moveUp() {
 		activeMap++;
 		WorldMap newMap = maps.get(activeMap);
-		if(newMap == null) {
-			newMap = new WorldMap(this, 80, 80, new Point(player.getX(), player.getY()), 80*80);
+		if (newMap == null) {
+			newMap = new WorldMap(this, 80, 80, new Point(player.getX(), player.getY()), 80 * 80);
 			maps.put(activeMap, newMap);
 		}
 		map = newMap;
 		map.setCamera(new Point(player.getX(), player.getY()));
 		dynamic = map.getDynamic();
 	}
-	
+
 	public void moveDown() {
 		activeMap--;
 		WorldMap newMap = maps.get(activeMap);
-		if(newMap == null) {
-			newMap = new WorldMap(this, 80, 80, new Point(player.getX(), player.getY()), 80*80);
+		if (newMap == null) {
+			newMap = new WorldMap(this, 80, 80, new Point(player.getX(), player.getY()), 80 * 80);
 			maps.put(activeMap, newMap);
 		}
 		map = newMap;
 		map.setCamera(new Point(player.getX(), player.getY()));
 		dynamic = map.getDynamic();
 	}
-	
+
 	public void spawnCreature(Creature newGuy) {
 		Tile t = map.getTile(new Point(newGuy.getX(), newGuy.getY()));
-		if(!t.getTerrain().getName().equals("sparse")) {
+		if (!t.getTerrain().getName().equals("sparse")) {
 			map.getTile(new Point(newGuy.getX(), newGuy.getY())).setCreature((Creature) newGuy);
 		} else {
 			t.setCreature(newGuy);
