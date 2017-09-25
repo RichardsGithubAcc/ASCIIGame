@@ -129,6 +129,7 @@ public class GameDisplay extends JFrame {
 				userGuide.add(new JLabel("Press 'e' + a direction to interact with the environment"));
 				userGuide.add(new JLabel("Use 'c' to pick up items on the ground"));
 				userGuide.add(new JLabel("Press the 'Keyboard' button to shift the focus onto the screen"));
+				userGuide.add(new JLabel("Press 'f' with a gun in hand to aim(using the arrow keys) and again to fire"));
 				
 			}
 					
